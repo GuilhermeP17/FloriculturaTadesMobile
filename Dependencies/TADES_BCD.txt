@@ -1,0 +1,57 @@
+CREATE DATABASE tades_bcd;
+
+USE tades_bcd;
+
+CREATE TABLE tbl_setor(
+    id_setor int not null primary key auto_increment,
+    nome_setor varchar(50) not null
+);
+
+CREATE TABLE tbl_usuario(
+    id_usuario int not null primary key auto_increment,
+    nome varchar(75) not null,
+    email varchar(50) not null,
+    senha varchar(25) not null,
+    fk_setor int not null,
+    status int not null,
+    foreign key (fk_setor) references tbl_setor(id_setor)
+);
+
+CREATE TABLE tbl_produtos(
+    id_produto int not null primary key auto_increment,
+    nome varchar(50) not null,
+    descricao varchar(100),
+    tipo varchar(10) not null,
+    qtd_estoque int not null,
+    valor_unidade double not null,
+    status int not null
+);
+
+CREATE TABLE tbl_imagem(
+    id_imagem int not null primary key auto_increment,
+    caminho varchar(250),
+    nome_arquivo varchar(100),
+    fk_produto int,
+    foreign key (fk_produto) references tbl_produtos(id_produto)
+);
+
+CREATE TABLE tbl_venda(
+    id_venda int not null primary key auto_increment,
+    id_produto int not null,
+    id_usuario int not null,
+    qtd_itens int not null,
+    cpf_cliente varchar(15),
+    data_venda datetime not null,
+    status int not null,
+    foreign key(id_usuario) references tbl_usuario(id_usuario)
+);
+
+SET @@GLOBAL.TIME_ZONE = '+03:00';
+
+INSERT INTO tbl_setor(nome_setor) VALUES ('Diretor');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Administrador');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Estoquista');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Cliente');
+
+INSERT INTO tbl_usuario(nome, email, senha, status, fk_setor)
+    VALUES ('Milena Flores', 'diretoria@email.com','123', 0, 1);
