@@ -2,6 +2,7 @@ package br.com.senac.projectsolutions.Util;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,12 +57,12 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     );
                     msg = "Usuario encontrado com sucesso";
                 }
+                ((LoginActivity)context).onResponse(status, msg, user);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(context, "Falha ao comunicar-se com o servidor, tente novamnete", Toast.LENGTH_LONG).show();
         }
-
-        ((LoginActivity)context).onResponse(status, msg, user);
     }
 }
