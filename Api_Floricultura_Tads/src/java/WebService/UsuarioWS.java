@@ -55,13 +55,16 @@ public class UsuarioWS {
             Usuario user = UsuarioDAO.getInfoUser(email);
             response.put("statusLogin", loginCorreto);
 
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("id", user.getCodigo());
+            userInfo.put("nome", user.getNome());
+            userInfo.put("email", user.getEmail());
+            userInfo.put("setor", user.getNomeSetor());
+            userInfo.put("cpf", user.getCPF());
+                       
             JSONArray arrayUser = new JSONArray();
-            arrayUser.add(user.getCodigo());
-            arrayUser.add(user.getNome());
-            arrayUser.add(user.getEmail());
-            arrayUser.add(user.getSenha());
-            arrayUser.add(user.getNomeSetor());
-
+            arrayUser.add(userInfo);
+           
             response.put("userInfo", arrayUser);
         } else {
             response.put("statusLogin", loginCorreto);
