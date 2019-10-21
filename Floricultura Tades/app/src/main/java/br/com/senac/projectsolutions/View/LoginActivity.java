@@ -55,11 +55,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onResponse(boolean status, String msgStatus, Usuario usuario){
         if(status){
-
             Intent intent = new Intent(getApplicationContext(), MainView.class);
             startActivity(intent);
         }else{
-            Toast.makeText(getApplicationContext(), msgStatus, Toast.LENGTH_LONG).show();
+           makeToast(msgStatus);
         }
     }
 

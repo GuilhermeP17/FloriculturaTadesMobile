@@ -165,7 +165,7 @@ public class UsuarioDAO {
         Usuario user = null;
         Connection conn = db.obterConexao();
         try {
-            PreparedStatement query = conn.prepareStatement(" SELECT * from tbl_usuario as u"
+            PreparedStatement query = conn.prepareStatement("SELECT id_usuario, nome, email, nome_setor, cpf from tbl_usuario as u"
                     + " INNER JOIN tbl_setor AS s ON u.fk_setor = s.id_setor"
                     + " WHERE email = ?;");
 

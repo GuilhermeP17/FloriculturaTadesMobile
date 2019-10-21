@@ -12,6 +12,7 @@ public class Usuario {
     private String senha;
     private int setor;
     private String nomeSetor;
+    private String CPF;
 
     public Usuario() {
 
@@ -32,12 +33,12 @@ public class Usuario {
         this.setor = setor;
     }
     
-    public Usuario(int codigo, String nome, String email, String senha, String nomeSetor){
+    public Usuario(int codigo, String nome, String email, String nomeSetor, String CPF){
         this.codigo = codigo;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
         this.nomeSetor = nomeSetor;
+        this.CPF = CPF;
     }
 
     public int getCodigo() {
@@ -86,5 +87,13 @@ public class Usuario {
 
     public void setNomeSetor(String nomeSetor) {
         this.nomeSetor = nomeSetor;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 }
