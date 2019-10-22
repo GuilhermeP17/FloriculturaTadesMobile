@@ -17,7 +17,7 @@ import br.com.senac.projectsolutions.R;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText fieldEmail, fieldSenha;
-    private MaterialButton btnLogin;
+    private MaterialButton btnLogin, btnCadastro;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +37,14 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     makeToast("Campo usuário ou senha inválidos, verifique e tente novamente");
                 }
+            }
+        });
+
+        btnCadastro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CadastroActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -66,5 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         fieldEmail = findViewById(R.id.edit_email);
         fieldSenha = findViewById(R.id.edit_senha);
         btnLogin = findViewById(R.id.btn_login);
+        btnCadastro = findViewById(R.id.btn_cadastro);
     }
 }

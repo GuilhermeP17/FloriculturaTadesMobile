@@ -21,5 +21,6 @@
         </activity>
         <activity android:name=".View.MainView"
             android:theme="@style/MainTheme"/>
+        <activity android:name=".View.CadastroActivity" />
     </application>
 </manifest>
