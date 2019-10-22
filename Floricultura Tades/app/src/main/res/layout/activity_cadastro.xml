@@ -48,13 +48,14 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintTop_toBottomOf="@id/title_info_pessoal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_sobrenome">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -63,14 +64,15 @@
                     android:layout_height="wrap_content"
                     android:hint="Sobrenome"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginEnd="12dp"
                     app:layout_constraintTop_toTopOf="@id/layout_nome"
                     app:layout_constraintStart_toEndOf="@id/layout_nome"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -99,6 +101,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     app:layout_constraintTop_toBottomOf="@id/layout_email"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
@@ -178,7 +181,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintTop_toBottomOf="@id/title_info_adc"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_numero">
@@ -193,6 +196,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Número"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginStart="5dp"
                     android:layout_marginEnd="12dp"
                     app:layout_constraintTop_toTopOf="@id/layout_endereco"
                     app:layout_constraintStart_toEndOf="@id/layout_endereco"
@@ -210,7 +214,7 @@
                     android:hint="CEP"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginStart="12dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintTop_toTopOf="@id/layout_complemento"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_complemento">
@@ -227,7 +231,7 @@
                     android:hint="Complemento"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginEnd="12dp"
                     app:layout_constraintTop_toBottomOf="@id/layout_endereco"
                     app:layout_constraintStart_toEndOf="@id/layout_cep"
@@ -270,7 +274,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Bairro"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"

@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorOnBackground">#f3f3f3</item>
+        <item name="colorOnBackground">#D1D1D1</item>
     </style>
 
     <style name="MainTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
