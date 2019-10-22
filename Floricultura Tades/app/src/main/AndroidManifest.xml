@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".View.MainView"
-            android:theme="@style/MainTheme"/>
-        <activity android:name=".View.CadastroActivity" />
+        <activity
+            android:name=".View.MainView" />
+        <activity
+            android:name=".View.CadastroActivity" />
     </application>
 </manifest>
