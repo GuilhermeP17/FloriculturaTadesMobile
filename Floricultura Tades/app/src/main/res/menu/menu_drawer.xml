@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
-        android:title="Teste"/>
+        android:id="@+id/visualizar_cadastro"
+        android:icon="@drawable/ic_usuario"
+        android:title="Perfil"/>
+
+    <item
+        android:id="@+id/pedidos_andamento"
+        android:icon="@drawable/ic_entrega_andamento"
+        android:title="Pedidos em andamento"/>
+
+    <item
+        android:id="@+id/pedidos_finalizados"
+        android:icon="@drawable/ic_pedidos_finalizados"
+        android:title="Pedidos finalizados"/>
 </menu>

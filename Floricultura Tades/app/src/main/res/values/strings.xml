@@ -5,4 +5,6 @@
     <string name="label_senha">Senha</string>
     <string name="label_email">Email</string>
     <string name="logo_floricultura_tades">Logo Floricultura Tades</string>
+    <string name="navigation_drawer_open">Abre navegação</string>
+    <string name="navigation_drawer_close">Fecha navegação</string>
 </resources>

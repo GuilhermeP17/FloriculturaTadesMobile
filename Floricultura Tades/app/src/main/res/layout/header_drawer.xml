@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/colorAccent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark">
 
+    <TextView
+        android:id="@+id/nome_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guilherme Pereira"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/email_usuario"
+        app:layout_constraintStart_toStartOf="@id/email_usuario"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/email_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="guilherme.pereira@hotmail.com"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

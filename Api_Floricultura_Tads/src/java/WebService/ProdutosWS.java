@@ -16,6 +16,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * REST Web Service
@@ -42,8 +44,32 @@ public class ProdutosWS {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/allprodutos")
-    public ArrayList<Produto> getAllProdutos() {
-        return ProdutoDAO.getProdutos();
+    public String getAllProdutos() {
+        ArrayList<Produto> produtos = ProdutoDAO.getProdutos();
+
+        JSONObject response = new JSONObject();
+        if (produtos.size() > 0) {
+            response.put("statusRequest", true);
+            
+            JSONArray produtosAtivos = new JSONArray();
+            for (Produto produto : produtos) {
+                JSONObject prod = new JSONObject();
+                prod.put("id", produto.getCodigo());
+                prod.put("nome", produto.getNome());
+                prod.put("descricao", produto.getDescricao());
+                prod.put("tipo", produto.getTipo());
+                prod.put("quantidade", produto.getQuantidadeEstoque());
+                prod.put("valor", produto.getValorUnitario());
+                
+                produtosAtivos.add(prod);
+            }
+            response.put("produtosAtivos", produtosAtivos);
+        } else {
+            response.put("statusRequest", false);
+            response.put("msgErro", "Não foram encontrados registros no servidor");
+        }
+
+        return response.toString();
     }
 
     /**

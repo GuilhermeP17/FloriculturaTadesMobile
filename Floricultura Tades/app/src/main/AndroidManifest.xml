@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.MainView" />
+            android:name=".View.MainActivity" />
         <activity
             android:name=".View.CadastroActivity" />
     </application>

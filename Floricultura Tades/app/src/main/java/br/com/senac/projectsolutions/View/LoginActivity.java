@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onResponse(boolean status, String msgStatus, Usuario usuario){
         if(status){
-            Intent intent = new Intent(getApplicationContext(), MainView.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }else{
            makeToast(msgStatus);
