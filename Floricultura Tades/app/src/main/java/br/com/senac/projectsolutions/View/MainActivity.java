@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setHeaderView() {
         if (preferences.getString("email", "").isEmpty()) {
             View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
-            LinearLayout headerVisitante = header.findViewById(R.id.header_visitante);
+            ConstraintLayout headerVisitante = header.findViewById(R.id.header_visitante);
             headerVisitante.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
             ConstraintLayout headerLogado = header.findViewById(R.id.header_logado);
-            LinearLayout headerVisitante = header.findViewById(R.id.header_visitante);
+            ConstraintLayout headerVisitante = header.findViewById(R.id.header_visitante);
             TextView nomeUser = header.findViewById(R.id.nome_usuario);
             TextView emailUser = header.findViewById(R.id.email_usuario);
             headerLogado.setVisibility(View.VISIBLE);

@@ -42,39 +42,45 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_visitante"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="0dp"
             android:src="@drawable/logo_floricultura_tades"
-            android:layout_gravity="center"
-            android:contentDescription="@string/logo_floricultura_tades"/>
+            android:layout_marginTop="25dp"
+            android:contentDescription="@string/logo_floricultura_tades"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/saudacao_visitante"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
+            android:id="@+id/saudacao_visitante"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/saudacao_header"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12sp"
             android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/instrucao_visitante"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
+            android:id="@+id/instrucao_visitante"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/logar_header"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
+
+            android:layout_margin="12dp"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
