@@ -7,4 +7,9 @@
     <string name="logo_floricultura_tades">Logo Floricultura Tades</string>
     <string name="navigation_drawer_open">Abre navegação</string>
     <string name="navigation_drawer_close">Fecha navegação</string>
+
+    <string name="saudacao_header">Olá, Visitante!</string>
+    <string name="logar_header">Clique aqui para entrar ou cadastrar</string>
+    <string name="name_teste">Guilherme Pereira</string>
+    <string name="email_teste">guilherme.pereira@email.com</string>
 </resources>

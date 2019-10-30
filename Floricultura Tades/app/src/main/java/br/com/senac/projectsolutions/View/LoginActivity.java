@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -63,6 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onResponse(boolean status, String msgStatus, Usuario usuario){
         if(status){
+            SharedPreferences preferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("email", usuario.getEmail());
+            editor.putString("cpf", usuario.getCpf());
+            editor.putString("nome", usuario.getNome());
+            editor.putInt("codigo", usuario.getCodigo());
+            editor.apply();
+
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }else{

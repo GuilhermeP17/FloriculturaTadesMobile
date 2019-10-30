@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.R;
@@ -30,11 +31,16 @@ public class MainAdapter extends  RecyclerView.Adapter<MainHolder>{
     @Override
     public void onBindViewHolder(@NonNull MainHolder holder, int position) {
         holder.nomeProduto.setText(produtos.get(position).getNome());
-        holder.descricaoProduto.setText(produtos.get(position).getDescricao());
+        holder.precoProduto.setText(convertPreco(produtos.get(position).getValor()));
     }
 
     @Override
     public int getItemCount() {
         return produtos.size();
+    }
+
+    private String convertPreco(Double precoOriginal){
+        String precoFormatted = String.format(Locale.US, "%.2f", precoOriginal);
+        return "R$".concat(precoFormatted.replace(".", ","));
     }
 }

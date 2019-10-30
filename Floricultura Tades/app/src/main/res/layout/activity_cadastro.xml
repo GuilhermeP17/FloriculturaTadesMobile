@@ -17,7 +17,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/logo_floricultura"
+                android:src="@drawable/logo_floricultura_tades"
                 android:contentDescription="Logo Floicultura Tades"/>
 
             <!-- Informações Pessoais Constraint -->
