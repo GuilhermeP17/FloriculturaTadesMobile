@@ -90,8 +90,18 @@ public class UsuarioWS {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/cadastrar")
-    public String cadastrarUsuario(String content) {
-        return "cadastro";
+    public String cadastrarUsuario(Usuario usuario) {
+        boolean status = UsuarioDAO.salvarUsuario(usuario);
+        JSONObject jsonResponse = new JSONObject();
+        if (status) {
+            jsonResponse.put("status", true);
+            jsonResponse.put("msgStatus", "Usuário salvo com sucesso");
+        }else{
+            jsonResponse.put("status", false);
+            jsonResponse.put("msgStatus", "Não foi possivel cadastrar o usuário");
+        }
+        
+        return jsonResponse.toString();
     }
     
     @POST

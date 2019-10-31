@@ -1,18 +1,21 @@
 package Model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author guilherme.rsvieira
  */
+@XmlRootElement
 public class Usuario {
-
-    private int codigo;
-    private String nome;
-    private String email;
-    private String senha;
-    private int setor;
-    private String nomeSetor;
-    private String CPF;
+    @XmlElement private int codigo;
+    @XmlElement private String nome;
+    @XmlElement private String email;
+    @XmlElement private String senha;
+    @XmlElement private int setor;
+    @XmlElement private String nomeSetor;
+    @XmlElement private String CPF;
 
     public Usuario() {
 
