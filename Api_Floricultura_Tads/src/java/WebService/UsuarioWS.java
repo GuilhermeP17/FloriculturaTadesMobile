@@ -5,6 +5,7 @@
 package WebService;
 
 import DAO.UsuarioDAO;
+import Model.Endereco;
 import Model.Usuario;
 import java.util.ArrayList;
 import javax.ws.rs.core.Context;
@@ -92,6 +93,7 @@ public class UsuarioWS {
     @Path("/cadastrar")
     public String cadastrarUsuario(Usuario usuario) {
         boolean status = UsuarioDAO.salvarUsuario(usuario);
+        
         JSONObject jsonResponse = new JSONObject();
         if (status) {
             jsonResponse.put("status", true);

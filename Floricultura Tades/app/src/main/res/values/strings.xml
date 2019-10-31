@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Floricultura Tades</string>
     <string name="cadastre_se">Ainda não tem um Login? Clique aqui e cadastre-se</string>
+    <string name="title_cadastro">Cadastro</string>
     <string name="entrar">Entrar</string>
     <string name="label_senha">Senha</string>
     <string name="label_email">Email</string>

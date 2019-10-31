@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="@string/title_cadastro"
+            app:titleTextColor="@android:color/white"
+            app:navigationIcon="@drawable/ic_back_activity_white"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +57,7 @@
                     android:id="@+id/layout_nome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Nome"
+                    android:hint="Nome*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="12dp"
@@ -53,6 +66,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_sobrenome">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_nome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:singleLine="true"/>
@@ -62,7 +76,7 @@
                     android:id="@+id/layout_sobrenome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Sobrenome"
+                    android:hint="Sobrenome*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="12dp"
@@ -70,6 +84,7 @@
                     app:layout_constraintStart_toEndOf="@id/layout_nome"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_sobrenome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:singleLine="true"/>
@@ -79,7 +94,7 @@
                     android:id="@+id/layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="Email*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
@@ -88,6 +103,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textEmailAddress"/>
@@ -97,7 +113,7 @@
                     android:id="@+id/layout_cpf"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="CPF"
+                    android:hint="CPF*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
@@ -106,6 +122,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_cpf"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="number"/>
@@ -115,7 +132,7 @@
                     android:id="@+id/layout_senha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Senha"
+                    android:hint="Senha*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:passwordToggleEnabled="true"
                     android:layout_marginTop="12dp"
@@ -125,16 +142,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_senha"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/layout_confirm_senha"
+                    android:id="@+id/layout_confirma_senha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirmar Senha"
+                    android:hint="Confirmar Senha*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:passwordToggleEnabled="true"
                     android:layout_marginTop="12dp"
@@ -144,6 +162,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_confirma_senha"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"/>
@@ -177,7 +196,7 @@
                     android:id="@+id/layout_endereco"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Endereço"
+                    android:hint="Endereço*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
@@ -186,6 +205,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_numero">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_endereco"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -194,7 +214,7 @@
                     android:id="@+id/layout_numero"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="Número"
+                    android:hint="Número*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="12dp"
@@ -202,6 +222,7 @@
                     app:layout_constraintStart_toEndOf="@id/layout_endereco"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_numero"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="number"/>
@@ -211,7 +232,7 @@
                     android:id="@+id/layout_cep"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="CEP"
+                    android:hint="CEP*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="5dp"
@@ -219,6 +240,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/layout_complemento">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_cep"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="number"/>
@@ -228,7 +250,7 @@
                     android:id="@+id/layout_complemento"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Complemento"
+                    android:hint="Complemento*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="5dp"
@@ -237,6 +259,7 @@
                     app:layout_constraintStart_toEndOf="@id/layout_cep"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_complemento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -257,7 +280,7 @@
                     android:id="@+id/layout_cidade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Cidade"
+                    android:hint="Cidade*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
@@ -266,14 +289,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_cidade"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_bairro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Bairro"
+                    android:hint="Bairro*"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
@@ -282,11 +307,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_bairro"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -300,5 +324,4 @@
                 android:layout_marginBottom="16dp"/>
         </LinearLayout>
     </ScrollView>
-
-</LinearLayout>
+</RelativeLayout>

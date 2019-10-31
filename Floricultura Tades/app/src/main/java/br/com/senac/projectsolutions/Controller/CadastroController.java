@@ -10,14 +10,24 @@ import br.com.senac.projectsolutions.Util.DataPost;
 
 public class CadastroController {
 
-    public void validaLogin(Context context){
+    public void validaLogin(Context context, String[] camposFormulario) {
         String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/cadastrar");
         DataPost dt = new DataPost(context);
 
         JSONObject json = new JSONObject();
-        try{
-            json.put("nome", "guilherme");
-        }catch (JSONException e){
+        try {
+            json.put("nome", camposFormulario[0] + " " + camposFormulario[1]);
+            json.put("email",camposFormulario[2]);
+            json.put("CPF", camposFormulario[3]);
+            json.put("senha", camposFormulario[4]);
+            json.put("logradouro", camposFormulario[5]);
+            json.put("numero", camposFormulario[6]);
+            json.put("cep", camposFormulario[7]);
+            json.put("complemento", camposFormulario[8]);
+            json.put("cidade", camposFormulario[9]);
+            json.put("bairro", camposFormulario[10]);
+
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         dt.execute(url, json.toString());
