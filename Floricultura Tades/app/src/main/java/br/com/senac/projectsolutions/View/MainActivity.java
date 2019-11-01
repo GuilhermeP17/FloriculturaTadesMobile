@@ -1,5 +1,6 @@
 package br.com.senac.projectsolutions.View;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AlertDialogLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
@@ -50,8 +53,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.btn_carrinho_compras)
-                    Toast.makeText(getApplicationContext(), "Teste carrinho", Toast.LENGTH_LONG).show();
+                if (item.getItemId() == R.id.btn_carrinho_compras){
+                    Intent intent = new Intent(MainActivity.this, CarrinhoActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         });
@@ -59,9 +64,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -129,27 +134,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent intent = null;
-        String mensagem = "";
-        if (preferences.getString("email", "").isEmpty()) {
-            intent = new Intent(this, LoginActivity.class);
-        } else {
-            switch (item.getItemId()) {
-                case R.id.visualizar_cadastro:
-                    mensagem = "Visualizar cadastro";
-                    break;
-                case R.id.pedidos_andamento:
-                    mensagem = "Pedidos em andamento";
-                    break;
-                case R.id.pedidos_finalizados:
-                    mensagem = "Pedidos Finalizados";
-                    break;
-            }
+
+        switch (item.getItemId()) {
+            case R.id.visualizar_cadastro:
+                if (preferences.getString("email", "").isEmpty()) {
+                    intent = new Intent(this, LoginActivity.class);
+                }else{
+                    Toast.makeText(MainActivity.this, "Teste 1", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.pedidos_andamento:
+                if (preferences.getString("email", "").isEmpty()) {
+                    intent = new Intent(this, LoginActivity.class);
+                }else{
+                    Toast.makeText(MainActivity.this, "Teste 2", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.pedidos_finalizados:
+                if (preferences.getString("email", "").isEmpty()) {
+                    intent = new Intent(this, LoginActivity.class);
+                }else{
+                    Toast.makeText(MainActivity.this, "Teste 3", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.logout:
+                if (!preferences.getString("email", "").isEmpty()) {
+                    finalizarSessao();
+                }else{
+                    View parentView = findViewById(android.R.id.content);
+                    Snackbar.make(parentView, "Não existe nenhuma sessão em andamento", Snackbar.LENGTH_LONG).show();
+                }
+                break;
         }
-        Toast.makeText(MainActivity.this, mensagem, Toast.LENGTH_SHORT).show();
         if (intent != null)
             startActivity(intent);
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void finalizarSessao(){
+        new AlertDialog.Builder(this).setTitle("Finalizando sessão !!")
+                .setMessage("Voceê está prestes a finalizar sua sessão no aplicativo, tem certeza que desja continuar ?")
+                .setNegativeButton("Não", null)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences preferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("email", "");
+                        editor.putString("cpf", "");
+                        editor.putString("nome", "");
+                        editor.putInt("codigo", 0);
+                        editor.apply();
+
+                        setHeaderView();
+                    }
+                }).show();
     }
 }

@@ -15,6 +15,7 @@
     <string name="email_teste">guilherme.pereira@email.com</string>
 
     <string name="web_service_path">http://192.168.0.44:8084/Api_Floricultura_Tads/webresources/</string>
+
     <string name="title_info_pessoais">Informações Pessoais</string>
     <string name="lbl_required_nome">Nome*</string>
     <string name="lbl_required_sobrenome">Sobrenome*</string>
@@ -32,6 +33,14 @@
     <string name="lbl_required_bairro">Bairro*</string>
     <string name="lbl_required_tipo_endereco">Tipo Endereço*</string>
     <string name="btn_cadastrar">Cadastrar</string>
+
+    <string name="drawer_inicio">Inicio</string>
+    <string name="drawer_perfil">Perfil</string>
+    <string name="drawer_pedidos_em_andamento">Pedidos em andamento</string>
+    <string name="drawer_pedidos_finalizados">Pedidos finalizados</string>
+    <string name="drawer_sair">Logout</string>
+    <string name="infromacao_carrinho_vazio">Infromação Carrinho Vazio</string>
+    <string name="info_carrinho_vazinho">Você ainda não adicionou itens no seu carrinho :(</string>
 
     <string-array name="tipo_enderecos">
         <item>Cobrança</item>

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +22,7 @@ import br.com.senac.projectsolutions.R;
 
 public class CadastroActivity extends AppCompatActivity {
     private MaterialButton btnCadastro;
+    private Toolbar toolbar;
     private AutoCompleteTextView arrayEstados, arrayTipoEndereco;
     private TextInputEditText nome, sobrenome, email, cpf, senha, confirmaSenha;
     private TextInputEditText endereco, numero, cep, complemento, cidade, bairro;
@@ -30,6 +32,13 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
         findViewsById();
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         ArrayAdapter<CharSequence> adapterEstados = ArrayAdapter.createFromResource(this, R.array.estados, R.layout.support_simple_spinner_dropdown_item);
         arrayEstados.setAdapter(adapterEstados);
@@ -193,6 +202,7 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void findViewsById(){
+        toolbar = findViewById(R.id.toolbar_cadastro);
         nome = findViewById(R.id.et_nome);
         sobrenome = findViewById(R.id.et_sobrenome);
         email = findViewById(R.id.et_email);
