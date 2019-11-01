@@ -5,7 +5,6 @@
 package WebService;
 
 import DAO.UsuarioDAO;
-import Model.Endereco;
 import Model.Usuario;
 import java.util.ArrayList;
 import javax.ws.rs.core.Context;
@@ -15,7 +14,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import org.json.simple.JSONArray;
@@ -32,7 +30,6 @@ public class UsuarioWS {
     @Context
     private UriInfo context;
 
-  
     public UsuarioWS() {
     }
 
@@ -62,10 +59,10 @@ public class UsuarioWS {
             userInfo.put("email", user.getEmail());
             userInfo.put("setor", user.getNomeSetor());
             userInfo.put("cpf", user.getCPF());
-                       
+
             JSONArray arrayUser = new JSONArray();
             arrayUser.add(userInfo);
-           
+
             response.put("userInfo", arrayUser);
         } else {
             response.put("statusLogin", loginCorreto);
@@ -87,25 +84,38 @@ public class UsuarioWS {
     public void getJsonUsuario(String content) {
 
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/cadastrar")
     public String cadastrarUsuario(Usuario usuario) {
         boolean status = UsuarioDAO.salvarUsuario(usuario);
-        
+
         JSONObject jsonResponse = new JSONObject();
         if (status) {
             jsonResponse.put("status", true);
             jsonResponse.put("msgStatus", "Usuário salvo com sucesso");
-        }else{
+
+            Usuario user = UsuarioDAO.getInfoUser(usuario.getEmail());
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("id", user.getCodigo());
+            userInfo.put("nome", user.getNome());
+            userInfo.put("email", user.getEmail());
+            userInfo.put("setor", user.getNomeSetor());
+            userInfo.put("cpf", user.getCPF());
+
+            JSONArray arrayUser = new JSONArray();
+            arrayUser.add(userInfo);
+
+            jsonResponse.put("userInfo", arrayUser);
+        } else {
             jsonResponse.put("status", false);
             jsonResponse.put("msgStatus", "Não foi possivel cadastrar o usuário");
         }
-        
+
         return jsonResponse.toString();
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/alterar")

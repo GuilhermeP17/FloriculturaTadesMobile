@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.Model.Usuario;
-import br.com.senac.projectsolutions.Util.NetworkToolkit;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
 

@@ -1,13 +1,18 @@
 package br.com.senac.projectsolutions.Util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import br.com.senac.projectsolutions.Model.Usuario;
+import br.com.senac.projectsolutions.View.CadastroActivity;
+
 public class DataPost extends AsyncTask<String, Void, String> {
+    @SuppressLint("StaticFieldLeak")
     private Context context;
 
     public DataPost(Context context) {
@@ -35,10 +40,26 @@ public class DataPost extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+        boolean status = true;
+        String msg = "";
+        Usuario user = null;
         try {
             JSONObject json = new JSONObject(s);
-            String mensagem = json.getString("msgStatus");
-            Toast.makeText(context, mensagem, Toast.LENGTH_LONG).show();
+            msg = json.getString("msgStatus");
+            if (!json.getBoolean("status")){
+                status = false;
+            }else{
+                JSONArray dataResponse = json.getJSONArray("userInfo");
+                JSONObject usuario = (JSONObject) dataResponse.get(0);
+                user = new Usuario(
+                        usuario.getInt("id"),
+                        usuario.getString("nome"),
+                        usuario.getString("email"),
+                        usuario.getString("cpf")
+                );
+            }
+            ((CadastroActivity)context).onServidorResponse(msg, status, user);
         } catch (JSONException e) {
             e.printStackTrace();
         }

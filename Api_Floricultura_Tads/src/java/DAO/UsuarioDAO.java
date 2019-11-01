@@ -1,12 +1,12 @@
 package DAO;
 
-import Model.Endereco;
 import Model.Usuario;
 import Utils.Criptografia;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +22,7 @@ public class UsuarioDAO {
         try {
             PreparedStatement queryUsuario = conn.prepareStatement("INSERT INTO "
                     + " tbl_usuario(nome, email, senha, cpf, fk_setor, status) "
-                    + "VALUES (?, ?, ?, ?, ?, ?);");
+                    + "VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 
             queryUsuario.setString(1, u.getNome());
             queryUsuario.setString(2, u.getEmail());
@@ -33,8 +33,16 @@ public class UsuarioDAO {
 
             queryUsuario.executeUpdate();
 
-            salvarEndereco(u);
-            
+            ResultSet rs = queryUsuario.getGeneratedKeys();
+            int idUsusarioInsert = 0;
+            if (rs.next()) {
+                idUsusarioInsert = rs.getInt(1);
+            }
+            if (!salvarEndereco(u, idUsusarioInsert)) {
+                deleteUserOnErrorEndereco(idUsusarioInsert);
+                return false;
+            }
+
             conn.close();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -44,13 +52,14 @@ public class UsuarioDAO {
         return true;
     }
 
-    public static Boolean salvarEndereco(Usuario user) {
+    public static Boolean salvarEndereco(Usuario user, int idInsertUsuario) {
         Connection conn = db.obterConexao();
+
         try {
             PreparedStatement queryEndereco = conn.prepareStatement("INSERT INTO"
-                    + " tbl_endereco(logradouro, numero, bairro, cidade, estado, cep, tipo)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?);");
-            
+                    + " tbl_endereco(logradouro, numero, bairro, cidade, estado, cep, tipo, fk_usuario)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+
             queryEndereco.setString(1, user.getLogradouro());
             queryEndereco.setInt(2, user.getNumero());
             queryEndereco.setString(3, user.getBairro());
@@ -58,14 +67,36 @@ public class UsuarioDAO {
             queryEndereco.setString(5, user.getEstado());
             queryEndereco.setString(6, user.getCep());
             queryEndereco.setString(7, user.getTipoEndereco());
+            queryEndereco.setInt(8, idInsertUsuario);
 
             queryEndereco.executeUpdate();
-            
+
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
+
+        return true;
+    }
+
+    private static Boolean deleteUserOnErrorEndereco(int codigoUsuario) {
+        Connection conn = db.obterConexao();
+
+        try {
+            PreparedStatement query = conn.prepareStatement("DELETE FROM tbl_usuario WHERE id_usuario = ?");
+
+            query.setInt(1, codigoUsuario);
+            
+            if (!query.execute()) {
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
         return true;
     }
 

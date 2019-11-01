@@ -15,4 +15,57 @@
     <string name="email_teste">guilherme.pereira@email.com</string>
 
     <string name="web_service_path">http://192.168.0.44:8084/Api_Floricultura_Tads/webresources/</string>
+    <string name="title_info_pessoais">Informações Pessoais</string>
+    <string name="lbl_required_nome">Nome*</string>
+    <string name="lbl_required_sobrenome">Sobrenome*</string>
+    <string name="lbl_required_email">Email*</string>
+    <string name="lbl_required_cpf">CPF*</string>
+    <string name="lbl_required_senha">Senha*</string>
+    <string name="lbl_required_confirmar_senha">Confirmar Senha*</string>
+    <string name="title_info_adicionais">Informações Adicionais</string>
+    <string name="lbl_required_endereco">Endereço*</string>
+    <string name="lbl_required_numero">Número*</string>
+    <string name="lbl_required_cep">CEP*</string>
+    <string name="lbl_complemento">Complemento</string>
+    <string name="lbl_required_estado">Estado*</string>
+    <string name="lbl_required_cidade">Cidade*</string>
+    <string name="lbl_required_bairro">Bairro*</string>
+    <string name="lbl_required_tipo_endereco">Tipo Endereço*</string>
+    <string name="btn_cadastrar">Cadastrar</string>
+
+    <string-array name="tipo_enderecos">
+        <item>Cobrança</item>
+        <item>Entrega</item>
+    </string-array>
+
+    <string-array name="estados">
+        <item>AC</item>
+        <item>AL</item>
+        <item>AP</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MA</item>
+        <item>MT</item>
+        <item>MS</item>
+        <item>MG</item>
+        <item>PA</item>
+        <item>PB</item>
+        <item>PR</item>
+        <item>PE</item>
+        <item>PI</item>
+        <item>RJ</item>
+        <item>RN</item>
+        <item>RS</item>
+        <item>RO</item>
+        <item>RR</item>
+        <item>SC</item>
+        <item>SP</item>
+        <item>SE</item>
+        <item>TO</item>
+    </string-array>
+
 </resources>

@@ -24,9 +24,10 @@ public class CadastroController {
             json.put("numero", camposFormulario[6]);
             json.put("cep", camposFormulario[7]);
             json.put("complemento", camposFormulario[8]);
-            json.put("cidade", camposFormulario[9]);
-            json.put("bairro", camposFormulario[10]);
-
+            json.put("estado", camposFormulario[9]);
+            json.put("cidade", camposFormulario[10]);
+            json.put("bairro", camposFormulario[11]);
+            json.put("tipoEndereco", camposFormulario[12]);
         } catch (JSONException e) {
             e.printStackTrace();
         }

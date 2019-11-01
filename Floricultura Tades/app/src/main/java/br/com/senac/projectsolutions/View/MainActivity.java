@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 
     private void findViewsById() {
@@ -103,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (result) {
             setProdutosAdapter(produtos);
         } else {
-            Toast.makeText(getApplicationContext(), mensagem, Toast.LENGTH_LONG).show();
+            View parentView = findViewById(android.R.id.content);
+            Snackbar.make(parentView, mensagem, Snackbar.LENGTH_LONG).show();
         }
     }
 
