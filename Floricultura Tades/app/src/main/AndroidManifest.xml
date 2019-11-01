@@ -24,5 +24,6 @@
 
         <activity android:name=".View.CadastroActivity" />
         <activity android:name=".View.CarrinhoActivity" />
+        <activity android:name=".View.DescricaoActivity" />
     </application>
 </manifest>

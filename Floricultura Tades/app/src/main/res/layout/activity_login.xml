@@ -70,6 +70,16 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:backgroundTint="@color/colorAccent"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton

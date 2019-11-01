@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import br.com.senac.projectsolutions.R;
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText fieldEmail, fieldSenha;
     private MaterialButton btnLogin, btnCadastro;
+    private ProgressBar progressLogin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +36,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (isEmailValid() && isPasswordValid()){
                     String email = fieldEmail.getText().toString();
                     String senha = fieldSenha.getText().toString();
+
+                    progressLogin.setIndeterminate(true);
+                    progressLogin.setVisibility(View.VISIBLE);
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
                     LoginController controller = new LoginController();
                     controller.validaLogin(LoginActivity.this, email, senha);
                 }else{
@@ -63,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onResponse(boolean status, String msgStatus, Usuario usuario){
+        progressLogin.setIndeterminate(false);
+        progressLogin.setVisibility(View.GONE);
         if(status){
             SharedPreferences preferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -84,5 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         fieldSenha = findViewById(R.id.edit_senha);
         btnLogin = findViewById(R.id.btn_login);
         btnCadastro = findViewById(R.id.btn_cadastro);
+        progressLogin = findViewById(R.id.progress_login);
     }
 }

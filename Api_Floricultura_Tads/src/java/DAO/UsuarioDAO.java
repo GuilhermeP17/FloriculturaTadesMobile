@@ -209,7 +209,7 @@ public class UsuarioDAO {
         try {
             PreparedStatement query = conn.prepareStatement("SELECT * FROM tbl_usuario WHERE email= ? AND senha = ? AND status = 0;");
             query.setString(1, email);
-            query.setString(2, senha);
+            query.setString(2, Criptografia.criptografar(senha));
             ResultSet rs = query.executeQuery();
             if (rs.next()) {
                 conn.close();

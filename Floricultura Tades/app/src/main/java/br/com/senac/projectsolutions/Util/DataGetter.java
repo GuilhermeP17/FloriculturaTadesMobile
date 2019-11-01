@@ -91,8 +91,13 @@ public class DataGetter extends AsyncTask<String, Void, String> {
             }
 
         } catch (JSONException e) {
+            String mensagemErro = "Falha ao comunicar-se com o servidor, tente novamente";
             e.printStackTrace();
-            Toast.makeText(context, "Falha ao comunicar-se com o servidor, tente novamnete", Toast.LENGTH_LONG).show();
+            if(metodo.equalsIgnoreCase("produto")){
+                ((MainActivity) context).onServidorResponse(false, mensagemErro, null);
+            }else{
+                ((LoginActivity) context).onResponse(false, mensagemErro, null);
+            }
         }
     }
 }

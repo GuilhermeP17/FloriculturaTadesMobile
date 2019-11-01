@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            MainActivity.super.finishAffinity();
         }
     }
 
@@ -93,7 +93,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setHeaderView() {
         if (preferences.getString("email", "").isEmpty()) {
             View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
+
+            ConstraintLayout headerLogado = header.findViewById(R.id.header_logado);
             ConstraintLayout headerVisitante = header.findViewById(R.id.header_visitante);
+
+            headerLogado.setVisibility(View.GONE);
+            headerVisitante.setVisibility(View.VISIBLE);
+
             headerVisitante.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,12 +109,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
         } else {
             View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
+
             ConstraintLayout headerLogado = header.findViewById(R.id.header_logado);
             ConstraintLayout headerVisitante = header.findViewById(R.id.header_visitante);
+
             TextView nomeUser = header.findViewById(R.id.nome_usuario);
             TextView emailUser = header.findViewById(R.id.email_usuario);
+
             headerLogado.setVisibility(View.VISIBLE);
             headerVisitante.setVisibility(View.GONE);
+
             nomeUser.setText(preferences.getString("nome", ""));
             emailUser.setText(preferences.getString("email", ""));
         }
