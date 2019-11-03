@@ -49,7 +49,7 @@ public class CadastroActivity extends AppCompatActivity {
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isFieldValid()){
+                if(isFieldValid()){
                     CadastroController controller = new CadastroController();
                     controller.validaLogin(CadastroActivity.this,
                             new String[]{
