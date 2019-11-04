@@ -1,9 +1,11 @@
 
 package br.com.senac.projectsolutions.View;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import br.com.senac.projectsolutions.Adapter.CarrinhoAdapter;
 import br.com.senac.projectsolutions.Adapter.MainAdapter;
@@ -35,6 +38,8 @@ import static android.view.View.VISIBLE;
 public class CarrinhoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
+    private MaterialButton btnProsseguir;
+    public  TextView subTotal, frete, total;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +48,20 @@ public class CarrinhoActivity extends AppCompatActivity {
         findViewsById();
 
         getItensAdcionados();
+
+        btnProsseguir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPreferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
+                Intent intent;
+                if(sharedPreferences.getString("email", "").isEmpty()){
+                    intent = new Intent(CarrinhoActivity.this, LoginActivity.class);
+                }else{
+                    intent = new Intent(CarrinhoActivity.this, EnderecoActivity.class);
+                }
+                startActivity(intent);
+            }
+        });
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +73,10 @@ public class CarrinhoActivity extends AppCompatActivity {
 
     private void findViewsById() {
         toolbar = findViewById(R.id.toolbar_carrinho);
+        subTotal = findViewById(R.id.preco_subtotal);
+        frete = findViewById(R.id.preco_frete);
+        total = findViewById(R.id.preco_total);
+        btnProsseguir = findViewById(R.id.btn_prosseguir_compra);
     }
 
     private void getItensAdcionados() {
@@ -90,16 +113,28 @@ public class CarrinhoActivity extends AppCompatActivity {
                 produto.setTipo(json.getString("tipo"));
 
                 produtosSalvos.add(produto);
-            }
+            }'
             setRecyclerView(produtosSalvos);*/
+    }
 
+    public void atualizaValorCompra(ArrayList<Produto> produtosCarrinho){
+        double newSubTotal = 0;
+        double frete = Double.parseDouble(this.frete.getText().toString().replace("R$ ", "").replace(",", "."));
+        double total = 0;
+
+        for (Produto prod : produtosCarrinho){
+            newSubTotal += prod.getValor();
+            subTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", newSubTotal).replace(".", ",")));
+        }
+        total += newSubTotal + frete;
+        this.total.setText("R$ ".concat(String.format(Locale.US, "%.2f", total).replace(".", ",")));
     }
 
     private void setRecyclerView(/*ArrayList<Produto> produtos*/) {
         LinearLayoutManager gridManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_carrinho_itens);
         recyclerView.setLayoutManager(gridManager);
-        CarrinhoAdapter adapter = new CarrinhoAdapter();
+        CarrinhoAdapter adapter = new CarrinhoAdapter(CarrinhoActivity.this);
         recyclerView.setAdapter(adapter);
     }
 }
