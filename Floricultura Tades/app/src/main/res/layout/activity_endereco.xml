@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_endereco"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:title="Endereço de Entrega"
@@ -23,6 +23,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_endereco"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
