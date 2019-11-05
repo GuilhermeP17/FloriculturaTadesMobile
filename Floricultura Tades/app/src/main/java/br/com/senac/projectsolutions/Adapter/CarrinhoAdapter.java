@@ -41,7 +41,7 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
             @Override
             public void onClick(View v) {
                 produtosAdd.get(position).setValor(quantidadeManager(true, holder.quantidadeProdutos, holder.precoProduto));
-                ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd);
+                ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd, null);
             }
         });
 
@@ -49,7 +49,7 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
             @Override
             public void onClick(View v) {
                 produtosAdd.get(position).setValor(quantidadeManager(false, holder.quantidadeProdutos, holder.precoProduto));
-                ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd);
+                ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd, null);
             }
         });
     }
@@ -81,6 +81,6 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
                 preco.setText("R$".concat(String.format(Locale.US, "%.2f", newPreco).replace(".", ",")));
             }
         }
-        return newPreco;
+        return newPreco != 0.00 ? newPreco : precoAtual;
     }
 }

@@ -7,9 +7,7 @@
     android:layout_marginTop="8dp"
     app:cardCornerRadius="15dp"
     app:cardPreventCornerOverlap="true"
-    android:elevation="25dp"
-    android:clickable="true"
-    android:focusable="true">
+    android:elevation="25dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="175dp"
+            android:layout_width="155dp"
             android:layout_height="150dp"
             android:src="@drawable/logo_floricultura_tades"
             android:contentDescription="Imagem do produto"/>

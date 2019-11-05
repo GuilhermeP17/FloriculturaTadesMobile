@@ -85,8 +85,7 @@
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             app:layout_constraintTop_toBottomOf="@id/divider_top"
                             app:layout_constraintEnd_toStartOf="@id/btn_aplicar"
-                            app:layout_constraintBottom_toTopOf="@id/divider_bottom"
-                            android:text="05819-000"/>
+                            app:layout_constraintBottom_toTopOf="@id/divider_bottom"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_aplicar"
@@ -152,7 +151,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="12dp"
                             android:textSize="16sp"
-                            android:text="R$ 360,00"
+                            android:text="R$ 0,00"
                             android:textColor="#4CAF50"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/title_subtotal"
@@ -178,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="12dp"
                             android:textSize="16sp"
-                            android:text="R$ 25,00"
+                            android:text="R$ 0,00"
                             android:textColor="#4CAF50"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/title_frete"
@@ -204,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="12dp"
                             android:textSize="22sp"
-                            android:text="R$ 385,00"
+                            android:text="R$ 0,00"
                             android:textColor="#000000"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/title_total"
