@@ -20,16 +20,9 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
     private Context context;
     private ArrayList<Produto> produtosAdd;
 
-    public CarrinhoAdapter(Context context){
+    public CarrinhoAdapter(Context context, ArrayList<Produto> produtos){
         this.context = context;
-        produtosAdd = new ArrayList<>();
-        for (int i = 0; i < 7 ; i ++){
-            Produto prod = new Produto();
-            prod.setNome("Produto " + i);
-            prod.setValor(120.00);
-            produtosAdd.add(prod);
-            ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd);
-        }
+        produtosAdd = produtos;
     }
 
     @NonNull
@@ -41,6 +34,8 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
     @Override
     public void onBindViewHolder(@NonNull final CarrinhoHolder holder, final int position) {
         holder.nomeProduto.setText(produtosAdd.get(position).getNome());
+
+        holder.precoProduto.setText("R$".concat(String.format(Locale.US, "%.2f", produtosAdd.get(position).getValor())).replace(".", ","));
 
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

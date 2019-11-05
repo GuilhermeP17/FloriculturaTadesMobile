@@ -11,6 +11,7 @@
         android:background="#FFFFFF">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsed_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
@@ -25,7 +26,7 @@
                 android:src="@drawable/flor_demo"/>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbar_descricao"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_back_activity_black"
@@ -45,13 +46,14 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:background="@android:color/black"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
@@ -62,7 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="#000000"
                     android:layout_gravity="center"/>
@@ -80,10 +83,10 @@
                 <TextView
                     android:id="@+id/tipo_produto"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Tipo: Produto"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:layout_gravity="center"
@@ -104,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/informacoes_produto"
                     android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
@@ -119,19 +122,72 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="14dp"
-                android:background="#FFFFFF">
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:layout_marginBottom="75dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/perguntas_frequentes"
                     android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quais são as melhores flores para o escritório?"
+                    android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginBottom="10dp"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R: Boa parte dos escritórios recebe pouca luz do sol e tem ar-condicionado. Por este motivo, recomendamos antúrio e callas, entre outros."
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gostaria de saber se tem flores a pronta entrega e se podem ser enviadas com um bilhete para surpresa?"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R: Olá! Sim, temos flores para entrega imediata, e assinamos as entregas da forma que desejar, basta nos informar a mensagem."
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vocês entregam no sábado?"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="R: Sim. As entregas no sábado são realizadas até às 18 horas, mas é precioso que o pedido seja feito até às 12 horas. As compras efetuadas no sábado depois das 12 horas serão entregues na segunda-feira."
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_carrinho"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:src="@drawable/ic_shopping_cart"
+        app:tint="@android:color/white"
+        app:layout_anchor="@id/divider"
+        app:layout_anchorGravity="end"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

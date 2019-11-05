@@ -4,6 +4,7 @@ package br.com.senac.projectsolutions.View;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.EditText;
@@ -25,7 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import br.com.senac.projectsolutions.Adapter.CarrinhoAdapter;
 import br.com.senac.projectsolutions.Adapter.MainAdapter;
@@ -81,40 +84,45 @@ public class CarrinhoActivity extends AppCompatActivity {
 
     private void getItensAdcionados() {
         sharedPreferences = getSharedPreferences("ItensSalvos", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("nome", "Teste");
-        editor.apply();
 
-        if (!sharedPreferences.getString("nome", "").equals("")) {
+        if (!sharedPreferences.getAll().isEmpty()) {
             LinearLayout notEmptyView = findViewById(R.id.linear_not_empty);
             ConstraintLayout emptyView = findViewById(R.id.linear_empty);
             emptyView.setVisibility(GONE);
             notEmptyView.setVisibility(VISIBLE);
 
-            setRecyclerView();
+//            Rotina para recuperar objetos salvos no Shared preferences de itens add no carrinho
+            ArrayList<Produto> produtosSalvos = new ArrayList<>();
+            JSONArray array = new JSONArray();
+
+            try {
+                Map<String, ?> produtosPreferences = sharedPreferences.getAll();
+                for (Map.Entry<String, ?> entry : produtosPreferences.entrySet()){
+                    array.put(entry.getValue().toString());
+                }
+                for (int i = 0; i < array.length(); i++){
+                    JSONObject json = new JSONObject(array.getString(i));
+                    Produto produto = new Produto();
+
+                    produto.setCodigo(json.getInt("CodigoProduto"));
+                    produto.setNome(json.getString("NomeProduto"));
+                    produto.setDescricao(json.getString("DescricaoProduto"));
+                    produto.setValor(json.getDouble("PrecoProduto"));
+                    produto.setTipo(json.getString("TipoProduto"));
+
+                    produtosSalvos.add(produto);
+                }
+                setRecyclerView(produtosSalvos);
+                atualizaValorCompra(produtosSalvos);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else {
             LinearLayout notEmptyView = findViewById(R.id.linear_not_empty);
             ConstraintLayout emptyView = findViewById(R.id.linear_empty);
             emptyView.setVisibility(VISIBLE);
             notEmptyView.setVisibility(GONE);
         }
-
-        //Rotina para recuperar objetos salvos no Shared preferences de itens add no carrinho
-            /*JSONArray array = new JSONArray(sharedPreferences.getString("nome", ""));
-            ArrayList<Produto> produtosSalvos = new ArrayList<>();
-            Produto produto;
-            JSONObject json;
-            for (int i = 0; i < array.length(); i++){
-                json = array.getJSONObject(i);
-                produto = new Produto();
-                produto.setCodigo(json.getInt("codigo"));
-                produto.setNome(json.getString("nome"));
-                produto.setValor(json.getDouble("valor"));
-                produto.setTipo(json.getString("tipo"));
-
-                produtosSalvos.add(produto);
-            }'
-            setRecyclerView(produtosSalvos);*/
     }
 
     public void atualizaValorCompra(ArrayList<Produto> produtosCarrinho){
@@ -130,11 +138,11 @@ public class CarrinhoActivity extends AppCompatActivity {
         this.total.setText("R$ ".concat(String.format(Locale.US, "%.2f", total).replace(".", ",")));
     }
 
-    private void setRecyclerView(/*ArrayList<Produto> produtos*/) {
+    private void setRecyclerView(ArrayList<Produto> produtos) {
         LinearLayoutManager gridManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_carrinho_itens);
         recyclerView.setLayoutManager(gridManager);
-        CarrinhoAdapter adapter = new CarrinhoAdapter(CarrinhoActivity.this);
+        CarrinhoAdapter adapter = new CarrinhoAdapter(CarrinhoActivity.this, produtos);
         recyclerView.setAdapter(adapter);
     }
 }
