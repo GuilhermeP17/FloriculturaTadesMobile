@@ -26,5 +26,6 @@
         <activity android:name=".View.CarrinhoActivity" />
         <activity android:name=".View.DescricaoActivity" />
         <activity android:name=".View.EnderecoActivity" />
+        <activity android:name=".View.PerfilActivity" />
     </application>
 </manifest>

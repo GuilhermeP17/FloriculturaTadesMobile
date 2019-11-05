@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (preferences.getString("email", "").isEmpty()) {
                     intent = new Intent(this, LoginActivity.class);
                 }else{
-                    Toast.makeText(MainActivity.this, "Teste 1", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(this, PerfilActivity.class);
                 }
                 break;
             case R.id.pedidos_andamento:

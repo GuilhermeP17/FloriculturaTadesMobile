@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/outlined_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/title_nome"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/content_nome"/>
+
+            <TextView
+                android:id="@+id/content_nome"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="Guilherme Pereira"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/title_nome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/title_email"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="E-mail"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/content_email"/>
+
+            <TextView
+                android:id="@+id/content_email"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="guisil_ps@hotmail.com"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/title_email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/title_cpf"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="CPF"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/content_cpf"/>
+
+            <TextView
+                android:id="@+id/content_cpf"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:text="489******94"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/title_cpf"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_alterar_dados_cadastrais"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alterar Dados de Cadastro"
+        android:layout_marginTop="15dp"/>
+</LinearLayout>
