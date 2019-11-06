@@ -5,6 +5,7 @@
 package WebService;
 
 import DAO.UsuarioDAO;
+import Model.Endereco;
 import Model.Usuario;
 import java.util.ArrayList;
 import javax.ws.rs.core.Context;
@@ -41,6 +42,38 @@ public class UsuarioWS {
         return usuarios;
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/enderecos/{codigoUser}")
+    public String getallEnderecos(@PathParam("codigoUser") int codigoUser){
+        ArrayList<Endereco> enderecos = UsuarioDAO.getEnderecos(codigoUser);
+        
+        JSONObject response = new JSONObject();
+        if (enderecos.size() > 0) {
+            response.put("statusRequest", true);
+            
+            JSONArray enderecosAtivos = new JSONArray();
+            for (Endereco endereco : enderecos) {
+                JSONObject end = new JSONObject();
+                end.put("codigo", endereco.getCodigo());
+                end.put("logradouro", endereco.getLogradouro());
+                end.put("numero", endereco.getNumero());
+                end.put("bairro", endereco.getBairro());
+                end.put("cidade", endereco.getCidade());
+                end.put("estado", endereco.getEstado());
+                end.put("cep", endereco.getCep());
+                end.put("tipo", endereco.getTipoEndereco());
+                
+                enderecosAtivos.add(end);
+            }
+            response.put("enderecosUser", enderecosAtivos);
+        }else{
+            response.put("statusRequest", false);
+            response.put("msgErro", "Não foram encontrados endereços cadastrados");
+        }
+        return response.toString();
+    }
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/validausuario/{emailUser}/{senhaUser}")

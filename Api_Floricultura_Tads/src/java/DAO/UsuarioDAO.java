@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.Endereco;
 import Model.Usuario;
 import Utils.Criptografia;
 import java.sql.Connection;
@@ -8,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -248,5 +251,41 @@ public class UsuarioDAO {
         }
 
         return user;
+    }
+    
+    public static ArrayList<Endereco> getEnderecos(int codigoUser){
+        ArrayList<Endereco> enderecos = new ArrayList<>();
+        Connection conn = db.obterConexao();
+        
+        try{
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM tbl_endereco WHERE fk_usuario = ?;");
+            
+            statement.setInt(1, codigoUser);
+            
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                Endereco endereco = new Endereco(
+                        rs.getInt(1),
+                        rs.getString(2), 
+                        rs.getInt(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getString(6), 
+                        rs.getString(7), 
+                        rs.getString(8)
+                );
+                enderecos.add(endereco);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return enderecos;
     }
 }

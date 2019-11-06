@@ -10,10 +10,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.Model.Usuario;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
+import br.com.senac.projectsolutions.View.PerfilActivity;
 
 public class DataGetter extends AsyncTask<String, Void, String> {
     private Context context;
@@ -44,59 +46,93 @@ public class DataGetter extends AsyncTask<String, Void, String> {
         Usuario user = null;
 
         try {
-            if (metodo.equalsIgnoreCase("login")) {
-                //Caso Request seja de Login
-                JSONObject json = new JSONObject(s);
-                if (!json.getBoolean("statusLogin")) {
-                    status = false;
-                    msg = json.getString("msgErro");
-                } else {
-                    JSONArray dataResponse = json.getJSONArray("userInfo");
-                    JSONObject usuario = (JSONObject) dataResponse.get(0);
-                    user = new Usuario(
-                            usuario.getInt("id"),
-                            usuario.getString("nome"),
-                            usuario.getString("email"),
-                            usuario.getString("cpf")
-                    );
-                    msg = "Usuario encontrado com sucesso";
-                }
-                ((LoginActivity) context).onResponse(status, msg, user);
-            } else {
-                //Caso Request seja de Produto
-                JSONObject json = new JSONObject(s);
-                ArrayList<Produto> produtos = null;
-                if (!json.getBoolean("statusRequest")) {
-                    status = false;
-                    msg = json.getString("msgErro");
-                } else {
-                    produtos = new ArrayList<>();
-                    JSONArray dataResponse = json.getJSONArray("produtosAtivos");
-                    int i = 0;
-                    do {
-                        JSONObject auxProduto = (JSONObject) dataResponse.get(i);
-                        Produto produto = new Produto(
-                                auxProduto.getInt("id"),
-                                auxProduto.getString("nome"),
-                                auxProduto.getString("descricao"),
-                                auxProduto.getString("tipo"),
-                                auxProduto.getInt("quantidade"),
-                                auxProduto.getDouble("valor")
+            JSONObject json = new JSONObject(s);
+            switch (metodo) {
+                case "login":
+                    //Caso Request seja de Login
+                    if (!json.getBoolean("statusLogin")) {
+                        status = false;
+                        msg = json.getString("msgErro");
+                    } else {
+                        JSONArray dataResponse = json.getJSONArray("userInfo");
+                        JSONObject usuario = (JSONObject) dataResponse.get(0);
+                        user = new Usuario(
+                                usuario.getInt("id"),
+                                usuario.getString("nome"),
+                                usuario.getString("email"),
+                                usuario.getString("cpf")
                         );
-                        produtos.add(produto);
-                        i++;
-                    }while (i < dataResponse.length());
-                }
-                ((MainActivity) context).onServidorResponse(status, msg, produtos);
-            }
+                        msg = "Usuario encontrado com sucesso";
+                    }
+                    ((LoginActivity) context).onResponse(status, msg, user);
+                    break;
+                case "produto":
+                    //Caso Request seja de Produto
+                    ArrayList<Produto> produtos = null;
+                    if (!json.getBoolean("statusRequest")) {
+                        status = false;
+                        msg = json.getString("msgErro");
+                    } else {
+                        produtos = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("produtosAtivos");
+                        int i = 0;
+                        do {
+                            JSONObject auxProduto = (JSONObject) dataResponse.get(i);
+                            Produto produto = new Produto(
+                                    auxProduto.getInt("id"),
+                                    auxProduto.getString("nome"),
+                                    auxProduto.getString("descricao"),
+                                    auxProduto.getString("tipo"),
+                                    auxProduto.getInt("quantidade"),
+                                    auxProduto.getDouble("valor")
+                            );
+                            produtos.add(produto);
+                            i++;
+                        } while (i < dataResponse.length());
+                    }
+                    ((MainActivity) context).onServidorResponse(status, msg, produtos);
+                    break;
+                case "endereco":
+                    ArrayList<Endereco> enderecos = null;
 
+                    if (!json.getBoolean("statusRequest")){
+                        status = false;
+                        msg = json.getString("msgErro");
+                    }else{
+                        enderecos = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("enderecosUser");
+                        int i = 0;
+                        do {
+                            JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
+                            Endereco endereco = new Endereco(
+                                    enderecoAux.getInt("codigo"),
+                                    enderecoAux.getString("logradouro"),
+                                    enderecoAux.getInt("numero"),
+                                    null,
+                                    enderecoAux.getString("cep"),
+                                    enderecoAux.getString("estado"),
+                                    enderecoAux.getString("cidade"),
+                                    enderecoAux.getString("bairro"),
+                                    enderecoAux.getString("tipo")
+                            );
+                            enderecos.add(endereco);
+                            i++;
+                        }while (i < dataResponse.length());
+                    }
+
+                    ((PerfilActivity) context).onServidorResponse(status, enderecos, msg);
+                    break;
+            }
         } catch (JSONException e) {
             String mensagemErro = "Falha ao comunicar-se com o servidor, tente novamente";
             e.printStackTrace();
-            if(metodo.equalsIgnoreCase("produto")){
+            if (metodo.equalsIgnoreCase("produto")) {
                 ((MainActivity) context).onServidorResponse(false, mensagemErro, null);
-            }else{
+            } else if(metodo.equalsIgnoreCase("login")){
                 ((LoginActivity) context).onResponse(false, mensagemErro, null);
+            }
+            else if(metodo.equalsIgnoreCase("endereco")){
+                ((PerfilActivity) context).onServidorResponse(false, null, mensagemErro);
             }
         }
     }

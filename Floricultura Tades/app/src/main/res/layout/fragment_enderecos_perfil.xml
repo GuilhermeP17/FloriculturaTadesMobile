@@ -7,6 +7,7 @@
     android:padding="15dp">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_endereco"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="2"

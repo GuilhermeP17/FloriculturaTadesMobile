@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Endereco {
+    @XmlElement private int codigo;
     @XmlElement private String logradouro;
     @XmlElement private int numero;
     @XmlElement private String bairro;
@@ -22,7 +23,8 @@ public class Endereco {
     @XmlElement private String cep;
     @XmlElement private String tipoEndereco;
 
-    public Endereco(String logradouro, int numero, String bairro, String cidade, String estado, String cep, String tipoEndereco) {
+    public Endereco(int codigo, String logradouro, int numero, String bairro, String cidade, String estado, String cep, String tipoEndereco) {
+        this.codigo = codigo;
         this.logradouro = logradouro;
         this.numero = numero;
         this.bairro = bairro;
@@ -32,6 +34,14 @@ public class Endereco {
         this.tipoEndereco = tipoEndereco;
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    
     public String getLogradouro() {
         return logradouro;
     }

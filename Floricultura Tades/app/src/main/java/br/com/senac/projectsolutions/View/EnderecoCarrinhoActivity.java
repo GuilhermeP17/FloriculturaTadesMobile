@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import br.com.senac.projectsolutions.Adapter.EnderecoAdapter;
 import br.com.senac.projectsolutions.R;
 
-public class EnderecoActivity extends AppCompatActivity {
+public class EnderecoCarrinhoActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     @Override
@@ -39,7 +39,7 @@ public class EnderecoActivity extends AppCompatActivity {
         LinearLayoutManager linearManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_endereco);
         recyclerView.setLayoutManager(linearManager);
-        EnderecoAdapter adapter = new EnderecoAdapter();
+        EnderecoAdapter adapter = new EnderecoAdapter(null);
         recyclerView.setAdapter(adapter);
     }
 }

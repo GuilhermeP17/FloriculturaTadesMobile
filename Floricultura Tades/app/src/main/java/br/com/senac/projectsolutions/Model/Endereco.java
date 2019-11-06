@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.Model;
 
 public class Endereco {
+    private int codigo;
     private String logradouro;
     private int numero;
     private String complemento;
@@ -12,7 +13,8 @@ public class Endereco {
 
     public Endereco(){}
 
-    public Endereco(String logradouro, int numero, String complemento, String cep, String estado, String cidade, String bairro, String tipoEndereco) {
+    public Endereco(int codigo, String logradouro, int numero, String complemento, String cep, String estado, String cidade, String bairro, String tipoEndereco) {
+        this.codigo = codigo;
         this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
@@ -21,6 +23,14 @@ public class Endereco {
         this.cidade = cidade;
         this.bairro = bairro;
         this.tipoEndereco = tipoEndereco;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getLogradouro() {

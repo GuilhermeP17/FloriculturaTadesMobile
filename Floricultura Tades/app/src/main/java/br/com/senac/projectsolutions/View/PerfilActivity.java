@@ -2,6 +2,7 @@ package br.com.senac.projectsolutions.View;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 
+import java.util.ArrayList;
+
 import br.com.senac.projectsolutions.Adapter.AbasPerfilAdapter;
+import br.com.senac.projectsolutions.Controller.PerfilController;
+import br.com.senac.projectsolutions.Model.Endereco;
+import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.R;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -25,16 +31,29 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         findViewsById();
 
+        PerfilController controller = new PerfilController();
+        controller.getInfoEndereco(PerfilActivity.this);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+    }
 
+    public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, String mensagem){
+        if (status){
+            setAbasAdapter(enderecos);
+        }else{
+            Toast.makeText(getApplicationContext(), mensagem, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setAbasAdapter(ArrayList<Endereco> enderecos){
         AbasPerfilAdapter abas = new AbasPerfilAdapter(getSupportFragmentManager());
         abas.adicionar(new DadosPerfilFragment(PerfilActivity.this), "Meus Dados");
-        abas.adicionar(new EnderecosPerfilFragment(), "Meus Endereços");
+        abas.adicionar(new EnderecosPerfilFragment(enderecos, PerfilActivity.this), "Meus Endereços");
 
         viewPager.setAdapter(abas);
         tabLayout.setupWithViewPager(viewPager);
