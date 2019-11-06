@@ -33,8 +33,8 @@ public class PerfilActivity extends AppCompatActivity {
         });
 
         AbasPerfilAdapter abas = new AbasPerfilAdapter(getSupportFragmentManager());
-        abas.adcionar(new DadosPerfilFragment(PerfilActivity.this), "Meus Dados");
-        abas.adcionar(new EnderecosPerfilFragment(), "Meus Endereços");
+        abas.adicionar(new DadosPerfilFragment(PerfilActivity.this), "Meus Dados");
+        abas.adicionar(new EnderecosPerfilFragment(), "Meus Endereços");
 
         viewPager.setAdapter(abas);
         tabLayout.setupWithViewPager(viewPager);

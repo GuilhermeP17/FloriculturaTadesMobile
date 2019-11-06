@@ -17,7 +17,7 @@ public class AbasPerfilAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public void adcionar(Fragment fragment, String titulo){
+    public void adicionar(Fragment fragment, String titulo){
         this.fragments.add(fragment);
         this.titulos.add(titulo);
     }

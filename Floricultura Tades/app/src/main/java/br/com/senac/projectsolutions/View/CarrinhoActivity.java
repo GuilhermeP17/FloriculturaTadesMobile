@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho);
         findViewsById();
 
-        getItensAdcionados();
+        getItensAdicionados();
 
         btnProsseguir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +100,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         btnProsseguir = findViewById(R.id.btn_prosseguir_compra);
     }
 
-    private void getItensAdcionados() {
+    private void getItensAdicionados() {
         sharedPreferences = getSharedPreferences("ItensSalvos", MODE_PRIVATE);
 
         if (!sharedPreferences.getAll().isEmpty()) {
@@ -150,8 +151,8 @@ public class CarrinhoActivity extends AppCompatActivity {
         if (produtosCarrinho != null){
             for (Produto prod : produtosCarrinho){
                 newSubTotal += prod.getValor();
-                subTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", newSubTotal).replace(".", ",")));
             }
+            subTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", newSubTotal).replace(".", ",")));
             total += newSubTotal + frete;
         }else{
             this.frete.setText("R$ ".concat(String.format(Locale.US, "%.2f", newFrete).replace(".", ",")));
@@ -165,6 +166,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         LinearLayoutManager gridManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_carrinho_itens);
         recyclerView.setLayoutManager(gridManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), gridManager.getOrientation()));
         CarrinhoAdapter adapter = new CarrinhoAdapter(CarrinhoActivity.this, produtos);
         recyclerView.setAdapter(adapter);
     }

@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private SharedPreferences preferences;
+    private SwipeRefreshLayout refreshAction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.drawer_main);
         findViewsById();
 
-        MainController controller = new MainController();
+        final MainController controller = new MainController();
         controller.getProdutosDisponiveis(MainActivity.this);
 
         preferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
@@ -60,6 +62,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
+
+        refreshAction.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                controller.getProdutosDisponiveis(MainActivity.this);
+            }
+        });
     }
 
     @Override
@@ -72,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void findViewsById() {
+        refreshAction = findViewById(R.id.swipe_refresh);
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
     }
@@ -125,12 +135,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onServidorResponse(boolean result, String mensagem, ArrayList<Produto> produtos) {
-        if (result) {
-            setProdutosAdapter(produtos);
-        } else {
+        refreshAction.setRefreshing(false);
+        if (!result) {
+            produtos = new ArrayList<>();
             View parentView = findViewById(android.R.id.content);
             Snackbar.make(parentView, mensagem, Snackbar.LENGTH_LONG).show();
         }
+
+        setProdutosAdapter(produtos);
     }
 
     private void setProdutosAdapter(ArrayList<Produto> produtos) {
@@ -157,14 +169,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (preferences.getString("email", "").isEmpty()) {
                     intent = new Intent(this, LoginActivity.class);
                 }else{
-                    Toast.makeText(MainActivity.this, "Teste 2", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(this, PedidosAndamentoActivity.class);
                 }
                 break;
             case R.id.pedidos_finalizados:
                 if (preferences.getString("email", "").isEmpty()) {
                     intent = new Intent(this, LoginActivity.class);
                 }else{
-                    Toast.makeText(MainActivity.this, "Teste 3", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(this, PedidosFinalizadosActivity.class);
                 }
                 break;
             case R.id.logout:
@@ -185,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void finalizarSessao(){
         new AlertDialog.Builder(this).setTitle("Finalizando sessão !!")
-                .setMessage("Voceê está prestes a finalizar sua sessão no aplicativo, tem certeza que desja continuar ?")
+                .setMessage("Você está prestes a finalizar sua sessão no aplicativo, tem certeza que desja continuar ?")
                 .setNegativeButton("Não", null)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override

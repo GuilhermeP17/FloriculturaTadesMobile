@@ -89,7 +89,7 @@ public class DescricaoActivity extends AppCompatActivity {
                 editor.putString(intent.getStringExtra("nomeProduto"), json.toString());
                 editor.apply();
 
-                msgRetorno = "Produto adcionado ao Carrinho!";
+                msgRetorno = "Produto adicionado ao Carrinho!";
                 fab.setImageDrawable(getDrawable(R.drawable.ic_empty_cart));
             } catch (JSONException e) {
                 e.printStackTrace();

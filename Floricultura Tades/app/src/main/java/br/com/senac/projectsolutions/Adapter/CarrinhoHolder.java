@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.Adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import br.com.senac.projectsolutions.R;
 public class CarrinhoHolder extends RecyclerView.ViewHolder {
     protected TextView nomeProduto, precoProduto, quantidadeProdutos;
     protected MaterialButton btnAdd, btnRemove;
+    protected ImageView btnDelete;
 
     public CarrinhoHolder(@NonNull View itemView) {
         super(itemView);
@@ -21,5 +23,6 @@ public class CarrinhoHolder extends RecyclerView.ViewHolder {
         quantidadeProdutos = itemView.findViewById(R.id.quantidade);
         btnAdd = itemView.findViewById(R.id.btn_add);
         btnRemove = itemView.findViewById(R.id.btn_remove);
+        btnDelete = itemView.findViewById(R.id.delete_item);
     }
 }

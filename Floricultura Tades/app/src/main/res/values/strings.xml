@@ -44,6 +44,9 @@
     <string name="informacoes_produto">Informações do Produto</string>
     <string name="perguntas_frequentes">Perguntas Frequentes</string>
 
+    <string name="info_pedidos_andamento_empty">Você não possui pedidos em andamento</string>
+    <string name="info_pedidos_finalizados_empty">Você não possui entregas registradas no servidor :(</string>
+
     <string-array name="tipo_enderecos">
         <item>Cobrança</item>
         <item>Entrega</item>

@@ -27,5 +27,7 @@
         <activity android:name=".View.DescricaoActivity" />
         <activity android:name=".View.EnderecoActivity" />
         <activity android:name=".View.PerfilActivity" />
+        <activity android:name=".View.PedidosFinalizadosActivity" />
+        <activity android:name=".View.PedidosAndamentoActivity" />
     </application>
 </manifest>

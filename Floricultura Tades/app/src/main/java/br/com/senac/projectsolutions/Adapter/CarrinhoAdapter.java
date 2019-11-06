@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,15 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
                 ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd, null);
             }
         });
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeDoCarrinho(produtosAdd.get(position).getNome());
+                notifyItemRemoved(position);
+                ((CarrinhoActivity)context).atualizaValorCompra(produtosAdd, null);
+            }
+        });
     }
 
     @Override
@@ -82,5 +92,21 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoHolder> {
             }
         }
         return newPreco != 0.00 ? newPreco : precoAtual;
+    }
+
+    private void removeDoCarrinho(String nomeProduto){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ItensSalvos", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove(nomeProduto);
+        int i = 0;
+        for (Produto prod : produtosAdd){
+            if (prod.getNome().equals(nomeProduto)){
+                produtosAdd.remove(i);
+                break;
+            }
+            i++;
+        }
+        editor.apply();
     }
 }
