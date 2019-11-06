@@ -55,10 +55,11 @@ public class CarrinhoActivity extends AppCompatActivity {
                 Intent intent;
                 if(sharedPreferences.getString("email", "").isEmpty()){
                     intent = new Intent(CarrinhoActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }else{
-                    intent = new Intent(CarrinhoActivity.this, EnderecoCarrinhoActivity.class);
+//                    PerfilController controller = new PerfilController();
+//                    controller.getInfoEndereco(CarrinhoActivity.this);
                 }
-                startActivity(intent);
             }
         });
 
