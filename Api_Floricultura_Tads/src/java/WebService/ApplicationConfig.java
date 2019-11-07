@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(WebService.ProdutosWS.class);
         resources.add(WebService.UsuarioWS.class);
+        resources.add(WebService.VendaWS.class);
     }
     
 }
