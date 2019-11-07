@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.Model.Usuario;
+import br.com.senac.projectsolutions.View.CarrinhoActivity;
+import br.com.senac.projectsolutions.View.EnderecoCarrinhoActivity;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
 import br.com.senac.projectsolutions.View.PerfilActivity;
@@ -92,7 +94,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     }
                     ((MainActivity) context).onServidorResponse(status, msg, produtos);
                     break;
-                case "endereco":
+                case "endereco_perfil":
                     ArrayList<Endereco> enderecos = null;
 
                     if (!json.getBoolean("statusRequest")){
@@ -121,6 +123,36 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     }
 
                     ((PerfilActivity) context).onServidorResponse(status, enderecos, msg);
+                    break;
+                case "endereco_carrinho":
+                    ArrayList<Endereco> enderecosCarrinho = null;
+
+                    if (!json.getBoolean("statusRequest")){
+                        status = false;
+                        msg = json.getString("msgErro");
+                    }else{
+                        enderecosCarrinho = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("enderecosUser");
+                        int i = 0;
+                        do {
+                            JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
+                            Endereco endereco = new Endereco(
+                                    enderecoAux.getInt("codigo"),
+                                    enderecoAux.getString("logradouro"),
+                                    enderecoAux.getInt("numero"),
+                                    null,
+                                    enderecoAux.getString("cep"),
+                                    enderecoAux.getString("estado"),
+                                    enderecoAux.getString("cidade"),
+                                    enderecoAux.getString("bairro"),
+                                    enderecoAux.getString("tipo")
+                            );
+                            enderecosCarrinho.add(endereco);
+                            i++;
+                        }while (i < dataResponse.length());
+                    }
+
+                    ((EnderecoCarrinhoActivity) context).onServidorResponse(status, enderecosCarrinho, msg);
                     break;
             }
         } catch (JSONException e) {

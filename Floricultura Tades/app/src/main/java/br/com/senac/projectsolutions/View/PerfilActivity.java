@@ -32,7 +32,7 @@ public class PerfilActivity extends AppCompatActivity {
         findViewsById();
 
         PerfilController controller = new PerfilController();
-        controller.getInfoEndereco(PerfilActivity.this);
+        controller.getInfoEndereco(PerfilActivity.this, "endereco_perfil");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

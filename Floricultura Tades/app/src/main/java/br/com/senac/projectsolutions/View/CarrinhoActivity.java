@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +29,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import br.com.senac.projectsolutions.Adapter.CarrinhoAdapter;
+import br.com.senac.projectsolutions.Controller.PerfilController;
+import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.R;
 
@@ -57,8 +60,8 @@ public class CarrinhoActivity extends AppCompatActivity {
                     intent = new Intent(CarrinhoActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }else{
-//                    PerfilController controller = new PerfilController();
-//                    controller.getInfoEndereco(CarrinhoActivity.this);
+                    intent = new Intent(CarrinhoActivity.this, EnderecoCarrinhoActivity.class);
+                    startActivity(intent);
                 }
             }
         });

@@ -14,11 +14,11 @@ public class PerfilController {
         dt.execute(url);
     }
 
-    public void getInfoEndereco(Context context){
+    public void getInfoEndereco(Context context, String metodo){
         SharedPreferences sharedPreferences = context.getSharedPreferences("SessaoUsuario", Context.MODE_PRIVATE);
 
         String url = context.getResources().getString(R.string.web_service_path).concat("/usuarios/enderecos/" + sharedPreferences.getInt("codigo", 0));
-        DataGetter dt = new DataGetter(context, "endereco");
+        DataGetter dt = new DataGetter(context, metodo);
         dt.execute(url);
     }
 }

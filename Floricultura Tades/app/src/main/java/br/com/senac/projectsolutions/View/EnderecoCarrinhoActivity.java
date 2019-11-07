@@ -9,7 +9,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+
 import br.com.senac.projectsolutions.Adapter.EnderecoAdapter;
+import br.com.senac.projectsolutions.Controller.PerfilController;
+import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.R;
 
 public class EnderecoCarrinhoActivity extends AppCompatActivity {
@@ -28,18 +34,28 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
             }
         });
 
-        setRecyclerView();
+        PerfilController controller = new PerfilController();
+        controller.getInfoEndereco(EnderecoCarrinhoActivity.this, "endereco_carrinho");
+    }
+
+    public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, String msg){
+        if (status){
+            setRecyclerView(enderecos);
+        }else{
+            View parentView = findViewById(android.R.id.content);
+            Snackbar.make(parentView, msg, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void findViewsById(){
         toolbar = findViewById(R.id.toolbar_endereco);
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerView(ArrayList<Endereco> enderecos) {
         LinearLayoutManager linearManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_endereco);
         recyclerView.setLayoutManager(linearManager);
-        EnderecoAdapter adapter = new EnderecoAdapter(null);
+        EnderecoAdapter adapter = new EnderecoAdapter(enderecos);
         recyclerView.setAdapter(adapter);
     }
 }
