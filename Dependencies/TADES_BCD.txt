@@ -1,0 +1,92 @@
+drop database tades_bcd;
+
+CREATE DATABASE tades_bcd;
+USE tades_bcd;
+SET @@GLOBAL.TIME_ZONE = '+03:00';
+
+CREATE TABLE tbl_setor(
+    id_setor int not null primary key auto_increment,
+    nome_setor varchar(50) not null
+);
+
+CREATE TABLE tbl_usuario(
+    id_usuario int not null primary key auto_increment,
+    nome varchar(75) not null,
+    email varchar(50) not null,
+    senha varchar(250) not null,
+    cpf varchar(11) not null,
+    fk_setor int not null,
+    status int not null,
+    foreign key (fk_setor) references tbl_setor(id_setor)
+);
+
+CREATE TABLE tbl_endereco(
+    id_endereco int not null primary key auto_increment,
+    logradouro varchar(250) not null,
+    complemento varchar(250),
+    numero int not null,
+    bairro varchar(50),
+    cidade varchar(50),
+    estado varchar(5),
+    cep varchar(8),
+    tipo varchar(50) not null,
+    fk_usuario int not null,
+    foreign key (fk_usuario) references tbl_usuario(id_usuario)
+);
+
+CREATE TABLE tbl_produtos(
+    id_produto int not null primary key auto_increment,
+    nome varchar(50) not null,
+    descricao varchar(100),
+    tipo varchar(10) not null,
+    qtd_estoque int not null,
+    valor_unidade double not null,
+    status int not null
+);
+
+CREATE TABLE tbl_imagem(
+    id_imagem int not null primary key auto_increment,
+    caminho varchar(250),
+    nome_arquivo varchar(100),
+    fk_produto int,
+    foreign key (fk_produto) references tbl_produtos(id_produto)
+);
+
+create table tbl_status_venda(
+	id_status int not null primary key auto_increment,
+	nome_status varchar(50)
+ );
+ 
+CREATE TABLE tbl_venda(
+    id_venda int not null primary key auto_increment,
+    fk_usuario int not null,
+    fk_status int not null,
+    qtd_itens int not null,
+    valor_total double not null,
+    data_venda datetime not null,
+    foreign key(fk_usuario) references tbl_usuario(id_usuario),
+    foreign key(fk_status) references tbl_status_venda(id_status)
+);
+
+create table tbl_produtos_venda(
+	fk_venda int not null,
+    fk_produto int not null,
+    qtd_produto int,
+    foreign key(fk_venda) references tbl_venda(id_venda),
+    foreign key(fk_produto) references tbl_produtos(id_produto)
+);
+
+insert into tbl_status_venda (nome_status) values ('Aguardando Aprovação');
+insert into tbl_status_venda (nome_status) values ('Pedido em entrega');
+insert into tbl_status_venda (nome_status) values ('Pedido Entregue');
+
+INSERT INTO tbl_setor(nome_setor) VALUES ('Diretor');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Administrador');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Estoquista');
+INSERT INTO tbl_setor(nome_setor) VALUES ('Cliente');
+
+INSERT INTO tbl_usuario(nome, email, senha, cpf, fk_setor, status)
+    VALUES ('Milena Flores', 'diretoria@email.com', md5('123'),'12345678900', 1, 0);
+    
+INSERT INTO tbl_endereco(logradouro, complemento, numero, bairro, cidade, estado, cep, tipo, fk_usuario)
+    VALUES ('Av. Eng. Eusébio Stevaux', "Academico 1", 823,'Santo Amaro','São Paulo','SP','04696000','cobranca', 1);
