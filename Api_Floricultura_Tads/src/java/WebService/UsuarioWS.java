@@ -57,6 +57,7 @@ public class UsuarioWS {
                 JSONObject end = new JSONObject();
                 end.put("codigo", endereco.getCodigo());
                 end.put("logradouro", endereco.getLogradouro());
+                end.put("complemento", endereco.getComplemento());
                 end.put("numero", endereco.getNumero());
                 end.put("bairro", endereco.getBairro());
                 end.put("cidade", endereco.getCidade());

@@ -140,7 +140,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                                     enderecoAux.getInt("codigo"),
                                     enderecoAux.getString("logradouro"),
                                     enderecoAux.getInt("numero"),
-                                    null,
+                                    enderecoAux.getString("complemento"),
                                     enderecoAux.getString("cep"),
                                     enderecoAux.getString("estado"),
                                     enderecoAux.getString("cidade"),

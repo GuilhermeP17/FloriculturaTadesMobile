@@ -56,11 +56,14 @@ public class CarrinhoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sharedPreferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
                 Intent intent;
-                if(sharedPreferences.getString("email", "").isEmpty()){
+                if (sharedPreferences.getString("email", "").isEmpty()) {
                     intent = new Intent(CarrinhoActivity.this, LoginActivity.class);
                     startActivity(intent);
-                }else{
+                } else {
                     intent = new Intent(CarrinhoActivity.this, EnderecoCarrinhoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("subtotal", subTotal.getText().toString());
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }
@@ -77,10 +80,10 @@ public class CarrinhoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if (cep.getText().toString().isEmpty()){
+                if (cep.getText().toString().isEmpty()) {
                     cep.requestFocus();
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                }else{
+                } else {
                     atualizaValorCompra(null, 25.00);
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }
@@ -113,10 +116,10 @@ public class CarrinhoActivity extends AppCompatActivity {
 
             try {
                 Map<String, ?> produtosPreferences = sharedPreferences.getAll();
-                for (Map.Entry<String, ?> entry : produtosPreferences.entrySet()){
+                for (Map.Entry<String, ?> entry : produtosPreferences.entrySet()) {
                     array.put(entry.getValue().toString());
                 }
-                for (int i = 0; i < array.length(); i++){
+                for (int i = 0; i < array.length(); i++) {
                     JSONObject json = new JSONObject(array.getString(i));
                     Produto produto = new Produto();
 
@@ -141,23 +144,34 @@ public class CarrinhoActivity extends AppCompatActivity {
         }
     }
 
-    public void atualizaValorCompra(ArrayList<Produto> produtosCarrinho, Double newFrete){
-        double newSubTotal = 0;
-        double frete = Double.parseDouble(this.frete.getText().toString().replace("R$ ", "").replace(",", "."));
-        double total = 0;
+    public void atualizaValorCompra(ArrayList<Produto> produtosCarrinho, Double newFrete) {
+        LinearLayout notEmptyView = findViewById(R.id.linear_not_empty);
+        ConstraintLayout emptyView = findViewById(R.id.linear_empty);
+        sharedPreferences = getSharedPreferences("ItensSalvos", MODE_PRIVATE);
 
-        if (produtosCarrinho != null){
-            for (Produto prod : produtosCarrinho){
-                newSubTotal += prod.getValor();
+        if (!sharedPreferences.getAll().isEmpty()) {
+            emptyView.setVisibility(GONE);
+            notEmptyView.setVisibility(VISIBLE);
+        } else {
+            emptyView.setVisibility(VISIBLE);
+            notEmptyView.setVisibility(GONE);
+            double newSubTotal = 0;
+            double frete = Double.parseDouble(this.frete.getText().toString().replace("R$ ", "").replace(",", "."));
+            double total = 0;
+
+            if (produtosCarrinho != null) {
+                for (Produto prod : produtosCarrinho) {
+                    newSubTotal += prod.getValor();
+                }
+                subTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", newSubTotal).replace(".", ",")));
+                total += newSubTotal + frete;
+            } else {
+                this.frete.setText("R$ ".concat(String.format(Locale.US, "%.2f", newFrete).replace(".", ",")));
+                total = newFrete + Double.parseDouble(subTotal.getText().toString().replace("R$ ", "").replace(",", "."));
             }
-            subTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", newSubTotal).replace(".", ",")));
-            total += newSubTotal + frete;
-        }else{
-            this.frete.setText("R$ ".concat(String.format(Locale.US, "%.2f", newFrete).replace(".", ",")));
-            total = newFrete + Double.parseDouble(subTotal.getText().toString().replace("R$ ", "").replace(",", "."));
-        }
 
-        this.total.setText("R$ ".concat(String.format(Locale.US, "%.2f", total).replace(".", ",")));
+            this.total.setText("R$ ".concat(String.format(Locale.US, "%.2f", total).replace(".", ",")));
+        }
     }
 
     private void setRecyclerView(ArrayList<Produto> produtos) {

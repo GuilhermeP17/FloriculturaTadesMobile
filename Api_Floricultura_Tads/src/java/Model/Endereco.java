@@ -17,15 +17,17 @@ public class Endereco {
     @XmlElement private int codigo;
     @XmlElement private String logradouro;
     @XmlElement private int numero;
+    @XmlElement private String complemento;
     @XmlElement private String bairro;
     @XmlElement private String cidade;
     @XmlElement private String estado;
     @XmlElement private String cep;
     @XmlElement private String tipoEndereco;
 
-    public Endereco(int codigo, String logradouro, int numero, String bairro, String cidade, String estado, String cep, String tipoEndereco) {
+    public Endereco(int codigo, String logradouro, String complemento, int numero, String bairro, String cidade, String estado, String cep, String tipoEndereco) {
         this.codigo = codigo;
         this.logradouro = logradouro;
+        this.complemento = complemento;
         this.numero = numero;
         this.bairro = bairro;
         this.cidade = cidade;
@@ -97,6 +99,12 @@ public class Endereco {
     public void setTipoEndereco(String tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
     }
-    
-    
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
 }

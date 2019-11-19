@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#E4E4E4">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,24 +16,11 @@
             android:id="@+id/toolbar_endereco"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="Endereço de Entrega"
+            app:title="Selecionar Pagamento"
             app:titleTextColor="@android:color/white"
             app:navigationIcon="@drawable/ic_back_activity_white"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_endereco"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/info_compra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbart"
-        app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_endereco" />
 
     <LinearLayout
         android:id="@+id/info_compra"
@@ -163,14 +149,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_prosseguir_compra_02"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="8dp"
-        android:text="Avançar"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_prosseguir_compra_02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="8dp"
+            android:text="Finalizar Compra"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

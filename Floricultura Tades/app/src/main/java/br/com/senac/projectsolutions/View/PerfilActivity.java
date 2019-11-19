@@ -46,7 +46,8 @@ public class PerfilActivity extends AppCompatActivity {
         if (status){
             setAbasAdapter(enderecos);
         }else{
-            Toast.makeText(getApplicationContext(), mensagem, Toast.LENGTH_LONG).show();
+            enderecos = new ArrayList<>();
+            setAbasAdapter(enderecos);
         }
     }
 

@@ -29,5 +29,6 @@
         <activity android:name=".View.PerfilActivity" />
         <activity android:name=".View.PedidosFinalizadosActivity" />
         <activity android:name=".View.PedidosAndamentoActivity" />
+        <activity android:name=".View.PagamentoCarrinhoActivity" />
     </application>
 </manifest>
