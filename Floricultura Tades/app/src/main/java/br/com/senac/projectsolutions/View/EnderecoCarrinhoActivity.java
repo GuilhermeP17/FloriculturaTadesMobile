@@ -88,7 +88,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
     private void atualizaValorCarrinho(Bundle bundle) {
         double subtotal = Double.parseDouble(bundle.getString("subtotal").replace("R$ ", "").replace(",", "."));
         double valorFrete = 15.00;
-        tvSubtotal.setText("R$".concat(String.format(Locale.US, "%.2f", subtotal)));
+        tvSubtotal.setText("R$".concat(String.format(Locale.US, "%.2f", subtotal).replace(".", ",")));
         tvFrete.setText("R$".concat(String.format(Locale.US, "%.2f", valorFrete).replace(".", ",")));
         tvTotal.setText("R$".concat(String.format(Locale.US, "%.2f", subtotal + valorFrete).replace(".", ",")));
     }

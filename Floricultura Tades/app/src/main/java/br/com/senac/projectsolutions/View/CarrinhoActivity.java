@@ -149,12 +149,12 @@ public class CarrinhoActivity extends AppCompatActivity {
         ConstraintLayout emptyView = findViewById(R.id.linear_empty);
         sharedPreferences = getSharedPreferences("ItensSalvos", MODE_PRIVATE);
 
-        if (!sharedPreferences.getAll().isEmpty()) {
-            emptyView.setVisibility(GONE);
-            notEmptyView.setVisibility(VISIBLE);
-        } else {
+        if (sharedPreferences.getAll().isEmpty()) {
             emptyView.setVisibility(VISIBLE);
             notEmptyView.setVisibility(GONE);
+        } else {
+            emptyView.setVisibility(GONE);
+            notEmptyView.setVisibility(VISIBLE);
             double newSubTotal = 0;
             double frete = Double.parseDouble(this.frete.getText().toString().replace("R$ ", "").replace(",", "."));
             double total = 0;
