@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import br.com.senac.projectsolutions.Model.Venda;
 import br.com.senac.projectsolutions.R;
@@ -29,7 +30,7 @@ public class PedidosAdapter extends RecyclerView.Adapter<PedidosHolder>{
         holder.data.setText(pedidos.get(position).getData());
         holder.codigoVenda.setText(pedidos.get(position).getCodigoVenda());
         holder.quantidade.setText(String.valueOf(pedidos.get(position).getQuantidadeItens()));
-        holder.valorTotal.setText(String.valueOf(pedidos.get(position).getValorTotal()));
+        holder.valorTotal.setText("R$ ".concat(String.format(Locale.US, "%.2f", pedidos.get(position).getValorTotal())));
         holder.statusPedido.setText(pedidos.get(position).getStatus());
     }
 
