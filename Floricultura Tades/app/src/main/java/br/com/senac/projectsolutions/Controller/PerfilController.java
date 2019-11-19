@@ -21,4 +21,12 @@ public class PerfilController {
         DataGetter dt = new DataGetter(context, metodo);
         dt.execute(url);
     }
+
+    public void getPedidosAndamento(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SessaoUsuario", Context.MODE_PRIVATE);
+
+        String url = context.getResources().getString(R.string.web_service_path).concat("/usuarios/enderecos/" + sharedPreferences.getInt("codigo", 0));
+        DataGetter dt = new DataGetter(context, "PedidosAndamento");
+        dt.execute(url);
+    }
 }

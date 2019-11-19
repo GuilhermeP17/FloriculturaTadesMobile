@@ -84,7 +84,7 @@ public class VendaDAO {
         try {
             String whereClause = finalizados ? " = " : " != ";
             PreparedStatement queryVenda = conn.prepareStatement(
-                    "SELECT id_venda, qtd_itens, valor_total, data_venda, nome_status FROM tbl_venda "
+                    "SELECT id_venda, codigo_venda, qtd_total, valor_total, data_venda, nome_status FROM tbl_venda "
                     + "INNER JOIN tbl_usuario ON tbl_venda.fk_usuario = tbl_usuario.id_usuario "
                     + "INNER JOIN tbl_status_venda ON tbl_venda.fk_status = tbl_status_venda.id_status WHERE fk_usuario = ? AND fk_status" + whereClause + "?;"
             );
@@ -117,11 +117,12 @@ public class VendaDAO {
                         v.setProdutos(produtos);
                     }
                     
-                    v.setCodigoVenda(rsVenda.getInt(1));
-                    v.setQuantidadeItens(rsVenda.getInt(2));
-                    v.setValorTotal(rsVenda.getDouble(3));
-                    v.setData(rsVenda.getString(4));
-                    v.setStatus(rsVenda.getString(5));
+                    v.setIdVenda(rsVenda.getInt(1));
+                    v.setCodigoVenda(rsVenda.getString(2));
+                    v.setQuantidadeItens(rsVenda.getInt(3));
+                    v.setValorTotal(rsVenda.getDouble(4));
+                    v.setData(rsVenda.getString(5));
+                    v.setStatus(rsVenda.getString(6));
 
                     venda.add(v);
                 }

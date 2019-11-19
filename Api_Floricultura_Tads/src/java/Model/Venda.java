@@ -3,7 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 public class Venda {
-    private int codigoVenda;
+    private int idVenda;
+    private String codigoVenda;
     private int codigoUsuario;
     private int quantidadeItens;
     private double valorTotal;
@@ -14,7 +15,7 @@ public class Venda {
     public Venda() {
     }
 
-    public Venda(int codigoVenda, int codigoUsuario, int quantidadeItens, double valorTotal, String data, String status, ArrayList<Produto> produtos) {
+    public Venda(String codigoVenda, int codigoUsuario, int quantidadeItens, double valorTotal, String data, String status, ArrayList<Produto> produtos) {
         this.codigoVenda = codigoVenda;
         this.codigoUsuario = codigoUsuario;
         this.quantidadeItens = quantidadeItens;
@@ -24,11 +25,19 @@ public class Venda {
         this.produtos = produtos;
     }
 
-    public int getCodigoVenda() {
+    public int getIdVenda() {
+        return idVenda;
+    }
+
+    public void setIdVenda(int idVenda) {
+        this.idVenda = idVenda;
+    }
+
+    public String getCodigoVenda() {
         return codigoVenda;
     }
 
-    public void setCodigoVenda(int codigoVenda) {
+    public void setCodigoVenda(String codigoVenda) {
         this.codigoVenda = codigoVenda;
     }
 

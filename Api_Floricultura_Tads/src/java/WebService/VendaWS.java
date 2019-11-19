@@ -28,7 +28,7 @@ import org.json.simple.JSONObject;
  */
 @Path("/venda")
 public class VendaWS {
-    
+
     @Context
     private UriInfo context;
 
@@ -49,19 +49,67 @@ public class VendaWS {
     @Path("/pedidos/finalizados/{codigoUsuario}")
     public String getPedidosFinalizadas(@PathParam("codigoUsuario") int codigoUser) {
         ArrayList<Venda> pedidos = VendaDAO.getPedidosUsuario(codigoUser, true);
-        
+
         JSONObject response = new JSONObject();
         if (pedidos.size() > 0) {
             response.put("statusRequest", true);
             response.put("isEmpty", false);
-            
-           JSONArray pedidosFinalizados = new JSONArray();
+
+            JSONArray pedidosFinalizados = new JSONArray();
             for (Venda venda : pedidos) {
                 JSONObject pedido = new JSONObject();
                 pedido.put("codigoVenda", venda.getCodigoVenda());
                 pedido.put("quantidadeItens", venda.getQuantidadeItens());
                 pedido.put("dataVenda", venda.getData());
                 pedido.put("statusPedido", venda.getStatus());
+
+                JSONArray produtosVenda = new JSONArray();
+                for (Produto prod : venda.getProdutos()) {
+                    JSONObject prodAux = new JSONObject();
+                    prodAux.put("nomeProduto", prod.getNome());
+                    prodAux.put("descricaoProduto", prod.getDescricao());
+                    prodAux.put("tipoProduto", prod.getTipo());
+                    prodAux.put("vlTotal", prod.getValorUnitario());
+                    prodAux.put("qtdProduto", prod.getQuantidadeEstoque());
+
+                    produtosVenda.add(prodAux);
+                }
+                pedido.put("produtos", produtosVenda);
+
+                pedidosFinalizados.add(pedido);
+            }
+            response.put("pedidosFinalizados", pedidosFinalizados);
+        } else if (pedidos.isEmpty()) {
+            response.put("statusRequest", true);
+            response.put("isEmpty", true);
+            response.put("msgErro", "Não foram encontrados pedidos finalizados");
+        } else {
+            response.put("statusRequest", false);
+            response.put("msgErro", "Não foi possivel comunicar-se com o servidor");
+        }
+
+        return response.toString();
+    }
+
+    @GET
+    @Path("/pedidos/andamento/{codigoUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPedidosAndamento(@PathParam("codigoUsuario") int codigoUser) {
+        ArrayList<Venda> pedidos = VendaDAO.getPedidosUsuario(codigoUser, false);
+
+        JSONObject response = new JSONObject();
+        if (pedidos.size() > 0) {
+            response.put("statusRequest", true);
+            response.put("isEmpty", false);
+
+            JSONArray pedidosFinalizados = new JSONArray();
+            for (Venda venda : pedidos) {
+                JSONObject pedido = new JSONObject();
+                pedido.put("codigoVenda", venda.getCodigoVenda());
+                pedido.put("quantidadeItens", venda.getQuantidadeItens());
+                pedido.put("dataVenda", venda.getData());
+                pedido.put("statusPedido", venda.getStatus());
+                pedido.put("valorTotal", venda.getValorTotal());
                 
                 JSONArray produtosVenda = new JSONArray();
                 for (Produto prod : venda.getProdutos()) {
@@ -71,33 +119,26 @@ public class VendaWS {
                     prodAux.put("tipoProduto", prod.getTipo());
                     prodAux.put("vlTotal", prod.getValorUnitario());
                     prodAux.put("qtdProduto", prod.getQuantidadeEstoque());
-                   
+
                     produtosVenda.add(prodAux);
                 }
                 pedido.put("produtos", produtosVenda);
-                
+
                 pedidosFinalizados.add(pedido);
             }
             response.put("pedidosFinalizados", pedidosFinalizados);
         } else if (pedidos.isEmpty()) {
             response.put("statusRequest", true);
             response.put("isEmpty", true);
-            response.put("msgErro", "Não foram encontrados pedidos finalizados");
-        }else{
+            response.put("msgErro", "Não foram encontrados pedidos em Andamento");
+        } else {
             response.put("statusRequest", false);
             response.put("msgErro", "Não foi possivel comunicar-se com o servidor");
         }
-        
+
         return response.toString();
     }
-    
-    @GET
-    @Path("/pedidos/andamento/{codigoUsuario}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getPedidosAndamento(@PathParam("codigoUsuario") Usuario user) {
-        return "Teste Andamento";
-    }
-    
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public String realizaVenda() {
