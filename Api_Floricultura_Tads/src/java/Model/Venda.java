@@ -10,6 +10,9 @@ public class Venda {
     private double valorTotal;
     private String data;
     private String status;
+    private String tipoPagamento;
+    private String codigoPagamento;
+    private double valorFrete;
     private ArrayList<Produto> produtos;
     
     public Venda() {
@@ -88,5 +91,28 @@ public class Venda {
     public void setProdutos(ArrayList<Produto> produtos) {
         this.produtos = produtos;
     }      
-   
+
+    public String getTipoPagamento() {
+        return tipoPagamento;
+    }
+
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
+    }
+
+    public String getCodigoPagamento() {
+        return codigoPagamento;
+    }
+
+    public void setCodigoPagamento(String codigoPagamento) {
+        this.codigoPagamento = codigoPagamento;
+    }
+
+    public double getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(double valorFrete) {
+        this.valorFrete = valorFrete;
+    }
 }

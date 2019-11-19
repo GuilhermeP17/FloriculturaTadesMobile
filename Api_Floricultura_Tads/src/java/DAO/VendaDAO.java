@@ -84,9 +84,12 @@ public class VendaDAO {
         try {
             String whereClause = finalizados ? " = " : " != ";
             PreparedStatement queryVenda = conn.prepareStatement(
-                    "SELECT id_venda, codigo_venda, qtd_total, valor_total, data_venda, nome_status FROM tbl_venda "
-                    + "INNER JOIN tbl_usuario ON tbl_venda.fk_usuario = tbl_usuario.id_usuario "
-                    + "INNER JOIN tbl_status_venda ON tbl_venda.fk_status = tbl_status_venda.id_status WHERE fk_usuario = ? AND fk_status" + whereClause + "?;"
+                    "SELECT v.id_venda, v.codigo_venda, v.qtd_total, v.valor_total, v.data_venda,"
+                    + " status.nome_status, info.nome, numero_pagamento, v.valor_frete FROM tbl_venda as v"
+                    + " INNER JOIN tbl_status_venda AS status ON v.fk_status = status.id_status"
+                    + " INNER jOIN tbl_pagamento_usuario ON v.fk_pagamento = tbl_pagamento_usuario.id_pagamento"
+                    + " INNER JOIN tbl_info_pagamentos AS info ON tbl_pagamento_usuario.fk_info_pagamento = info.id_info_pagamento"
+                    + " WHERE v.fk_usuario = ? AND v.fk_status" + whereClause + "?;"
             );
 
             queryVenda.setInt(1, codigoUser);
@@ -105,7 +108,7 @@ public class VendaDAO {
                     ResultSet rsProdutos = queryProdutos.executeQuery();
                     if (rsProdutos != null) {
                         ArrayList<Produto> produtos = new ArrayList<>();
-                        while (rsProdutos.next()) {                            
+                        while (rsProdutos.next()) {
                             Produto prod = new Produto();
                             prod.setNome(rsProdutos.getString(1));
                             prod.setDescricao(rsProdutos.getString(2));
@@ -116,14 +119,17 @@ public class VendaDAO {
                         }
                         v.setProdutos(produtos);
                     }
-                    
+
                     v.setIdVenda(rsVenda.getInt(1));
                     v.setCodigoVenda(rsVenda.getString(2));
                     v.setQuantidadeItens(rsVenda.getInt(3));
                     v.setValorTotal(rsVenda.getDouble(4));
                     v.setData(rsVenda.getString(5));
                     v.setStatus(rsVenda.getString(6));
-
+                    v.setTipoPagamento(rsVenda.getString(7));
+                    v.setCodigoPagamento(rsVenda.getString(8));
+                    v.setValorFrete(rsVenda.getDouble(9));
+                    
                     venda.add(v);
                 }
             }

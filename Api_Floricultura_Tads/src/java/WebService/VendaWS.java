@@ -110,6 +110,9 @@ public class VendaWS {
                 pedido.put("dataVenda", venda.getData());
                 pedido.put("statusPedido", venda.getStatus());
                 pedido.put("valorTotal", venda.getValorTotal());
+                pedido.put("tipoPagamento", venda.getTipoPagamento());
+                pedido.put("codigoPagamento", venda.getCodigoPagamento());
+                pedido.put("valorFrete", venda.getValorFrete());
                 
                 JSONArray produtosVenda = new JSONArray();
                 for (Produto prod : venda.getProdutos()) {

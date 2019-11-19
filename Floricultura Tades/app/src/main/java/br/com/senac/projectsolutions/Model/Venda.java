@@ -1,53 +1,36 @@
 package br.com.senac.projectsolutions.Model;
 
+import java.util.ArrayList;
+
 public class Venda {
-    private int codigoVenda;
-    private int codigoProd;
+    private int idVenda;
+    private String codigoVenda;
     private int codigoUsuario;
     private int quantidadeItens;
-    private double precoUnitario;
-    private String nomeProduto;
-    private String cpfCliente;
+    private double valorTotal;
     private String data;
-    private int status;
+    private String status;
+    private String tipoPagamento;
+    private String codigoPagamento;
+    private double valorFrete;
+    private ArrayList<Produto> produtos;
 
-    public Venda(){
+    public Venda() {}
 
+    public int getIdVenda() {
+        return idVenda;
     }
 
-    public Venda(int codigoProd, int codigoUsuario, int quantidadeItens, String cpfCliente, String data, int status) {
-        this.codigoProd = codigoProd;
-        this.codigoUsuario = codigoUsuario;
-        this.quantidadeItens = quantidadeItens;
-        this.cpfCliente = cpfCliente;
-        this.data = data;
-        this.status = status;
+    public void setIdVenda(int idVenda) {
+        this.idVenda = idVenda;
     }
 
-    public Venda(int codigoVenda, int codigoProd, int codigoUsuario, int quantidadeItens, String cpfCliente, String data, int status) {
-        this.codigoVenda = codigoVenda;
-        this.codigoProd = codigoProd;
-        this.codigoUsuario = codigoUsuario;
-        this.quantidadeItens = quantidadeItens;
-        this.cpfCliente = cpfCliente;
-        this.data = data;
-        this.status = status;
-    }
-
-    public int getCodigoVenda() {
+    public String getCodigoVenda() {
         return codigoVenda;
     }
 
-    public void setCodigoVenda(int codigoVenda) {
+    public void setCodigoVenda(String codigoVenda) {
         this.codigoVenda = codigoVenda;
-    }
-
-    public int getCodigoProd() {
-        return codigoProd;
-    }
-
-    public void setCodigoProd(int codigoProd) {
-        this.codigoProd = codigoProd;
     }
 
     public int getCodigoUsuario() {
@@ -66,12 +49,12 @@ public class Venda {
         this.quantidadeItens = quantidadeItens;
     }
 
-    public String getCpfCliente() {
-        return cpfCliente;
+    public double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setCpfCliente(String cpfCliente) {
-        this.cpfCliente = cpfCliente;
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     public String getData() {
@@ -82,27 +65,43 @@ public class Venda {
         this.data = data;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public double getPrecoUnitario() {
-        return precoUnitario;
+    public String getTipoPagamento() {
+        return tipoPagamento;
     }
 
-    public void setPrecoUnitario(double precoUnitario) {
-        this.precoUnitario = precoUnitario;
+    public void setTipoPagamento(String tipoPagamento) {
+        this.tipoPagamento = tipoPagamento;
     }
 
-    public String getNomeProduto() {
-        return nomeProduto;
+    public String getCodigoPagamento() {
+        return codigoPagamento;
     }
 
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
+    public void setCodigoPagamento(String codigoPagamento) {
+        this.codigoPagamento = codigoPagamento;
+    }
+
+    public double getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(double valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produto> produtos) {
+        this.produtos = produtos;
     }
 }

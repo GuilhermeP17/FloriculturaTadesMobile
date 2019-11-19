@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.Model.Usuario;
+import br.com.senac.projectsolutions.Model.Venda;
 import br.com.senac.projectsolutions.View.CarrinhoActivity;
 import br.com.senac.projectsolutions.View.EnderecoCarrinhoActivity;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
+import br.com.senac.projectsolutions.View.PedidosAndamentoActivity;
 import br.com.senac.projectsolutions.View.PerfilActivity;
 
 public class DataGetter extends AsyncTask<String, Void, String> {
@@ -97,10 +99,10 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                 case "endereco_perfil":
                     ArrayList<Endereco> enderecos = null;
 
-                    if (!json.getBoolean("statusRequest")){
+                    if (!json.getBoolean("statusRequest")) {
                         status = false;
                         msg = json.getString("msgErro");
-                    }else{
+                    } else {
                         enderecos = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("enderecosUser");
                         int i = 0;
@@ -119,7 +121,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                             );
                             enderecos.add(endereco);
                             i++;
-                        }while (i < dataResponse.length());
+                        } while (i < dataResponse.length());
                     }
 
                     ((PerfilActivity) context).onServidorResponse(status, enderecos, msg);
@@ -127,10 +129,10 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                 case "endereco_carrinho":
                     ArrayList<Endereco> enderecosCarrinho = null;
 
-                    if (!json.getBoolean("statusRequest")){
+                    if (!json.getBoolean("statusRequest")) {
                         status = false;
                         msg = json.getString("msgErro");
-                    }else{
+                    } else {
                         enderecosCarrinho = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("enderecosUser");
                         int i = 0;
@@ -149,10 +151,56 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                             );
                             enderecosCarrinho.add(endereco);
                             i++;
-                        }while (i < dataResponse.length());
+                        } while (i < dataResponse.length());
                     }
 
                     ((EnderecoCarrinhoActivity) context).onServidorResponse(status, enderecosCarrinho, msg);
+                    break;
+                case "pedidos_andamento":
+                    ArrayList<Venda> pedidosAndamento = null;
+
+                    if (!json.getBoolean("statusRequest")) {
+                        status = false;
+                        msg = json.getString("msgErro");
+                    } else {
+                        pedidosAndamento = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("pedidosFinalizados");
+                        int i = 0;
+                        do {
+                            Venda venda = new Venda();
+                            JSONObject vendasAux = dataResponse.getJSONObject(i);
+                            JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
+
+                            venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
+                            venda.setValorTotal(vendasAux.getDouble("valorTotal"));
+                            venda.setValorFrete(vendasAux.getDouble("valorFrete"));
+                            venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
+                            venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
+                            venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
+                            venda.setData(vendasAux.getString("dataVenda"));
+                            venda.setStatus(vendasAux.getString("statusPedido"));
+
+                            int j = 0;
+                            ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                            do {
+                                JSONObject objAux = produtosVenda.getJSONObject(j);
+                                Produto prod = new Produto();
+                                prod.setValor(objAux.getDouble("vlTotal"));
+                                prod.setQuantidade(objAux.getInt("qtdProduto"));
+                                prod.setTipo(objAux.getString("tipoProduto"));
+                                prod.setNome(objAux.getString("nomeProduto"));
+                                prod.setDescricao(objAux.getString("descricaoProduto"));
+
+                                listProdutosVenda.add(prod);
+                                j++;
+                            } while (j < produtosVenda.length());
+
+                            venda.setProdutos(listProdutosVenda);
+                            pedidosAndamento.add(venda);
+                            i++;
+                        } while (i < dataResponse.length());
+                    }
+                    ((PedidosAndamentoActivity)context).onServidorResponse(status, pedidosAndamento, msg);
                     break;
             }
         } catch (JSONException e) {
@@ -160,10 +208,9 @@ public class DataGetter extends AsyncTask<String, Void, String> {
             e.printStackTrace();
             if (metodo.equalsIgnoreCase("produto")) {
                 ((MainActivity) context).onServidorResponse(false, mensagemErro, null);
-            } else if(metodo.equalsIgnoreCase("login")){
+            } else if (metodo.equalsIgnoreCase("login")) {
                 ((LoginActivity) context).onResponse(false, mensagemErro, null);
-            }
-            else if(metodo.equalsIgnoreCase("endereco")){
+            } else if (metodo.equalsIgnoreCase("endereco")) {
                 ((PerfilActivity) context).onServidorResponse(false, null, mensagemErro);
             }
         }
