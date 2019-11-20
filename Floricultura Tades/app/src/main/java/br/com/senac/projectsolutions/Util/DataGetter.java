@@ -19,6 +19,7 @@ import br.com.senac.projectsolutions.View.EnderecoCarrinhoActivity;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
 import br.com.senac.projectsolutions.View.PedidosAndamentoActivity;
+import br.com.senac.projectsolutions.View.PedidosFinalizadosActivity;
 import br.com.senac.projectsolutions.View.PerfilActivity;
 
 public class DataGetter extends AsyncTask<String, Void, String> {
@@ -164,7 +165,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                         msg = json.getString("msgErro");
                     } else {
                         pedidosAndamento = new ArrayList<>();
-                        JSONArray dataResponse = json.getJSONArray("pedidosFinalizados");
+                        JSONArray dataResponse = json.getJSONArray("pedidosAndamento");
                         int i = 0;
                         do {
                             Venda venda = new Venda();
@@ -200,9 +201,56 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                             i++;
                         } while (i < dataResponse.length());
                     }
-                    ((PedidosAndamentoActivity)context).onServidorResponse(status, pedidosAndamento, msg);
+                    ((PedidosAndamentoActivity) context).onServidorResponse(status, pedidosAndamento, msg);
+                    break;
+                case "pedidos_finalizados":
+                    ArrayList<Venda> pedidosFinalizado = null;
+
+                    if (!json.getBoolean("statusRequest")) {
+                        status = false;
+                        msg = json.getString("msgErro");
+                    } else {
+                        pedidosFinalizado = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("pedidosFinalizados");
+                        int i = 0;
+                        do {
+                            Venda venda = new Venda();
+                            JSONObject vendasAux = dataResponse.getJSONObject(i);
+                            JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
+
+                            venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
+                            venda.setValorTotal(vendasAux.getDouble("valorTotal"));
+                            venda.setValorFrete(vendasAux.getDouble("valorFrete"));
+                            venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
+                            venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
+                            venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
+                            venda.setData(vendasAux.getString("dataVenda"));
+                            venda.setStatus(vendasAux.getString("statusPedido"));
+
+                            int j = 0;
+                            ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                            do {
+                                JSONObject objAux = produtosVenda.getJSONObject(j);
+                                Produto prod = new Produto();
+                                prod.setValor(objAux.getDouble("vlTotal"));
+                                prod.setQuantidade(objAux.getInt("qtdProduto"));
+                                prod.setTipo(objAux.getString("tipoProduto"));
+                                prod.setNome(objAux.getString("nomeProduto"));
+                                prod.setDescricao(objAux.getString("descricaoProduto"));
+
+                                listProdutosVenda.add(prod);
+                                j++;
+                            } while (j < produtosVenda.length());
+
+                            venda.setProdutos(listProdutosVenda);
+                            pedidosFinalizado.add(venda);
+                            i++;
+                        } while (i < dataResponse.length());
+                    }
+                    ((PedidosFinalizadosActivity) context).onServidorResponse(status, pedidosFinalizado, msg);
                     break;
             }
+
         } catch (JSONException e) {
             String mensagemErro = "Falha ao comunicar-se com o servidor, tente novamente";
             e.printStackTrace();

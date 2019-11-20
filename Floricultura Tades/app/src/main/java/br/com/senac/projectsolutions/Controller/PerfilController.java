@@ -29,4 +29,12 @@ public class PerfilController {
         DataGetter dt = new DataGetter(context, "pedidos_andamento");
         dt.execute(url);
     }
+
+    public void getPedidosFinalizados(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SessaoUsuario", Context.MODE_PRIVATE);
+
+        String url = context.getResources().getString(R.string.web_service_path).concat("/venda/pedidos/finalizados/" + sharedPreferences.getInt("codigo", 0));
+        DataGetter dt = new DataGetter(context, "pedidos_finalizados");
+        dt.execute(url);
+    }
 }

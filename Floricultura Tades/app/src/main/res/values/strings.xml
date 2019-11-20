@@ -14,7 +14,7 @@
     <string name="name_teste">Guilherme Pereira</string>
     <string name="email_teste">guilherme.pereira@email.com</string>
 
-    <string name="web_service_path">http://192.168.0.44:8089/Api_Floricultura_Tads/webresources/</string>
+    <string name="web_service_path">http://192.168.0.13:8084/Api_Floricultura_Tads/webresources/</string>
 
     <string name="title_info_pessoais">Informações Pessoais</string>
     <string name="lbl_required_nome">Nome*</string>

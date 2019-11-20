@@ -58,10 +58,14 @@ public class VendaWS {
             JSONArray pedidosFinalizados = new JSONArray();
             for (Venda venda : pedidos) {
                 JSONObject pedido = new JSONObject();
-                pedido.put("codigoVenda", venda.getCodigoVenda());
+               pedido.put("codigoVenda", venda.getCodigoVenda());
                 pedido.put("quantidadeItens", venda.getQuantidadeItens());
                 pedido.put("dataVenda", venda.getData());
                 pedido.put("statusPedido", venda.getStatus());
+                pedido.put("valorTotal", venda.getValorTotal());
+                pedido.put("tipoPagamento", venda.getTipoPagamento());
+                pedido.put("codigoPagamento", venda.getCodigoPagamento());
+                pedido.put("valorFrete", venda.getValorFrete());
 
                 JSONArray produtosVenda = new JSONArray();
                 for (Produto prod : venda.getProdutos()) {
@@ -129,7 +133,7 @@ public class VendaWS {
 
                 pedidosFinalizados.add(pedido);
             }
-            response.put("pedidosFinalizados", pedidosFinalizados);
+            response.put("pedidosAndamento", pedidosFinalizados);
         } else if (pedidos.isEmpty()) {
             response.put("statusRequest", true);
             response.put("isEmpty", true);
