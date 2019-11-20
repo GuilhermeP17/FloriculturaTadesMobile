@@ -18,25 +18,46 @@ public class VendaDAO {
 
     private static final Database db = new Database();
 
-    public static boolean realizarVenda(Venda v) {
+    public static boolean salvarVenda(Venda v) {
+        int idVenda = 0;
         Connection conn = db.obterConexao();
-        try {
-            PreparedStatement query = conn.prepareStatement("INSERT INTO"
-                    + " tbl_venda(id_produto, id_usuario, qtd_itens, cpf_cliente, status, data_venda)"
-                    + "VALUES (?, ?, ?, ?, ?, NOW());");
 
-            int rs;
-//            for (int i = 0; i < v.getProdutoArray().length; i++) {
-//                query.setInt(1, v.getProdutoArrayPosition(i));
-//                query.setInt(2, v.getIdFuncionario());
-//                query.setInt(3, v.getProdutoQtdArrayPosition(i));
-//                query.setString(4, v.getCpfCliente());
-//                query.setInt(5, 0);
-//                rs = query.executeUpdate();
-//                if (rs != 0) {
-//                    atualizaEstoque(v.getProdutoQtdArrayPosition(i), v.getProdutoArrayPosition(i), "-");
-//                }
-//            }
+        try {
+            PreparedStatement queryVenda = conn.prepareStatement("INSERT INTO"
+                    + " tbl_venda(codigo_venda, qtd_total, valor_frete, valor_total, data_venda, fk_endereco, fk_usuario, fk_status, fk_pagamento)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+
+            queryVenda.setString(1, v.getCodigoVenda());
+            queryVenda.setInt(2, v.getQuantidadeItens());
+            queryVenda.setDouble(3, v.getValorFrete());
+            queryVenda.setDouble(4, v.getValorTotal());
+            queryVenda.setString(5, v.getData());
+            queryVenda.setInt(6, v.getIdEndereco());
+            queryVenda.setInt(7, v.getCodigoUsuario());
+            queryVenda.setInt(8, v.getIdStatus());
+            queryVenda.setInt(9, v.getIdPagamento());
+
+            queryVenda.executeUpdate();
+
+            ResultSet rs = queryVenda.getGeneratedKeys();
+            if (rs.next()) {
+                idVenda = rs.getInt(1);
+            }
+
+            PreparedStatement queryProduto;
+            for (Produto p : v.getProdutos()) {
+                p.setCodigoVenda(idVenda);
+
+                queryProduto = conn.prepareStatement("INSERT INTO"
+                        + " tbl_produtos_venda(fk_venda, fk_produto, qtd_produto)"
+                        + " VALUES (?, ?, ?);");
+
+                queryProduto.setInt(1, p.getCodigoVenda());
+                queryProduto.setInt(2, p.getCodigo());
+                queryProduto.setInt(3, p.getQuantidadeEstoque());
+
+                queryProduto.executeUpdate();
+            }
 
             conn.close();
         } catch (SQLException e) {
@@ -44,36 +65,6 @@ public class VendaDAO {
             return false;
         }
 
-        return true;
-    }
-
-    public static boolean excluirVenda(int vCodigo) {
-//        Venda v = new Venda();
-//        Connection conn = db.obterConexao();
-//        try {
-//            PreparedStatement select = conn.prepareStatement("SELECT id_produto, qtd_itens FROM tbl_venda WHERE id_venda = ?");
-//            PreparedStatement query = conn.prepareStatement("UPDATE tbl_venda SET status = 1 WHERE id_venda = ?");
-//
-//            query.setInt(1, vCodigo);
-//            int rs = query.executeUpdate();
-//
-//            if (rs != 0) {
-//                select.setInt(1, vCodigo);
-//                ResultSet result = select.executeQuery();
-//
-//                while (result.next()) {
-//                    v.setCodigoProd(result.getInt(1));
-//                    v.setQuantidadeItens(result.getInt(2));
-//                }
-//                atualizaEstoque(v.getQuantidadeItens(), v.getCodigoProd(), "+");
-//            }
-//
-//            conn.close();
-//        } catch (SQLException e) {
-//            System.out.println("SQL Exception" + e);
-//            return false;
-//        }
-//
         return true;
     }
 
@@ -129,7 +120,7 @@ public class VendaDAO {
                     v.setTipoPagamento(rsVenda.getString(7));
                     v.setCodigoPagamento(rsVenda.getString(8));
                     v.setValorFrete(rsVenda.getDouble(9));
-                    
+
                     venda.add(v);
                 }
             }

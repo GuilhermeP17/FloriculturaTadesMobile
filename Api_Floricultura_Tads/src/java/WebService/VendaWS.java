@@ -10,6 +10,7 @@ import Model.Produto;
 import Model.Usuario;
 import Model.Venda;
 import java.util.ArrayList;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -117,7 +118,7 @@ public class VendaWS {
                 pedido.put("tipoPagamento", venda.getTipoPagamento());
                 pedido.put("codigoPagamento", venda.getCodigoPagamento());
                 pedido.put("valorFrete", venda.getValorFrete());
-                
+
                 JSONArray produtosVenda = new JSONArray();
                 for (Produto prod : venda.getProdutos()) {
                     JSONObject prodAux = new JSONObject();
@@ -147,8 +148,26 @@ public class VendaWS {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void getJsonUsuario(String content) {
+
+    }
+
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public String realizaVenda() {
-        return "Venda Realizada";
+    @Path("/cadastrar")
+    public String realizaVenda(Venda venda) {
+        boolean status = VendaDAO.salvarVenda(venda);
+
+        JSONObject jsonResponse = new JSONObject();
+        if (status) {
+            jsonResponse.put("status", true);
+            jsonResponse.put("msgStatus", "Venda salva com sucesso!");
+        } else {
+            jsonResponse.put("status", false);
+            jsonResponse.put("msgStatus", "Não foi possivel cadastrar a venda");
+        }
+
+        return jsonResponse.toString();
     }
 }
