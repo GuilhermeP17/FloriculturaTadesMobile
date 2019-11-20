@@ -1,18 +1,21 @@
 package Model;
 
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  *
  * @author guilherme.rsvieira
  */
 public class Produto {
 
-    private int codigo;
-    private String nome;
-    private String descricao;
-    private String tipo;
-    private int quantidadeEstoque;
-    private double valorUnitario;
-    private String srcImagem;
+    @XmlElement private int codigo;
+    @XmlElement private String nome;
+    @XmlElement private String descricao;
+    @XmlElement private String tipo;
+    @XmlElement private int quantidadeEstoque;
+    @XmlElement private double valorUnitario;
+    @XmlElement private String srcImagem;
+    @XmlElement private int codigoVenda;
 
     public Produto() {
     }
@@ -105,4 +108,13 @@ public class Produto {
     public void setSrcImagem(String srcImagem) {
     	this.srcImagem = srcImagem;
     }
+
+    public int getCodigoVenda() {
+        return codigoVenda;
+    }
+
+    public void setCodigoVenda(int codigoVenda) {
+        this.codigoVenda = codigoVenda;
+    }
+    
 }
