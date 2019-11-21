@@ -347,6 +347,7 @@ public class UsuarioDAO {
                         }
                         i++;
                     }
+                    pag.setId(rs.getInt(1));
                     pag.setNumeroPagamento(numCartaoAux);
                     pag.setNomeTitular(rs.getString(3));
                     pag.setDataVencimento(rs.getString(4));

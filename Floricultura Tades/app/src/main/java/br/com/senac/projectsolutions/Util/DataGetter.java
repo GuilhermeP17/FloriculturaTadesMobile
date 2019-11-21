@@ -186,6 +186,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                             JSONObject pagamentosAux = (JSONObject) dataResponse.get(i);
 
                             Pagamento pagamento = new Pagamento();
+                            pagamento.setId(pagamentosAux.getInt("idPagamento"));
                             pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
                             pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
                             pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
@@ -197,7 +198,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                         } while (i < dataResponse.length());
                     }
 
-                    ((PagamentoCarrinhoActivity) context).onServidorResponse(status, pagamentosCarrinho);
+                    ((PagamentoCarrinhoActivity) context).onServidorResponse(status, pagamentosCarrinho, "listagem_pamamentos");
                     break;
                 case "pedidos_andamento":
                     ArrayList<Venda> pedidosAndamento = null;

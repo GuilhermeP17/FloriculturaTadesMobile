@@ -171,10 +171,10 @@ public class VendaWS {
 
         JSONObject jsonResponse = new JSONObject();
         if (status) {
-            jsonResponse.put("statusRequest", true);
+            jsonResponse.put("status", true);
             jsonResponse.put("msgStatus", "Venda salva com sucesso!");
         } else {
-            jsonResponse.put("statusRequest", false);
+            jsonResponse.put("status", false);
             jsonResponse.put("msgStatus", "Não foi possivel cadastrar a venda");
         }
 

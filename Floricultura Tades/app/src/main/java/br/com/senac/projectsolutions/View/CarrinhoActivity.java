@@ -42,6 +42,7 @@ public class CarrinhoActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private MaterialButton btnProsseguir, btnAplicarCEP;
     public TextView subTotal, frete, total, cep;
+    private int quantidadeTotal = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class CarrinhoActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("produtosCarrinho", bundleProdutos(produtosCarrinho));
                     bundle.putString("subtotal", subTotal.getText().toString());
+                    bundle.putInt("quantidadeTotal", quantidadeTotal);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -188,16 +190,17 @@ public class CarrinhoActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private String bundleProdutos(ArrayList<Produto> produtosCarrinho){
+    private String bundleProdutos(ArrayList<Produto> produtosCarrinho) {
         JSONObject prodCarrinho = null;
-        try{
+        try {
             JSONArray array = new JSONArray();
             int i = 0;
-            for (Produto produto : produtosCarrinho){
+            for (Produto produto : produtosCarrinho) {
                 JSONObject object = new JSONObject();
-                object.put("nomeProduto", produto.getNome());
-                object.put("codigoProduto", produto.getCodigo());
-                object.put("quantidadeCarrinho", produto.getQuantidade());
+                object.put("nome", produto.getNome());
+                object.put("codigo", produto.getCodigo());
+                object.put("quantidadeEstoque", produto.getQuantidade());
+                quantidadeTotal += produto.getQuantidade();
                 array.put(i, object);
                 i++;
             }
@@ -205,7 +208,7 @@ public class CarrinhoActivity extends AppCompatActivity {
             prodCarrinho = new JSONObject();
             prodCarrinho.put("produtos", array);
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return prodCarrinho.toString();

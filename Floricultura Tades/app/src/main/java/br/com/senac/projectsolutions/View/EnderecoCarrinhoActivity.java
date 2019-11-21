@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -26,6 +30,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private MaterialButton btnGoPagamentos;
     private TextView tvSubtotal, tvFrete, tvTotal;
+    private ArrayList<Endereco> enderecos;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("produtosCarrinho", getIntent().getExtras().getString("produtosCarrinho"));
                 bundle.putString("subtotal", tvSubtotal.getText().toString());
+                bundle.putInt("quantidadeTotal", getIntent().getExtras().getInt("quantidadeTotal"));
+                bundle.putInt("endereco", bundleEndereco(enderecos));
                 bundle.putString("frete", tvFrete.getText().toString());
                 bundle.putString("total", tvTotal.getText().toString());
                 intent.putExtras(bundle);
@@ -63,6 +70,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
 
     public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, String msg) {
         if (status) {
+            this.enderecos = enderecos;
             setRecyclerView(enderecos);
         } else {
             View parentView = findViewById(android.R.id.content);
@@ -92,6 +100,17 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
         tvSubtotal.setText("R$".concat(String.format(Locale.US, "%.2f", subtotal).replace(".", ",")));
         tvFrete.setText("R$".concat(String.format(Locale.US, "%.2f", valorFrete).replace(".", ",")));
         tvTotal.setText("R$".concat(String.format(Locale.US, "%.2f", subtotal + valorFrete).replace(".", ",")));
+    }
+
+    private int bundleEndereco(ArrayList<Endereco> enderecos) {
+        int codigoEndereco = 0;
+
+        for (Endereco endereco : enderecos) {
+            codigoEndereco = endereco.getCodigo();
+            break;
+        }
+
+        return codigoEndereco;
     }
 
 }

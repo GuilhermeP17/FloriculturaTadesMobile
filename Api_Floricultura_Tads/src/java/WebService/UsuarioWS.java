@@ -74,6 +74,7 @@ public class UsuarioWS {
             
             for(Pagamento pagamento : pagamentos){
                 JSONObject pag = new JSONObject();
+                pag.put("idPagamento", pagamento.getId());
                 pag.put("numPagamento", pagamento.getNumeroPagamento());
                 pag.put("nomeTitular", pagamento.getNomeTitular());
                 pag.put("dtVencimento", pagamento.getDataVencimento());

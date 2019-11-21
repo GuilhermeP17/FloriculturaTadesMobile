@@ -3,8 +3,11 @@ package br.com.senac.projectsolutions.Controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONObject;
+
 import br.com.senac.projectsolutions.R;
 import br.com.senac.projectsolutions.Util.DataGetter;
+import br.com.senac.projectsolutions.Util.DataPost;
 
 public class PerfilController {
 
@@ -44,5 +47,12 @@ public class PerfilController {
         String url = context.getResources().getString(R.string.web_service_path).concat("/venda/pedidos/finalizados/" + sharedPreferences.getInt("codigo", 0));
         DataGetter dt = new DataGetter(context, "pedidos_finalizados");
         dt.execute(url);
+    }
+
+    public void cadatrarVenda(Context context, JSONObject json){
+        String url = context.getResources().getString(R.string.web_service_path).concat("venda/cadastrar");
+        DataPost dt = new DataPost(context, "cadastro_venda");
+
+        dt.execute(url, json.toString());
     }
 }
