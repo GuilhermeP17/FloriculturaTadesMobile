@@ -84,6 +84,7 @@ public class DescricaoActivity extends AppCompatActivity {
                 json.put("NomeProduto", intent.getStringExtra("nomeProduto"));
                 json.put("DescricaoProduto", intent.getStringExtra("descricaoProduto"));
                 json.put("PrecoProduto", intent.getDoubleExtra("precoProduto", 0));
+                json.put("quantidadeCarrinho", 1);
                 json.put("TipoProduto", intent.getStringExtra("tipoProduto"));
 
                 editor.putString(intent.getStringExtra("nomeProduto"), json.toString());

@@ -49,7 +49,7 @@ public class CarrinhoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_carrinho);
         findViewsById();
 
-        getItensAdicionados();
+        final ArrayList<Produto> produtosCarrinho = getItensAdicionados();
 
         btnProsseguir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +62,7 @@ public class CarrinhoActivity extends AppCompatActivity {
                 } else {
                     intent = new Intent(CarrinhoActivity.this, EnderecoCarrinhoActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putString("produtosCarrinho", bundleProdutos(produtosCarrinho));
                     bundle.putString("subtotal", subTotal.getText().toString());
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -101,8 +102,9 @@ public class CarrinhoActivity extends AppCompatActivity {
         btnProsseguir = findViewById(R.id.btn_prosseguir_compra);
     }
 
-    private void getItensAdicionados() {
+    private ArrayList<Produto> getItensAdicionados() {
         sharedPreferences = getSharedPreferences("ItensSalvos", MODE_PRIVATE);
+        ArrayList<Produto> produtosSalvos = null;
 
         if (!sharedPreferences.getAll().isEmpty()) {
             LinearLayout notEmptyView = findViewById(R.id.linear_not_empty);
@@ -110,8 +112,8 @@ public class CarrinhoActivity extends AppCompatActivity {
             emptyView.setVisibility(GONE);
             notEmptyView.setVisibility(VISIBLE);
 
-//            Rotina para recuperar objetos salvos no Shared preferences de itens add no carrinho
-            ArrayList<Produto> produtosSalvos = new ArrayList<>();
+            //Rotina para recuperar objetos salvos no Shared preferences de itens add no carrinho
+            produtosSalvos = new ArrayList<>();
             JSONArray array = new JSONArray();
 
             try {
@@ -126,6 +128,7 @@ public class CarrinhoActivity extends AppCompatActivity {
                     produto.setCodigo(json.getInt("CodigoProduto"));
                     produto.setNome(json.getString("NomeProduto"));
                     produto.setDescricao(json.getString("DescricaoProduto"));
+                    produto.setQuantidade(json.getInt("quantidadeCarrinho"));
                     produto.setValor(json.getDouble("PrecoProduto"));
                     produto.setTipo(json.getString("TipoProduto"));
 
@@ -142,6 +145,8 @@ public class CarrinhoActivity extends AppCompatActivity {
             emptyView.setVisibility(VISIBLE);
             notEmptyView.setVisibility(GONE);
         }
+
+        return produtosSalvos;
     }
 
     public void atualizaValorCompra(ArrayList<Produto> produtosCarrinho, Double newFrete) {
@@ -181,5 +186,28 @@ public class CarrinhoActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), gridManager.getOrientation()));
         CarrinhoAdapter adapter = new CarrinhoAdapter(CarrinhoActivity.this, produtos);
         recyclerView.setAdapter(adapter);
+    }
+
+    private String bundleProdutos(ArrayList<Produto> produtosCarrinho){
+        JSONObject prodCarrinho = null;
+        try{
+            JSONArray array = new JSONArray();
+            int i = 0;
+            for (Produto produto : produtosCarrinho){
+                JSONObject object = new JSONObject();
+                object.put("nomeProduto", produto.getNome());
+                object.put("codigoProduto", produto.getCodigo());
+                object.put("quantidadeCarrinho", produto.getQuantidade());
+                array.put(i, object);
+                i++;
+            }
+
+            prodCarrinho = new JSONObject();
+            prodCarrinho.put("produtos", array);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return prodCarrinho.toString();
     }
 }

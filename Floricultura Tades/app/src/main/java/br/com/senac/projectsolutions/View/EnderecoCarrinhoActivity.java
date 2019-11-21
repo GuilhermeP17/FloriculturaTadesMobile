@@ -48,6 +48,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(EnderecoCarrinhoActivity.this, PagamentoCarrinhoActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("produtosCarrinho", getIntent().getExtras().getString("produtosCarrinho"));
                 bundle.putString("subtotal", tvSubtotal.getText().toString());
                 bundle.putString("frete", tvFrete.getText().toString());
                 bundle.putString("total", tvTotal.getText().toString());
@@ -57,7 +58,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
         });
 
         PerfilController controller = new PerfilController();
-        controller.getInfoEndereco(EnderecoCarrinhoActivity.this, "endereco_carrinho");
+        controller.getInfoPerfil(EnderecoCarrinhoActivity.this, "endereco_carrinho");
     }
 
     public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, String msg) {

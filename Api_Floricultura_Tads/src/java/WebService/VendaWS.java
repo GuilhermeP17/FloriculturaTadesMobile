@@ -9,7 +9,10 @@ import DAO.VendaDAO;
 import Model.Produto;
 import Model.Usuario;
 import Model.Venda;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -154,17 +157,24 @@ public class VendaWS {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/cadastrar")
     public String realizaVenda(Venda venda) {
-        boolean status = VendaDAO.salvarVenda(venda);
+        DateFormat dateFormatCodigoVenda = new SimpleDateFormat("ddMMyyyyHHmmss");
+        DateFormat dateFormatDataVenda = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss");
+        Date date = new Date();
+        String hashVenda = dateFormatCodigoVenda.format(date);
+        String dataVenda = dateFormatDataVenda.format(date);
+        
+        String codigoVenda = hashVenda.concat(String.valueOf(venda.getCodigoUsuario()));
+        boolean status = VendaDAO.salvarVenda(venda, codigoVenda, dataVenda);
 
         JSONObject jsonResponse = new JSONObject();
         if (status) {
-            jsonResponse.put("status", true);
+            jsonResponse.put("statusRequest", true);
             jsonResponse.put("msgStatus", "Venda salva com sucesso!");
         } else {
-            jsonResponse.put("status", false);
+            jsonResponse.put("statusRequest", false);
             jsonResponse.put("msgStatus", "Não foi possivel cadastrar a venda");
         }
 

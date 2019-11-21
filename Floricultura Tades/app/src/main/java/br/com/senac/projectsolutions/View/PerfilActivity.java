@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import br.com.senac.projectsolutions.Adapter.AbasPerfilAdapter;
 import br.com.senac.projectsolutions.Controller.PerfilController;
 import br.com.senac.projectsolutions.Model.Endereco;
+import br.com.senac.projectsolutions.Model.Pagamento;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.R;
 
@@ -32,7 +33,7 @@ public class PerfilActivity extends AppCompatActivity {
         findViewsById();
 
         PerfilController controller = new PerfilController();
-        controller.getInfoEndereco(PerfilActivity.this, "endereco_perfil");
+        controller.getInfoPerfil(PerfilActivity.this, "endereco_perfil");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,19 +43,20 @@ public class PerfilActivity extends AppCompatActivity {
         });
     }
 
-    public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, String mensagem){
+    public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, ArrayList<Pagamento> pagamentos){
         if (status){
-            setAbasAdapter(enderecos);
+            setAbasAdapter(enderecos, pagamentos);
         }else{
             enderecos = new ArrayList<>();
-            setAbasAdapter(enderecos);
+            setAbasAdapter(enderecos, pagamentos);
         }
     }
 
-    private void setAbasAdapter(ArrayList<Endereco> enderecos){
+    private void setAbasAdapter(ArrayList<Endereco> enderecos, ArrayList<Pagamento> pagamentos){
         AbasPerfilAdapter abas = new AbasPerfilAdapter(getSupportFragmentManager());
         abas.adicionar(new DadosPerfilFragment(PerfilActivity.this), "Meus Dados");
         abas.adicionar(new EnderecosPerfilFragment(enderecos, PerfilActivity.this), "Meus Endereços");
+        abas.adicionar(new PagamentosPerfilFragment(pagamentos, PerfilActivity.this), "Meus Pagamentos");
 
         viewPager.setAdapter(abas);
         tabLayout.setupWithViewPager(viewPager);

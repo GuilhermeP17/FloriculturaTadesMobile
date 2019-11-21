@@ -6,6 +6,7 @@ package WebService;
 
 import DAO.UsuarioDAO;
 import Model.Endereco;
+import Model.Pagamento;
 import Model.Usuario;
 import java.util.ArrayList;
 import javax.ws.rs.core.Context;
@@ -44,15 +45,18 @@ public class UsuarioWS {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/enderecos/{codigoUser}")
-    public String getallEnderecos(@PathParam("codigoUser") int codigoUser){
+    @Path("/perfil/{codigoUser}")
+    public String getInfoPerfil(@PathParam("codigoUser") int codigoUser){
         ArrayList<Endereco> enderecos = UsuarioDAO.getEnderecos(codigoUser);
+        ArrayList<Pagamento> pagamentos = UsuarioDAO.getPagamentosCadastrados(codigoUser);
         
         JSONObject response = new JSONObject();
         if (enderecos.size() > 0) {
             response.put("statusRequest", true);
             
             JSONArray enderecosAtivos = new JSONArray();
+            JSONArray pagamentosAtivos = new JSONArray();
+            
             for (Endereco endereco : enderecos) {
                 JSONObject end = new JSONObject();
                 end.put("codigo", endereco.getCodigo());
@@ -67,6 +71,18 @@ public class UsuarioWS {
                 
                 enderecosAtivos.add(end);
             }
+            
+            for(Pagamento pagamento : pagamentos){
+                JSONObject pag = new JSONObject();
+                pag.put("numPagamento", pagamento.getNumeroPagamento());
+                pag.put("nomeTitular", pagamento.getNomeTitular());
+                pag.put("dtVencimento", pagamento.getDataVencimento());
+                pag.put("tipoPagamento", pagamento.getTipoPagamento());
+                
+                pagamentosAtivos.add(pag);
+            }
+            
+            response.put("pagamentosUser", pagamentosAtivos);
             response.put("enderecosUser", enderecosAtivos);
         }else{
             response.put("statusRequest", false);

@@ -18,7 +18,7 @@ public class VendaDAO {
 
     private static final Database db = new Database();
 
-    public static boolean salvarVenda(Venda v) {
+    public static boolean salvarVenda(Venda v, String codigoVenda, String dataVenda) {
         int idVenda = 0;
         Connection conn = db.obterConexao();
 
@@ -27,11 +27,11 @@ public class VendaDAO {
                     + " tbl_venda(codigo_venda, qtd_total, valor_frete, valor_total, data_venda, fk_endereco, fk_usuario, fk_status, fk_pagamento)"
                     + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 
-            queryVenda.setString(1, v.getCodigoVenda());
+            queryVenda.setString(1, codigoVenda);
             queryVenda.setInt(2, v.getQuantidadeItens());
             queryVenda.setDouble(3, v.getValorFrete());
             queryVenda.setDouble(4, v.getValorTotal());
-            queryVenda.setString(5, v.getData());
+            queryVenda.setString(5, dataVenda);
             queryVenda.setInt(6, v.getIdEndereco());
             queryVenda.setInt(7, v.getCodigoUsuario());
             queryVenda.setInt(8, v.getIdStatus());

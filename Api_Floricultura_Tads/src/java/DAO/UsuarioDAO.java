@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Endereco;
+import Model.Pagamento;
 import Model.Usuario;
 import Utils.Criptografia;
 import java.sql.Connection;
@@ -288,5 +289,77 @@ public class UsuarioDAO {
         }
         
         return enderecos;
+    }
+    
+    public static ArrayList<Pagamento> getPagamentosDisponiveis(boolean isCadastroPerfil) {
+        Connection conn = db.obterConexao();
+        ArrayList<Pagamento> pagamentos = new ArrayList();
+
+        String complemento = isCadastroPerfil ? "Limit 2" : "";
+        try {
+            PreparedStatement query = conn.prepareStatement("SELECT * FROM tbl_info_pagamentos " + complemento);
+
+            ResultSet rs = query.executeQuery();
+
+            if (rs != null) {
+                while (rs.next()) {
+                    Pagamento pag = new Pagamento(
+                            rs.getInt(1),
+                            rs.getString(2)
+                    );
+                    pagamentos.add(pag);
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return pagamentos;
+    }
+
+    public static ArrayList<Pagamento> getPagamentosCadastrados(int codigoCliente) {
+        Connection conn = db.obterConexao();
+        ArrayList<Pagamento> pagamentos = new ArrayList();
+
+        try {
+            PreparedStatement query = conn.prepareStatement("SELECT"
+                    + " pu.id_pagamento, pu.numero_pagamento,"
+                    + " pu.nome_titular, pu.data_vencimento, ip.nome"
+                    + " FROM tbl_pagamento_usuario AS pu"
+                    + " INNER JOIN tbl_info_pagamentos AS ip"
+                    + " ON pu.fk_info_pagamento = ip.id_info_pagamento"
+                    + " WHERE pu.fk_usuario = ? and fk_info_pagamento != 3");
+            query.setInt(1, codigoCliente);
+
+            ResultSet rs = query.executeQuery();
+
+            if (rs != null) {
+                while (rs.next()) {
+                    Pagamento pag = new Pagamento();
+                    pag.setId(rs.getInt(1));
+                    int i = 0;
+                    String numCartaoAux = "";
+                    while (i < rs.getString(2).length()) {
+                        if (i > 11) {
+                            char c = rs.getString(2).charAt(i);
+                            numCartaoAux += String.valueOf(c);
+                        }
+                        i++;
+                    }
+                    pag.setNumeroPagamento(numCartaoAux);
+                    pag.setNomeTitular(rs.getString(3));
+                    pag.setDataVencimento(rs.getString(4));
+                    pag.setTipoPagamento(rs.getString(5));
+
+                    pagamentos.add(pag);
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return pagamentos;
     }
 }

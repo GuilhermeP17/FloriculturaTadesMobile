@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import br.com.senac.projectsolutions.Model.Endereco;
+import br.com.senac.projectsolutions.Model.Pagamento;
 import br.com.senac.projectsolutions.Model.Produto;
 import br.com.senac.projectsolutions.Model.Usuario;
 import br.com.senac.projectsolutions.Model.Venda;
@@ -18,6 +19,7 @@ import br.com.senac.projectsolutions.View.CarrinhoActivity;
 import br.com.senac.projectsolutions.View.EnderecoCarrinhoActivity;
 import br.com.senac.projectsolutions.View.LoginActivity;
 import br.com.senac.projectsolutions.View.MainActivity;
+import br.com.senac.projectsolutions.View.PagamentoCarrinhoActivity;
 import br.com.senac.projectsolutions.View.PedidosAndamentoActivity;
 import br.com.senac.projectsolutions.View.PedidosFinalizadosActivity;
 import br.com.senac.projectsolutions.View.PerfilActivity;
@@ -99,16 +101,20 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     break;
                 case "endereco_perfil":
                     ArrayList<Endereco> enderecos = null;
+                    ArrayList<Pagamento> pagamentos = null;
 
                     if (!json.getBoolean("statusRequest")) {
                         status = false;
                         msg = json.getString("msgErro");
                     } else {
                         enderecos = new ArrayList<>();
+                        pagamentos = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("enderecosUser");
+                        JSONArray dataResponse2 = json.getJSONArray("pagamentosUser");
                         int i = 0;
                         do {
                             JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
+                            JSONObject pagamentosAux = (JSONObject) dataResponse2.get(i);
                             Endereco endereco = new Endereco(
                                     enderecoAux.getInt("codigo"),
                                     enderecoAux.getString("logradouro"),
@@ -120,12 +126,21 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                                     enderecoAux.getString("bairro"),
                                     enderecoAux.getString("tipo")
                             );
+
+                            Pagamento pagamento = new Pagamento();
+                            pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
+                            pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
+                            pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
+                            pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
+
+
+                            pagamentos.add(pagamento);
                             enderecos.add(endereco);
                             i++;
                         } while (i < dataResponse.length());
                     }
 
-                    ((PerfilActivity) context).onServidorResponse(status, enderecos, msg);
+                    ((PerfilActivity) context).onServidorResponse(status, enderecos, pagamentos);
                     break;
                 case "endereco_carrinho":
                     ArrayList<Endereco> enderecosCarrinho = null;
@@ -156,6 +171,33 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     }
 
                     ((EnderecoCarrinhoActivity) context).onServidorResponse(status, enderecosCarrinho, msg);
+                    break;
+                case "pagamento_carrinho":
+                    ArrayList<Pagamento> pagamentosCarrinho = null;
+
+                    if (!json.getBoolean("statusRequest")) {
+                        status = false;
+                        msg = json.getString("msgErro");
+                    } else {
+                        pagamentosCarrinho = new ArrayList<>();
+                        JSONArray dataResponse = json.getJSONArray("pagamentosUser");
+                        int i = 0;
+                        do {
+                            JSONObject pagamentosAux = (JSONObject) dataResponse.get(i);
+
+                            Pagamento pagamento = new Pagamento();
+                            pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
+                            pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
+                            pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
+                            pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
+
+
+                            pagamentosCarrinho.add(pagamento);
+                            i++;
+                        } while (i < dataResponse.length());
+                    }
+
+                    ((PagamentoCarrinhoActivity) context).onServidorResponse(status, pagamentosCarrinho);
                     break;
                 case "pedidos_andamento":
                     ArrayList<Venda> pedidosAndamento = null;
@@ -259,7 +301,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
             } else if (metodo.equalsIgnoreCase("login")) {
                 ((LoginActivity) context).onResponse(false, mensagemErro, null);
             } else if (metodo.equalsIgnoreCase("endereco")) {
-                ((PerfilActivity) context).onServidorResponse(false, null, mensagemErro);
+                ((PerfilActivity) context).onServidorResponse(false, null, null);
             }
         }
     }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#E4E4E4">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -21,6 +22,15 @@
             app:navigationIcon="@drawable/ic_back_activity_white"/>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_pagamento"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_pagamento"
+        app:layout_constraintTop_toBottomOf="@id/appbart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/info_compra"/>
 
     <LinearLayout
         android:id="@+id/info_compra"
@@ -28,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@id/recycler_pagamento"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/linear_btn"
@@ -150,7 +161,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_prosseguir_compra_02"
+            android:id="@+id/btn_finalizar_compra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
