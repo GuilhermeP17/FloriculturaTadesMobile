@@ -27,7 +27,7 @@ public class PagamentosAdapter extends RecyclerView.Adapter<PagamentosHolder> {
     @Override
     public void onBindViewHolder(@NonNull PagamentosHolder holder, int position) {
         holder.tipoPagamento.setText(pagamentosCadastrados.get(position).getTipoPagamento());
-        holder.numCartao.setText("****.****.****".concat(pagamentosCadastrados.get(position).getNumeroPagamento()));
+        holder.numCartao.setText("****.****.****.".concat(pagamentosCadastrados.get(position).getNumeroPagamento()));
         holder.nomeTitular.setText(pagamentosCadastrados.get(position).getNomeTitular());
         holder.vencimento.setText(pagamentosCadastrados.get(position).getDataVencimento());
     }

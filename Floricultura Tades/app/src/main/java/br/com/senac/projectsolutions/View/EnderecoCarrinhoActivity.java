@@ -90,7 +90,7 @@ public class EnderecoCarrinhoActivity extends AppCompatActivity {
         LinearLayoutManager linearManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_endereco);
         recyclerView.setLayoutManager(linearManager);
-        EnderecoAdapter adapter = new EnderecoAdapter(enderecos);
+        EnderecoAdapter adapter = new EnderecoAdapter(EnderecoCarrinhoActivity.this, enderecos);
         recyclerView.setAdapter(adapter);
     }
 

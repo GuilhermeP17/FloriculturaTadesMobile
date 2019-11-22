@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.Adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class EnderecoHolder extends RecyclerView.ViewHolder {
     protected TextView tipoEndereco, logradouro, adicionaisInfo, cep;
     protected LinearLayout enderecoPadrao;
     protected ConstraintLayout enderecoView;
+    protected ImageView editinfo;
 
     public EnderecoHolder(@NonNull View itemView) {
         super(itemView);
@@ -23,5 +25,6 @@ public class EnderecoHolder extends RecyclerView.ViewHolder {
         logradouro = itemView.findViewById(R.id.logradouro_info);
         adicionaisInfo = itemView.findViewById(R.id.infos_adicionais_info);
         cep = itemView.findViewById(R.id.cep_info);
+        editinfo = itemView.findViewById(R.id.btn_edit);
     }
 }

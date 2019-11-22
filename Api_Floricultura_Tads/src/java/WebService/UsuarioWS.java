@@ -37,14 +37,6 @@ public class UsuarioWS {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/allusuarios")
-    public ArrayList<Usuario> getAllUsuarios() {
-        ArrayList<Usuario> usuarios = UsuarioDAO.getUsuarios();
-        return usuarios;
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/perfil/{codigoUser}")
     public String getInfoPerfil(@PathParam("codigoUser") int codigoUser){
         ArrayList<Endereco> enderecos = UsuarioDAO.getEnderecos(codigoUser);
@@ -132,13 +124,11 @@ public class UsuarioWS {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void getJsonUsuario(String content) {
-
-    }
+    public void getJsonUsuario(String content) {}
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/cadastrar")
+    @Path("/cadastrar/usuario")
     public String cadastrarUsuario(Usuario usuario) {
         boolean status = UsuarioDAO.salvarUsuario(usuario);
 
@@ -169,8 +159,22 @@ public class UsuarioWS {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/alterar")
+    @Path("/alterar/usuario")
     public String alterarUsuario(String content) {
         return "alterar";
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/cadastrar/endereco")
+    public String cadastrarEndereco() {
+       return "Cadastro Endereco"; 
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/cadastrar/pagamento")
+    public String cadastrarPagamento() {
+       return "Cadastro Pagamento";
     }
 }

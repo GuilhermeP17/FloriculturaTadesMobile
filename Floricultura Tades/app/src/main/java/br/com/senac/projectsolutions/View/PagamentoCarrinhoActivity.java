@@ -60,7 +60,7 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 JSONObject jsonVenda = makeJsonVenda(bundle);
                 PerfilController controller = new PerfilController();
-                controller.cadatrarVenda(PagamentoCarrinhoActivity.this, jsonVenda);
+                controller.postCadatrarVenda(PagamentoCarrinhoActivity.this, jsonVenda);
             }
         });
     }

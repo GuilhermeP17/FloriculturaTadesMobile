@@ -91,11 +91,11 @@ public class UsuarioDAO {
             PreparedStatement query = conn.prepareStatement("DELETE FROM tbl_usuario WHERE id_usuario = ?");
 
             query.setInt(1, codigoUsuario);
-            
+
             if (!query.execute()) {
                 return false;
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -253,44 +253,46 @@ public class UsuarioDAO {
 
         return user;
     }
-    
-    public static ArrayList<Endereco> getEnderecos(int codigoUser){
+
+    public static ArrayList<Endereco> getEnderecos(int codigoUser) {
         ArrayList<Endereco> enderecos = new ArrayList<>();
         Connection conn = db.obterConexao();
-        
-        try{
+
+        try {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM tbl_endereco WHERE fk_usuario = ?;");
-            
+
             statement.setInt(1, codigoUser);
-            
+
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                Endereco endereco = new Endereco(
-                        rs.getInt(1),
-                        rs.getString(2), 
-                        rs.getString(3),
-                        rs.getInt(4),
-                        rs.getString(5), 
-                        rs.getString(6), 
-                        rs.getString(7), 
-                        rs.getString(8), 
-                        rs.getString(9)
-                );
-                enderecos.add(endereco);
+            if (rs != null) {
+                while (rs.next()) {
+                    Endereco endereco = new Endereco(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getInt(4),
+                            rs.getString(5),
+                            rs.getString(6),
+                            rs.getString(7),
+                            rs.getString(8),
+                            rs.getString(9)
+                    );
+                    enderecos.add(endereco);
+                }
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return enderecos;
     }
-    
+
     public static ArrayList<Pagamento> getPagamentosDisponiveis(boolean isCadastroPerfil) {
         Connection conn = db.obterConexao();
         ArrayList<Pagamento> pagamentos = new ArrayList();

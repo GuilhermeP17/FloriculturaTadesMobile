@@ -11,7 +11,7 @@ import br.com.senac.projectsolutions.Util.DataPost;
 public class CadastroController {
 
     public void validaLogin(Context context, String[] camposFormulario) {
-        String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/cadastrar");
+        String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/cadastrar/usuario");
         DataPost dt = new DataPost(context, "cadastro_usuario");
 
         JSONObject json = new JSONObject();

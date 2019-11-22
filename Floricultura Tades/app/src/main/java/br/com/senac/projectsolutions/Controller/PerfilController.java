@@ -49,9 +49,30 @@ public class PerfilController {
         dt.execute(url);
     }
 
-    public void cadatrarVenda(Context context, JSONObject json){
+    public void postCadatrarVenda(Context context, JSONObject json){
         String url = context.getResources().getString(R.string.web_service_path).concat("venda/cadastrar");
         DataPost dt = new DataPost(context, "cadastro_venda");
+
+        dt.execute(url, json.toString());
+    }
+
+    public void postAtualizarCadastro(Context context, JSONObject json){
+        String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/alterar/cadastro");
+        DataPost dt = new DataPost(context, "cadastro_endereco");
+
+        dt.execute(url, json.toString());
+    }
+
+    public void postCadatrarEndereco(Context context, JSONObject json){
+        String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/cadastrar/endereco");
+        DataPost dt = new DataPost(context, "cadastro_endereco");
+
+        dt.execute(url, json.toString());
+    }
+
+    public void postCadatrarPagamento(Context context, JSONObject json){
+        String url = context.getResources().getString(R.string.web_service_path).concat("usuarios/cadastrar/pagamento");
+        DataPost dt = new DataPost(context, "cadastro_pagamento");
 
         dt.execute(url, json.toString());
     }
