@@ -8,9 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import br.com.senac.projectsolutions.Model.Endereco;
+import br.com.senac.projectsolutions.Model.Pagamento;
 import br.com.senac.projectsolutions.Model.Usuario;
 import br.com.senac.projectsolutions.View.CadastroActivity;
 import br.com.senac.projectsolutions.View.PagamentoCarrinhoActivity;
+import br.com.senac.projectsolutions.View.PerfilActivity;
 
 public class DataPost extends AsyncTask<String, Void, String> {
     @SuppressLint("StaticFieldLeak")
@@ -50,6 +55,7 @@ public class DataPost extends AsyncTask<String, Void, String> {
         try {
             JSONObject json = new JSONObject(s);
             msg = json.getString("msgStatus");
+
             if (!json.getBoolean("status")) {
                 status = false;
             } else if (metodo.equals("cadastro_usuario")) {
@@ -64,6 +70,44 @@ public class DataPost extends AsyncTask<String, Void, String> {
                 ((CadastroActivity) context).onServidorResponse(msg, status, user);
             } else if (metodo.equals("cadastro_venda")) {
                 ((PagamentoCarrinhoActivity)context).onServidorResponse(status, null, "cadastro_venda");
+            } else if (metodo.equals("cadastro_endereco") || metodo.equals("atualizar_cadastro")){
+                ArrayList<Endereco> enderecos = new ArrayList<>();
+                ArrayList<Pagamento> pagamentos  = new ArrayList<>();
+
+                JSONArray dataResponse = json.getJSONArray("enderecosUser");
+                int i = 0;
+                do {
+                    JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
+                    Endereco endereco = new Endereco(
+                            enderecoAux.getInt("codigo"),
+                            enderecoAux.getString("logradouro"),
+                            enderecoAux.getInt("numero"),
+                            enderecoAux.getString("complemento"),
+                            enderecoAux.getString("cep"),
+                            enderecoAux.getString("estado"),
+                            enderecoAux.getString("cidade"),
+                            enderecoAux.getString("bairro"),
+                            enderecoAux.getString("tipo")
+                    );
+                    enderecos.add(endereco);
+                    i++;
+                } while (i < dataResponse.length());
+
+                JSONArray dataResponse2 = json.getJSONArray("pagamentosUser");
+                int j = 0;
+                do {
+                    JSONObject pagamentosAux = (JSONObject) dataResponse2.get(j);
+                    Pagamento pagamento = new Pagamento();
+                    pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
+                    pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
+                    pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
+                    pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
+
+                    pagamentos.add(pagamento);
+                    j++;
+                } while (j < dataResponse2.length());
+
+                ((PerfilActivity)context).onServidorResponse(status, enderecos, pagamentos);
             }
         } catch (JSONException e) {
             e.printStackTrace();

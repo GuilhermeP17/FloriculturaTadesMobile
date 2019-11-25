@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.Adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import br.com.senac.projectsolutions.R;
 public class PagamentosHolder extends RecyclerView.ViewHolder {
 
     public TextView tipoPagamento, numCartao, nomeTitular, vencimento;
+    public ImageView btnEditPagamento;
 
     public PagamentosHolder(@NonNull View itemView) {
         super(itemView);
@@ -18,5 +20,6 @@ public class PagamentosHolder extends RecyclerView.ViewHolder {
         numCartao = itemView.findViewById(R.id.info_cartao);
         nomeTitular = itemView.findViewById(R.id.info_titular);
         vencimento = itemView.findViewById(R.id.info_vencimento);
+        btnEditPagamento = itemView.findViewById(R.id.btn_edit);
     }
 }

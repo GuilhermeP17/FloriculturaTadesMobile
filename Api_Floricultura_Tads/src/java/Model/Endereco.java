@@ -23,6 +23,7 @@ public class Endereco {
     @XmlElement private String estado;
     @XmlElement private String cep;
     @XmlElement private String tipoEndereco;
+    @XmlElement private int codigoUsuario;
 
     public Endereco(int codigo, String logradouro, String complemento, int numero, String bairro, String cidade, String estado, String cep, String tipoEndereco) {
         this.codigo = codigo;
@@ -106,5 +107,13 @@ public class Endereco {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public int getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(int codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 }

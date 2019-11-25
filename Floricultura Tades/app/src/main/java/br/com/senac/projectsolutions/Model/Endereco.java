@@ -10,6 +10,7 @@ public class Endereco {
     private String cidade;
     private String bairro;
     private String tipoEndereco;
+    private int codigoUsuario;
 
     public Endereco(){}
 
@@ -95,5 +96,13 @@ public class Endereco {
 
     public void setTipoEndereco(String tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
+    }
+
+    public int getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(int codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 }

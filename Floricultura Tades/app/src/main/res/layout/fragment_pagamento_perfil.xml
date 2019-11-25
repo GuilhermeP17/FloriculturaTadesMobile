@@ -6,17 +6,29 @@
     android:orientation="vertical"
     android:padding="15dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_pagamento"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_endereco"/>
+        android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_adicionar_endereco"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Adicionar Novo Pagamento"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_pagamento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_endereco"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_adicionar_endereco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Adicionar Novo Pagamento"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

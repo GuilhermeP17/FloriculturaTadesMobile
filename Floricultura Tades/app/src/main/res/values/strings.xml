@@ -34,6 +34,12 @@
     <string name="lbl_required_tipo_endereco">Tipo Endereço*</string>
     <string name="btn_cadastrar">Cadastrar</string>
 
+    <string name="lbl_required_tipo_pagamento">Tipo do Pagamento*</string>
+    <string name="lbl_required_numero_pagamento">numero do Cartão*</string>
+    <string name="lbl_required_nome_titular">Nome do Titular*</string>
+    <string name="lbl_required_data_vencimento">Data Vencimento*</string>
+    <string name="lbl_required_codigo_seguranca">CVV*</string>
+
     <string name="drawer_inicio">Inicio</string>
     <string name="drawer_perfil">Perfil</string>
     <string name="drawer_pedidos_em_andamento">Pedidos em andamento</string>
@@ -50,6 +56,11 @@
     <string-array name="tipo_enderecos">
         <item>Cobrança</item>
         <item>Entrega</item>
+    </string-array>
+
+    <string-array name="tipo_pagamento">
+        <item>Crédito</item>
+        <item>Débito</item>
     </string-array>
 
     <string-array name="estados">

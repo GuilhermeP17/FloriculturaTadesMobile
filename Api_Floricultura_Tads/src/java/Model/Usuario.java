@@ -13,10 +13,12 @@ public class Usuario {
     @XmlElement private String nome;
     @XmlElement private String email;
     @XmlElement private String senha;
+    @XmlElement private String confirmarSenha;
     @XmlElement private int setor;
     @XmlElement private String nomeSetor;
     @XmlElement private String CPF;
     @XmlElement private String logradouro;
+    @XmlElement private String complemento;
     @XmlElement private int numero;
     @XmlElement private String bairro;
     @XmlElement private String cidade;
@@ -101,6 +103,14 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public String getConfirmarSenha() {
+        return confirmarSenha;
+    }
+
+    public void setConfirmarSenha(String confirmarSenha) {
+        this.confirmarSenha = confirmarSenha;
+    }
+
     public int getSetor() {
         return setor;
     }
@@ -180,6 +190,12 @@ public class Usuario {
     public void setTipoEndereco(String tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
     }
-    
-    
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
 }

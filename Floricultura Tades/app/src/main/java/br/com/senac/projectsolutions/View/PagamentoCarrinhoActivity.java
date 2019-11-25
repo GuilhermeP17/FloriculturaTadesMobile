@@ -92,7 +92,7 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
         LinearLayoutManager linearManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_pagamento);
         recyclerView.setLayoutManager(linearManager);
-        PagamentosAdapter adapter = new PagamentosAdapter(pagamentosUsuario);
+        PagamentosAdapter adapter = new PagamentosAdapter(pagamentosUsuario, PagamentoCarrinhoActivity.this);
         recyclerView.setAdapter(adapter);
     }
 

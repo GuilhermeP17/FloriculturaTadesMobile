@@ -2,6 +2,7 @@ package br.com.senac.projectsolutions.View;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -117,6 +119,22 @@ public class EnderecosPerfilFragment extends Fragment {
 
     private JSONObject makeJsonEndereco(){
         JSONObject jsonEndereco = new JSONObject();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SessaoUsuario", Context.MODE_PRIVATE);
+
+        try {
+            jsonEndereco.put("logradouro", endereco.getText().toString());
+            jsonEndereco.put("numero", numero.getText().toString());
+            jsonEndereco.put("complemento", complemento.getText().toString());
+            jsonEndereco.put("cep", cep.getText().toString());
+            jsonEndereco.put("bairro", bairro.getText().toString());
+            jsonEndereco.put("cidade", cidade.getText().toString());
+            jsonEndereco.put("estado", arrayEstados.getText().toString());
+            jsonEndereco.put("tipoEndereco", arrayTipoEndereco.getText().toString());
+            jsonEndereco.put("codigoUsuario", sharedPreferences.getInt("codigo", 0));
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
         return jsonEndereco;
     }

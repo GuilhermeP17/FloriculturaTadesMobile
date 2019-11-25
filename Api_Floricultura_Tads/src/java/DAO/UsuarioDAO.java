@@ -104,17 +104,25 @@ public class UsuarioDAO {
         return true;
     }
 
-    public static boolean alterarUsuario(Usuario u) {
+    public static boolean alterarUsuario(Usuario u, boolean containSenha) {
         Connection conn = db.obterConexao();
         try {
+            String concatInsert = containSenha ? "senha = ?," : "";
             PreparedStatement query = conn.prepareStatement("UPDATE"
-                    + " tbl_usuario SET nome = ?, email = ?, senha = ?, fk_setor = ? WHERE id_usuario = ?;");
+                    + " tbl_usuario SET nome = ?, email = ?, " + concatInsert + " fk_setor = ? WHERE id_usuario = ?;");
 
-            query.setString(1, u.getNome());
-            query.setString(2, u.getEmail());
-            query.setString(3, u.getSenha());
-            query.setInt(4, u.getSetor());
-            query.setInt(5, u.getCodigo());
+            if (containSenha) {
+                query.setString(1, u.getNome());
+                query.setString(2, u.getEmail());
+                query.setString(3, u.getSenha());
+                query.setInt(4, 4);
+                query.setInt(5, u.getCodigo());
+            }else{
+                query.setString(1, u.getNome());
+                query.setString(2, u.getEmail());
+                query.setInt(3, 4);
+                query.setInt(4, u.getCodigo());
+            }
 
             query.executeUpdate();
             conn.close();
@@ -364,5 +372,44 @@ public class UsuarioDAO {
         }
 
         return pagamentos;
+    }
+
+    public static boolean salvarPagamento(Pagamento pagamento) {
+        Connection conn = db.obterConexao();
+        try {
+            PreparedStatement query = conn.prepareStatement("INSERT INTO tbl_pagamento_usuario "
+                    + "(numero_pagamento, nome_titular, data_vencimento, codigo_segurança, fk_info_pagamento, fk_usuario) "
+                    + "value (?, ?, ?, ?, ?, ?)");
+
+            query.setString(1, pagamento.getNumeroPagamento());
+            query.setString(2, pagamento.getNomeTitular());
+            query.setString(3, pagamento.getDataVencimento());
+            query.setString(4, pagamento.getCodigoSegurança());
+            query.setInt(5, pagamento.getTipoPagamento().equals("Crédito") ? 1 : 2);
+            query.setInt(6, pagamento.getIdUsuario());
+
+            query.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean alterarEndereco(Endereco endereco) {
+        Connection conn = db.obterConexao();
+        try {
+            PreparedStatement query = conn.prepareStatement("");
+
+            query.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+
+        return true;
     }
 }

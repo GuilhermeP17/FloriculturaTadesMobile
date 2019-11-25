@@ -38,17 +38,17 @@ public class UsuarioWS {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/perfil/{codigoUser}")
-    public String getInfoPerfil(@PathParam("codigoUser") int codigoUser){
+    public String getInfoPerfil(@PathParam("codigoUser") int codigoUser) {
         ArrayList<Endereco> enderecos = UsuarioDAO.getEnderecos(codigoUser);
         ArrayList<Pagamento> pagamentos = UsuarioDAO.getPagamentosCadastrados(codigoUser);
-        
+
         JSONObject response = new JSONObject();
         if (enderecos.size() > 0) {
             response.put("statusRequest", true);
-            
+
             JSONArray enderecosAtivos = new JSONArray();
             JSONArray pagamentosAtivos = new JSONArray();
-            
+
             for (Endereco endereco : enderecos) {
                 JSONObject end = new JSONObject();
                 end.put("codigo", endereco.getCodigo());
@@ -60,30 +60,30 @@ public class UsuarioWS {
                 end.put("estado", endereco.getEstado());
                 end.put("cep", endereco.getCep());
                 end.put("tipo", endereco.getTipoEndereco());
-                
+
                 enderecosAtivos.add(end);
             }
-            
-            for(Pagamento pagamento : pagamentos){
+
+            for (Pagamento pagamento : pagamentos) {
                 JSONObject pag = new JSONObject();
                 pag.put("idPagamento", pagamento.getId());
                 pag.put("numPagamento", pagamento.getNumeroPagamento());
                 pag.put("nomeTitular", pagamento.getNomeTitular());
                 pag.put("dtVencimento", pagamento.getDataVencimento());
                 pag.put("tipoPagamento", pagamento.getTipoPagamento());
-                
+
                 pagamentosAtivos.add(pag);
             }
-            
+
             response.put("pagamentosUser", pagamentosAtivos);
             response.put("enderecosUser", enderecosAtivos);
-        }else{
+        } else {
             response.put("statusRequest", false);
             response.put("msgErro", "Não foram encontrados endereços cadastrados");
         }
         return response.toString();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/validausuario/{emailUser}/{senhaUser}")
@@ -124,7 +124,8 @@ public class UsuarioWS {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void getJsonUsuario(String content) {}
+    public void getJsonUsuario(String content) {
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -160,21 +161,142 @@ public class UsuarioWS {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/alterar/usuario")
-    public String alterarUsuario(String content) {
-        return "alterar";
+    public String alterarUsuario(Usuario usuario) {
+        boolean updateSenha = false;
+        if (!usuario.getSenha().isEmpty()) {
+            updateSenha = true;
+        }
+
+        boolean result = UsuarioDAO.alterarUsuario(usuario, updateSenha);
+
+        JSONObject jsonResponse = new JSONObject();
+        if (result) {
+            JSONArray pagamentosAtivos = pagamentosUser(usuario.getCodigo());
+            JSONArray enderecosAtivos = enderecosUser(usuario.getCodigo());
+
+            jsonResponse.put("status", true);
+            jsonResponse.put("msgStatus", "Alteração feita com sucesso");
+
+            jsonResponse.put("pagamentosUser", pagamentosAtivos);
+            jsonResponse.put("enderecosUser", enderecosAtivos);
+        } else {
+            jsonResponse.put("status", false);
+            jsonResponse.put("msgStatus", "Não foi possivel alterar o cadastro");
+        }
+
+        return jsonResponse.toString();
     }
-    
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/alterar/endereco")
+    public String alterarEndereco(Endereco endereco) {
+        return "alterar Endereci";
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/cadastrar/endereco")
-    public String cadastrarEndereco() {
-       return "Cadastro Endereco"; 
+    public String cadastrarEndereco(Endereco endereco) {
+        Usuario user = new Usuario();
+        user.setLogradouro(endereco.getLogradouro());
+        user.setComplemento(endereco.getComplemento());
+        user.setNumero(endereco.getNumero());
+        user.setBairro(endereco.getBairro());
+        user.setCidade(endereco.getCidade());
+        user.setEstado(endereco.getEstado());
+        user.setCep(endereco.getCep());
+        user.setTipoEndereco(endereco.getTipoEndereco());
+        user.setCodigo(endereco.getCodigoUsuario());
+
+        boolean result = UsuarioDAO.salvarEndereco(user, endereco.getCodigoUsuario());
+
+        JSONObject jsonResponse = new JSONObject();
+        if (result) {
+
+            JSONArray pagamentosAtivos = pagamentosUser(user.getCodigo());
+            JSONArray enderecosAtivos = enderecosUser(user.getCodigo());
+
+            jsonResponse.put("pagamentosUser", pagamentosAtivos);
+            jsonResponse.put("enderecosUser", enderecosAtivos);
+        } else {
+            jsonResponse.put("status", false);
+            jsonResponse.put("msgStatus", "Não foi possivel cadastrar o endereco");
+        }
+
+        return "sadas";
     }
-    
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/alterar/pagamento")
+    public String alterarPagamento(Pagamento pagamento) {
+        return "Alterar Pagamento";
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/cadastrar/pagamento")
-    public String cadastrarPagamento() {
-       return "Cadastro Pagamento";
+    public String cadastrarPagamento(Pagamento pagamento) {
+        boolean result = UsuarioDAO.salvarPagamento(pagamento);
+
+        JSONObject jsonResponse = new JSONObject();
+        if (result) {
+            JSONArray pagamentosAtivos = pagamentosUser(pagamento.getIdUsuario());
+            JSONArray enderecosAtivos = enderecosUser(pagamento.getIdUsuario());
+
+            jsonResponse.put("status", true);
+            jsonResponse.put("msgStatus", "Pagamento cadastrado com sucesso");
+
+            jsonResponse.put("pagamentosUser", pagamentosAtivos);
+            jsonResponse.put("enderecosUser", enderecosAtivos);
+        } else {
+            jsonResponse.put("status", false);
+            jsonResponse.put("msgStatus", "Não foi possivel cadastrar o método de pagamento");
+        }
+
+        return jsonResponse.toString();
+    }
+
+    private JSONArray pagamentosUser(int codigUser) {
+        ArrayList<Pagamento> pagamentos = UsuarioDAO.getPagamentosCadastrados(codigUser);
+
+        JSONArray pagamentosAtivos = new JSONArray();
+
+        for (Pagamento pagamento : pagamentos) {
+            JSONObject pag = new JSONObject();
+            pag.put("idPagamento", pagamento.getId());
+            pag.put("numPagamento", pagamento.getNumeroPagamento());
+            pag.put("nomeTitular", pagamento.getNomeTitular());
+            pag.put("dtVencimento", pagamento.getDataVencimento());
+            pag.put("tipoPagamento", pagamento.getTipoPagamento());
+
+            pagamentosAtivos.add(pag);
+        }
+
+        return pagamentosAtivos;
+    }
+
+    private JSONArray enderecosUser(int codigoUser) {
+        ArrayList<Endereco> enderecos = UsuarioDAO.getEnderecos(codigoUser);
+
+        JSONArray enderecosAtivos = new JSONArray();
+
+        for (Endereco enderecoAux : enderecos) {
+            JSONObject end = new JSONObject();
+            end.put("codigo", enderecoAux.getCodigo());
+            end.put("logradouro", enderecoAux.getLogradouro());
+            end.put("complemento", enderecoAux.getComplemento());
+            end.put("numero", enderecoAux.getNumero());
+            end.put("bairro", enderecoAux.getBairro());
+            end.put("cidade", enderecoAux.getCidade());
+            end.put("estado", enderecoAux.getEstado());
+            end.put("cep", enderecoAux.getCep());
+            end.put("tipo", enderecoAux.getTipoEndereco());
+
+            enderecosAtivos.add(end);
+        }
+
+        return enderecosAtivos;
     }
 }

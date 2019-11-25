@@ -5,20 +5,25 @@
  */
 package Model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author guilherme.pereira
  */
+
+@XmlRootElement
 public class Pagamento {
 
-    int id;
-    String tipoPagamento;
-    String numeroPagamento;
-    String nomeTitular;
-    String dataVencimento;
-    String codigoSegurança;
-    int idInfoPagamento;
-    int idUsuario;
+    @XmlElement int id;
+    @XmlElement String tipoPagamento;
+    @XmlElement String numeroPagamento;
+    @XmlElement String nomeTitular;
+    @XmlElement String dataVencimento;
+    @XmlElement String codigoSegurança;
+    @XmlElement int idInfoPagamento;
+    @XmlElement int idUsuario;
 
     public Pagamento() {
     }
