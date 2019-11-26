@@ -102,6 +102,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                 case "endereco_perfil":
                     ArrayList<Endereco> enderecos = null;
                     ArrayList<Pagamento> pagamentos = null;
+                    Usuario userPerfil = null;
 
                     if (!json.getBoolean("statusRequest")) {
                         status = false;
@@ -109,41 +110,59 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     } else {
                         enderecos = new ArrayList<>();
                         pagamentos = new ArrayList<>();
+
+                        JSONArray dataResponseUser = json.getJSONArray("infoUser");
+                        int k = 0;
+                        do {
+                            JSONObject usuarioAux = (JSONObject) dataResponseUser.get(k);
+                            userPerfil = new Usuario(
+                                    usuarioAux.getInt("codigo"),
+                                    usuarioAux.getString("nome"),
+                                    usuarioAux.getString("email"),
+                                    usuarioAux.getString("cpf")
+                            );
+                            k++;
+                        } while (k < dataResponseUser.length());
+
                         JSONArray dataResponse = json.getJSONArray("enderecosUser");
                         int i = 0;
-                        do {
-                            JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
-                            Endereco endereco = new Endereco(
-                                    enderecoAux.getInt("codigo"),
-                                    enderecoAux.getString("logradouro"),
-                                    enderecoAux.getInt("numero"),
-                                    enderecoAux.getString("complemento"),
-                                    enderecoAux.getString("cep"),
-                                    enderecoAux.getString("estado"),
-                                    enderecoAux.getString("cidade"),
-                                    enderecoAux.getString("bairro"),
-                                    enderecoAux.getString("tipo")
-                            );
-                            enderecos.add(endereco);
-                            i++;
-                        } while (i < dataResponse.length());
+                        if (dataResponse.length() > 0) {
+                            do {
+                                JSONObject enderecoAux = (JSONObject) dataResponse.get(i);
+                                Endereco endereco = new Endereco(
+                                        enderecoAux.getInt("codigo"),
+                                        enderecoAux.getString("logradouro"),
+                                        enderecoAux.getInt("numero"),
+                                        enderecoAux.getString("complemento"),
+                                        enderecoAux.getString("cep"),
+                                        enderecoAux.getString("estado"),
+                                        enderecoAux.getString("cidade"),
+                                        enderecoAux.getString("bairro"),
+                                        enderecoAux.getString("tipo")
+                                );
+                                enderecos.add(endereco);
+                                i++;
+                            } while (i < dataResponse.length());
+                        }
 
                         JSONArray dataResponse2 = json.getJSONArray("pagamentosUser");
                         int j = 0;
-                        do {
-                            JSONObject pagamentosAux = (JSONObject) dataResponse2.get(j);
-                            Pagamento pagamento = new Pagamento();
-                            pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
-                            pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
-                            pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
-                            pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
+                        if (dataResponse2.length() > 0) {
+                            do {
+                                JSONObject pagamentosAux = (JSONObject) dataResponse2.get(j);
+                                Pagamento pagamento = new Pagamento();
+                                pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
+                                pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
+                                pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
+                                pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
 
-                            pagamentos.add(pagamento);
-                            j++;
-                        } while (j < dataResponse2.length());
+                                pagamentos.add(pagamento);
+                                j++;
+                            } while (j < dataResponse2.length());
+                        }
                     }
 
-                    ((PerfilActivity) context).onServidorResponse(status, enderecos, pagamentos);
+                    ((PerfilActivity) context).onServidorResponse(status, userPerfil, enderecos, pagamentos, metodo);
                     break;
                 case "endereco_carrinho":
                     ArrayList<Endereco> enderecosCarrinho = null;
@@ -176,32 +195,33 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     ((EnderecoCarrinhoActivity) context).onServidorResponse(status, enderecosCarrinho, msg);
                     break;
                 case "pagamento_carrinho":
-                    ArrayList<Pagamento> pagamentosCarrinho = null;
+                    ArrayList<Pagamento> pagamentosCarrinho = new ArrayList<>();
 
                     if (!json.getBoolean("statusRequest")) {
                         status = false;
                         msg = json.getString("msgErro");
                     } else {
-                        pagamentosCarrinho = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("pagamentosUser");
-                        int i = 0;
-                        do {
-                            JSONObject pagamentosAux = (JSONObject) dataResponse.get(i);
+                        if (dataResponse.length() > 0) {
+                            int i = 0;
+                            do {
+                                JSONObject pagamentosAux = (JSONObject) dataResponse.get(i);
 
-                            Pagamento pagamento = new Pagamento();
-                            pagamento.setId(pagamentosAux.getInt("idPagamento"));
-                            pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
-                            pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
-                            pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
-                            pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
+                                Pagamento pagamento = new Pagamento();
+                                pagamento.setId(pagamentosAux.getInt("idPagamento"));
+                                pagamento.setNumeroPagamento(pagamentosAux.getString("numPagamento"));
+                                pagamento.setNomeTitular(pagamentosAux.getString("nomeTitular"));
+                                pagamento.setDataVencimento(pagamentosAux.getString("dtVencimento"));
+                                pagamento.setTipoPagamento(pagamentosAux.getString("tipoPagamento"));
 
 
-                            pagamentosCarrinho.add(pagamento);
-                            i++;
-                        } while (i < dataResponse.length());
+                                pagamentosCarrinho.add(pagamento);
+                                i++;
+                            } while (i < dataResponse.length());
+                        }
                     }
 
-                    ((PagamentoCarrinhoActivity) context).onServidorResponse(status, pagamentosCarrinho, "listagem_pamamentos");
+                    ((PagamentoCarrinhoActivity) context).onServidorResponse(status, pagamentosCarrinho, "listagem_pagamentos");
                     break;
                 case "pedidos_andamento":
                     ArrayList<Venda> pedidosAndamento = null;
@@ -212,40 +232,42 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     } else {
                         pedidosAndamento = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("pedidosAndamento");
-                        int i = 0;
-                        do {
-                            Venda venda = new Venda();
-                            JSONObject vendasAux = dataResponse.getJSONObject(i);
-                            JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
-
-                            venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
-                            venda.setValorTotal(vendasAux.getDouble("valorTotal"));
-                            venda.setValorFrete(vendasAux.getDouble("valorFrete"));
-                            venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
-                            venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
-                            venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
-                            venda.setData(vendasAux.getString("dataVenda"));
-                            venda.setStatus(vendasAux.getString("statusPedido"));
-
-                            int j = 0;
-                            ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                        if (dataResponse.length() > 0){
+                            int i = 0;
                             do {
-                                JSONObject objAux = produtosVenda.getJSONObject(j);
-                                Produto prod = new Produto();
-                                prod.setValor(objAux.getDouble("vlTotal"));
-                                prod.setQuantidade(objAux.getInt("qtdProduto"));
-                                prod.setTipo(objAux.getString("tipoProduto"));
-                                prod.setNome(objAux.getString("nomeProduto"));
-                                prod.setDescricao(objAux.getString("descricaoProduto"));
+                                Venda venda = new Venda();
+                                JSONObject vendasAux = dataResponse.getJSONObject(i);
+                                JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
 
-                                listProdutosVenda.add(prod);
-                                j++;
-                            } while (j < produtosVenda.length());
+                                venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
+                                venda.setValorTotal(vendasAux.getDouble("valorTotal"));
+                                venda.setValorFrete(vendasAux.getDouble("valorFrete"));
+                                venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
+                                venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
+                                venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
+                                venda.setData(vendasAux.getString("dataVenda"));
+                                venda.setStatus(vendasAux.getString("statusPedido"));
 
-                            venda.setProdutos(listProdutosVenda);
-                            pedidosAndamento.add(venda);
-                            i++;
-                        } while (i < dataResponse.length());
+                                int j = 0;
+                                ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                                do {
+                                    JSONObject objAux = produtosVenda.getJSONObject(j);
+                                    Produto prod = new Produto();
+                                    prod.setValor(objAux.getDouble("vlTotal"));
+                                    prod.setQuantidade(objAux.getInt("qtdProduto"));
+                                    prod.setTipo(objAux.getString("tipoProduto"));
+                                    prod.setNome(objAux.getString("nomeProduto"));
+                                    prod.setDescricao(objAux.getString("descricaoProduto"));
+
+                                    listProdutosVenda.add(prod);
+                                    j++;
+                                } while (j < produtosVenda.length());
+
+                                venda.setProdutos(listProdutosVenda);
+                                pedidosAndamento.add(venda);
+                                i++;
+                            } while (i < dataResponse.length());
+                        }
                     }
                     ((PedidosAndamentoActivity) context).onServidorResponse(status, pedidosAndamento, msg);
                     break;
@@ -258,40 +280,42 @@ public class DataGetter extends AsyncTask<String, Void, String> {
                     } else {
                         pedidosFinalizado = new ArrayList<>();
                         JSONArray dataResponse = json.getJSONArray("pedidosFinalizados");
-                        int i = 0;
-                        do {
-                            Venda venda = new Venda();
-                            JSONObject vendasAux = dataResponse.getJSONObject(i);
-                            JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
-
-                            venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
-                            venda.setValorTotal(vendasAux.getDouble("valorTotal"));
-                            venda.setValorFrete(vendasAux.getDouble("valorFrete"));
-                            venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
-                            venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
-                            venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
-                            venda.setData(vendasAux.getString("dataVenda"));
-                            venda.setStatus(vendasAux.getString("statusPedido"));
-
-                            int j = 0;
-                            ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                        if (dataResponse.length() > 0) {
+                            int i = 0;
                             do {
-                                JSONObject objAux = produtosVenda.getJSONObject(j);
-                                Produto prod = new Produto();
-                                prod.setValor(objAux.getDouble("vlTotal"));
-                                prod.setQuantidade(objAux.getInt("qtdProduto"));
-                                prod.setTipo(objAux.getString("tipoProduto"));
-                                prod.setNome(objAux.getString("nomeProduto"));
-                                prod.setDescricao(objAux.getString("descricaoProduto"));
+                                Venda venda = new Venda();
+                                JSONObject vendasAux = dataResponse.getJSONObject(i);
+                                JSONArray produtosVenda = vendasAux.getJSONArray("produtos");
 
-                                listProdutosVenda.add(prod);
-                                j++;
-                            } while (j < produtosVenda.length());
+                                venda.setCodigoVenda(vendasAux.getString("codigoVenda"));
+                                venda.setValorTotal(vendasAux.getDouble("valorTotal"));
+                                venda.setValorFrete(vendasAux.getDouble("valorFrete"));
+                                venda.setQuantidadeItens(vendasAux.getInt("quantidadeItens"));
+                                venda.setTipoPagamento(vendasAux.getString("tipoPagamento"));
+                                venda.setCodigoPagamento(vendasAux.getString("codigoPagamento"));
+                                venda.setData(vendasAux.getString("dataVenda"));
+                                venda.setStatus(vendasAux.getString("statusPedido"));
 
-                            venda.setProdutos(listProdutosVenda);
-                            pedidosFinalizado.add(venda);
-                            i++;
-                        } while (i < dataResponse.length());
+                                int j = 0;
+                                ArrayList<Produto> listProdutosVenda = new ArrayList<>();
+                                do {
+                                    JSONObject objAux = produtosVenda.getJSONObject(j);
+                                    Produto prod = new Produto();
+                                    prod.setValor(objAux.getDouble("vlTotal"));
+                                    prod.setQuantidade(objAux.getInt("qtdProduto"));
+                                    prod.setTipo(objAux.getString("tipoProduto"));
+                                    prod.setNome(objAux.getString("nomeProduto"));
+                                    prod.setDescricao(objAux.getString("descricaoProduto"));
+
+                                    listProdutosVenda.add(prod);
+                                    j++;
+                                } while (j < produtosVenda.length());
+
+                                venda.setProdutos(listProdutosVenda);
+                                pedidosFinalizado.add(venda);
+                                i++;
+                            } while (i < dataResponse.length());
+                        }
                     }
                     ((PedidosFinalizadosActivity) context).onServidorResponse(status, pedidosFinalizado, msg);
                     break;
@@ -305,7 +329,7 @@ public class DataGetter extends AsyncTask<String, Void, String> {
             } else if (metodo.equalsIgnoreCase("login")) {
                 ((LoginActivity) context).onResponse(false, mensagemErro, null);
             } else if (metodo.equalsIgnoreCase("endereco")) {
-                ((PerfilActivity) context).onServidorResponse(false, null, null);
+                ((PerfilActivity) context).onServidorResponse(false, null, null, null, null);
             }
         }
     }

@@ -30,6 +30,16 @@
         app:layout_constraintTop_toBottomOf="@id/appbart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/info_compra"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/loading_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/appbart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/info_compra"/>
 
     <LinearLayout
@@ -38,7 +48,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@id/recycler_pagamento"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/linear_btn"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +34,14 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
     private RecyclerView pagamentosUsuario;
     private MaterialButton finalizarCompra;
     private ArrayList<Pagamento> listPagamentos;
+    private ProgressBar loadingPage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagamento);
         findViewsById();
+        loadingPage.setIndeterminate(true);
         final Bundle bundle = getIntent().getExtras();
 
         tvSubtotal.setText(bundle.getString("subtotal"));
@@ -58,16 +61,21 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
         finalizarCompra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject jsonVenda = makeJsonVenda(bundle);
-                PerfilController controller = new PerfilController();
-                controller.postCadatrarVenda(PagamentoCarrinhoActivity.this, jsonVenda);
+                if (containPagamentos()) {
+                    JSONObject jsonVenda = makeJsonVenda(bundle);
+                    PerfilController controller = new PerfilController();
+                    controller.postCadatrarVenda(PagamentoCarrinhoActivity.this, jsonVenda);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Por favor, cadastre um pagamento para continuar", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
     public void onServidorResponse(boolean status, ArrayList<Pagamento> pagamentosUsuario, String metodo) {
+        loadingPage.setVisibility(View.GONE);
         if (status) {
-            if (metodo.equals("listagem_pamamentos")) {
+            if (metodo.equals("listagem_pagamentos")) {
                 listPagamentos = pagamentosUsuario;
                 setRecyclerView(pagamentosUsuario);
             } else {
@@ -86,11 +94,13 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
         tvTotal = findViewById(R.id.preco_total);
         pagamentosUsuario = findViewById(R.id.recycler_pagamento);
         finalizarCompra = findViewById(R.id.btn_finalizar_compra);
+        loadingPage = findViewById(R.id.loading_page);
     }
 
     private void setRecyclerView(ArrayList<Pagamento> pagamentosUsuario) {
         LinearLayoutManager linearManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = findViewById(R.id.recycler_pagamento);
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(linearManager);
         PagamentosAdapter adapter = new PagamentosAdapter(pagamentosUsuario, PagamentoCarrinhoActivity.this);
         recyclerView.setAdapter(adapter);
@@ -143,5 +153,12 @@ public class PagamentoCarrinhoActivity extends AppCompatActivity {
         }
 
         return codigoPagamento;
+    }
+
+    private boolean containPagamentos() {
+        if(listPagamentos == null){
+            listPagamentos = new ArrayList<>();
+        }
+        return listPagamentos.size() > 0;
     }
 }

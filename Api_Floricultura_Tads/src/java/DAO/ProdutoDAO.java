@@ -28,7 +28,7 @@ public class ProdutoDAO {
                     + " p.valor_unidade,"
                     + " nome_arquivo "
                     + " FROM tbl_produtos AS p"
-                    + " inner join tbl_imagem on"
+                    + " left join tbl_imagem on"
                     + " p.id_produto = tbl_imagem.fk_produto"
                     + " WHERE p.status = 0;");
             
@@ -43,7 +43,7 @@ public class ProdutoDAO {
                             rs.getString(4),
                             rs.getInt(5),
                             rs.getDouble(6),
-                            rs.getString(7));
+                            rs.getString(7) == null ? "" : rs.getString(7));
                     produtos.add(produto);
                 }
             }
@@ -70,7 +70,7 @@ public class ProdutoDAO {
                     + " p.valor_unidade,"
                     + " nome_arquivo"
                     + " FROM tbl_produtos AS p"
-                    + " INNER JOIN tbl_imagem ON p.id_produto = tbl_imagem.fk_produto"
+                    + " LEFT JOIN tbl_imagem ON p.id_produto = tbl_imagem.fk_produto"
                     + " WHERE tbl_imagem.fk_produto = ? AND p.status = 0;");
 
             query.setInt(1, codigo);
@@ -85,7 +85,7 @@ public class ProdutoDAO {
                             rs.getString(4),
                             rs.getInt(5),
                             rs.getDouble(6),
-                            rs.getString(7)
+                            rs.getString(7) == null ? "" : rs.getString(7)
                     );
                     produto = prod;
                 }

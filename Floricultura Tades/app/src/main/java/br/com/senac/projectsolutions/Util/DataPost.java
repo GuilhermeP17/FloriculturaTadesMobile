@@ -69,10 +69,24 @@ public class DataPost extends AsyncTask<String, Void, String> {
                 );
                 ((CadastroActivity) context).onServidorResponse(msg, status, user);
             } else if (metodo.equals("cadastro_venda")) {
-                ((PagamentoCarrinhoActivity)context).onServidorResponse(status, null, "cadastro_venda");
-            } else if (metodo.equals("cadastro_endereco") || metodo.equals("atualizar_cadastro")){
+                ((PagamentoCarrinhoActivity) context).onServidorResponse(status, null, "cadastro_venda");
+            } else if (metodo.equals("cadastro_endereco") || metodo.equals("atualizar_cadastro") || metodo.equals("cadastro_pagamento")) {
                 ArrayList<Endereco> enderecos = new ArrayList<>();
-                ArrayList<Pagamento> pagamentos  = new ArrayList<>();
+                ArrayList<Pagamento> pagamentos = new ArrayList<>();
+                Usuario userPerfil;
+
+                JSONArray dataResponseUser = json.getJSONArray("infoUser");
+                int k = 0;
+                do {
+                    JSONObject usuarioAux = (JSONObject) dataResponseUser.get(k);
+                    userPerfil = new Usuario(
+                            usuarioAux.getInt("codigo"),
+                            usuarioAux.getString("nome"),
+                            usuarioAux.getString("email"),
+                            usuarioAux.getString("cpf")
+                    );
+                    k++;
+                } while (k < dataResponseUser.length());
 
                 JSONArray dataResponse = json.getJSONArray("enderecosUser");
                 int i = 0;
@@ -107,7 +121,7 @@ public class DataPost extends AsyncTask<String, Void, String> {
                     j++;
                 } while (j < dataResponse2.length());
 
-                ((PerfilActivity)context).onServidorResponse(status, enderecos, pagamentos);
+                ((PerfilActivity) context).onServidorResponse(status, userPerfil, enderecos, pagamentos, metodo);
             }
         } catch (JSONException e) {
             e.printStackTrace();

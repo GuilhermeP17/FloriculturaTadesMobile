@@ -21,6 +21,7 @@ import br.com.senac.projectsolutions.R;
 public class PedidosAndamentoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView pedidosAndamento;
+    private LinearLayout loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +43,17 @@ public class PedidosAndamentoActivity extends AppCompatActivity {
     public void onServidorResponse(boolean status, ArrayList<Venda> pedidosAndamento, String msg){
         LinearLayout linearRecycler = findViewById(R.id.linear_recycler);
         LinearLayout linearEmpty = findViewById(R.id.linear_empty);
+        loadingScreen.setVisibility(View.GONE);
+
         if(status){
-            setRecyclerView(pedidosAndamento);
-            linearRecycler.setVisibility(View.VISIBLE);
-            linearEmpty.setVisibility(View.GONE);
+            if (pedidosAndamento.size() > 0){
+                setRecyclerView(pedidosAndamento);
+                linearRecycler.setVisibility(View.VISIBLE);
+                linearEmpty.setVisibility(View.GONE);
+            }else{
+                linearRecycler.setVisibility(View.GONE);
+                linearEmpty.setVisibility(View.VISIBLE);
+            }
         }else{
             linearRecycler.setVisibility(View.GONE);
             linearEmpty.setVisibility(View.VISIBLE);
@@ -55,13 +63,14 @@ public class PedidosAndamentoActivity extends AppCompatActivity {
     private void findViewsById(){
         toolbar = findViewById(R.id.toolbar_andamento);
         pedidosAndamento = findViewById(R.id.recycler_andamento);
+        loadingScreen = findViewById(R.id.linear_loading);
     }
 
-    private void setRecyclerView(ArrayList<Venda> pedidosAdamento){
+    private void setRecyclerView(ArrayList<Venda> pedidoAndamento){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         pedidosAndamento.setLayoutManager(linearLayoutManager);
         pedidosAndamento.addItemDecoration(new DividerItemDecoration(getApplicationContext(), linearLayoutManager.getOrientation()));
-        PedidosAdapter adapter = new PedidosAdapter(pedidosAdamento);
+        PedidosAdapter adapter = new PedidosAdapter(pedidoAndamento);
         pedidosAndamento.setAdapter(adapter);
     }
 }

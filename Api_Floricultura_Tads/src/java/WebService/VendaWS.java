@@ -62,7 +62,7 @@ public class VendaWS {
             JSONArray pedidosFinalizados = new JSONArray();
             for (Venda venda : pedidos) {
                 JSONObject pedido = new JSONObject();
-               pedido.put("codigoVenda", venda.getCodigoVenda());
+                pedido.put("codigoVenda", venda.getCodigoVenda());
                 pedido.put("quantidadeItens", venda.getQuantidadeItens());
                 pedido.put("dataVenda", venda.getData());
                 pedido.put("statusPedido", venda.getStatus());
@@ -88,9 +88,11 @@ public class VendaWS {
             }
             response.put("pedidosFinalizados", pedidosFinalizados);
         } else if (pedidos.isEmpty()) {
+            JSONArray pedidosFinalizados = new JSONArray();
             response.put("statusRequest", true);
             response.put("isEmpty", true);
             response.put("msgErro", "Não foram encontrados pedidos finalizados");
+            response.put("pedidosFinalizados", pedidosFinalizados);
         } else {
             response.put("statusRequest", false);
             response.put("msgErro", "Não foi possivel comunicar-se com o servidor");
@@ -110,7 +112,7 @@ public class VendaWS {
             response.put("statusRequest", true);
             response.put("isEmpty", false);
 
-            JSONArray pedidosFinalizados = new JSONArray();
+            JSONArray pedidosAndamento = new JSONArray();
             for (Venda venda : pedidos) {
                 JSONObject pedido = new JSONObject();
                 pedido.put("codigoVenda", venda.getCodigoVenda());
@@ -135,13 +137,15 @@ public class VendaWS {
                 }
                 pedido.put("produtos", produtosVenda);
 
-                pedidosFinalizados.add(pedido);
+                pedidosAndamento.add(pedido);
             }
-            response.put("pedidosAndamento", pedidosFinalizados);
+            response.put("pedidosAndamento", pedidosAndamento);
         } else if (pedidos.isEmpty()) {
+            JSONArray pedidosAndamento = new JSONArray();
             response.put("statusRequest", true);
             response.put("isEmpty", true);
             response.put("msgErro", "Não foram encontrados pedidos em Andamento");
+            response.put("pedidosAndamento", pedidosAndamento);
         } else {
             response.put("statusRequest", false);
             response.put("msgErro", "Não foi possivel comunicar-se com o servidor");
@@ -165,7 +169,7 @@ public class VendaWS {
         Date date = new Date();
         String hashVenda = dateFormatCodigoVenda.format(date);
         String dataVenda = dateFormatDataVenda.format(date);
-        
+
         String codigoVenda = hashVenda.concat(String.valueOf(venda.getCodigoUsuario()));
         boolean status = VendaDAO.salvarVenda(venda, codigoVenda, dataVenda);
 

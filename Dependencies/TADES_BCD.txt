@@ -122,6 +122,18 @@ INSERT INTO tbl_endereco(logradouro, complemento, numero, bairro, cidade, estado
     
 INSERT INTO tbl_usuario(nome, email, senha, cpf, fk_setor, status)
     VALUES ('Cliente Sobrenome', 'cliente@email.com', '81dc9bdb52d04dc20036dbd8313ed055','48921993894', 4, 0);
-    
+
 INSERT INTO tbl_endereco(logradouro, complemento, numero, bairro, cidade, estado, cep, tipo, fk_usuario)
-    VALUES ('Rua Vicente Decara Neto', "Bloco i AP 154", 823,'Jd Santo Antonio','São Paulo','SP','05819000','entrega', 2);
+    VALUES ('Rua Vicente Decara Neto 2', "Bloco i AP 154", 823,'Jd Santo Antonio','São Paulo','SP','05819000','entrega', 2);
+    
+INSERT INTO tbl_produtos (nome, descricao, tipo, qtd_estoque, valor_unidade, status) 
+	VALUES ('Buque de Rosas', 'Lindo buque de rosas vermelhas', 'Produto', 50, 55.00, 0);
+
+INSERT INTO tbl_produtos (nome, descricao, tipo, qtd_estoque, valor_unidade, status) 
+	VALUES ('Vaso de girassol', 'Lindo vaso com tres girassois amarelos', 'Produto', 55, 75.00, 0);
+
+INSERT INTO tbl_produtos (nome, descricao, tipo, qtd_estoque, valor_unidade, status) 
+	VALUES ('Cesta de café da manhã básica', 'Cesta de café da manhã com chocolates e cereais', 'Produto', 50, 45.00, 0);
+   
+INSERT INTO tbl_produtos (nome, descricao, tipo, qtd_estoque, valor_unidade, status) 
+	VALUES ('Cesta de café da manhã completa', 'Cesta de café da manhá com chocoloates, cereais, canecas e ursos de pelucia', 'Produto', 50, 145.00, 0);

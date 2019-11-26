@@ -80,8 +80,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_dt_vencimento"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"/>
+                android:layout_height="match_parent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -99,7 +98,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_codigo_segrunanca"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

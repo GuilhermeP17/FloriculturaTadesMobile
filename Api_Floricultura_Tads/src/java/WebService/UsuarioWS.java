@@ -49,6 +49,9 @@ public class UsuarioWS {
             JSONArray enderecosAtivos = new JSONArray();
             JSONArray pagamentosAtivos = new JSONArray();
 
+            JSONArray infoUser = arrayInfoUser(codigoUser);
+            response.put("infoUser", infoUser);
+
             for (Endereco endereco : enderecos) {
                 JSONObject end = new JSONObject();
                 end.put("codigo", endereco.getCodigo());
@@ -115,10 +118,7 @@ public class UsuarioWS {
         return response.toString();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/infousuario/{codigoUsuario}")
-    public Usuario getUsuario(@PathParam("codigoUsuario") int codigoUsuario) {
+    public Usuario getUsuario(int codigoUsuario) {
         return UsuarioDAO.getUsuario(codigoUsuario);
     }
 
@@ -173,10 +173,12 @@ public class UsuarioWS {
         if (result) {
             JSONArray pagamentosAtivos = pagamentosUser(usuario.getCodigo());
             JSONArray enderecosAtivos = enderecosUser(usuario.getCodigo());
+            JSONArray infoUser = arrayInfoUser(usuario.getCodigo());
 
             jsonResponse.put("status", true);
             jsonResponse.put("msgStatus", "Alteração feita com sucesso");
 
+            jsonResponse.put("infoUser", infoUser);
             jsonResponse.put("pagamentosUser", pagamentosAtivos);
             jsonResponse.put("enderecosUser", enderecosAtivos);
         } else {
@@ -216,7 +218,9 @@ public class UsuarioWS {
 
             JSONArray pagamentosAtivos = pagamentosUser(user.getCodigo());
             JSONArray enderecosAtivos = enderecosUser(user.getCodigo());
+            JSONArray infoUser = arrayInfoUser(user.getCodigo());
 
+            jsonResponse.put("infoUser", infoUser);
             jsonResponse.put("pagamentosUser", pagamentosAtivos);
             jsonResponse.put("enderecosUser", enderecosAtivos);
         } else {
@@ -244,10 +248,12 @@ public class UsuarioWS {
         if (result) {
             JSONArray pagamentosAtivos = pagamentosUser(pagamento.getIdUsuario());
             JSONArray enderecosAtivos = enderecosUser(pagamento.getIdUsuario());
+            JSONArray infoUser = arrayInfoUser(pagamento.getIdUsuario());
 
             jsonResponse.put("status", true);
             jsonResponse.put("msgStatus", "Pagamento cadastrado com sucesso");
 
+            jsonResponse.put("infoUser", infoUser);
             jsonResponse.put("pagamentosUser", pagamentosAtivos);
             jsonResponse.put("enderecosUser", enderecosAtivos);
         } else {
@@ -298,5 +304,20 @@ public class UsuarioWS {
         }
 
         return enderecosAtivos;
+    }
+
+    private JSONArray arrayInfoUser(int codigoUser) {
+        JSONArray infoUser = new JSONArray();
+        JSONObject user = new JSONObject();
+
+        Usuario userSelect = UsuarioDAO.getUsuario(codigoUser);
+        user.put("codigo", userSelect.getCodigo());
+        user.put("nome", userSelect.getNome());
+        user.put("email", userSelect.getEmail());
+        user.put("cpf", userSelect.getCPF());
+
+        infoUser.add(user);
+
+        return infoUser;
     }
 }

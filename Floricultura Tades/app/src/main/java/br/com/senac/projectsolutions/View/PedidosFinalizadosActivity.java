@@ -20,7 +20,8 @@ import br.com.senac.projectsolutions.R;
 
 public class PedidosFinalizadosActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private RecyclerView pedidosAndamento;
+    private RecyclerView pedidosFinalizados;
+    private LinearLayout loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,27 +42,35 @@ public class PedidosFinalizadosActivity extends AppCompatActivity {
 
     private void findViewsById(){
         toolbar = findViewById(R.id.toolbar_finalizados);
-        pedidosAndamento = findViewById(R.id.recycler_andamento);
+        pedidosFinalizados = findViewById(R.id.recycler_andamento);
+        loadingScreen = findViewById(R.id.linear_loading);
     }
 
-    public void onServidorResponse(boolean status, ArrayList<Venda> pedidosAndamento, String msg) {
+    public void onServidorResponse(boolean status, ArrayList<Venda> pedidosFinalizados, String msg) {
         LinearLayout linearRecycler = findViewById(R.id.linear_recycler);
         LinearLayout linearEmpty = findViewById(R.id.linear_empty);
+        loadingScreen.setVisibility(View.GONE);
+
         if(status){
-            setRecyclerView(pedidosAndamento);
-            linearRecycler.setVisibility(View.VISIBLE);
-            linearEmpty.setVisibility(View.GONE);
+            setRecyclerView(pedidosFinalizados);
+            if (pedidosFinalizados.size() > 0){
+                linearRecycler.setVisibility(View.VISIBLE);
+                linearEmpty.setVisibility(View.GONE);
+            }else{
+                linearRecycler.setVisibility(View.GONE);
+                linearEmpty.setVisibility(View.VISIBLE);
+            }
         }else{
             linearRecycler.setVisibility(View.GONE);
             linearEmpty.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setRecyclerView(ArrayList<Venda> pedidosAdamento){
+    private void setRecyclerView(ArrayList<Venda> pedidosFinalizado){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        pedidosAndamento.setLayoutManager(linearLayoutManager);
-        pedidosAndamento.addItemDecoration(new DividerItemDecoration(getApplicationContext(), linearLayoutManager.getOrientation()));
-        PedidosAdapter adapter = new PedidosAdapter(pedidosAdamento);
-        pedidosAndamento.setAdapter(adapter);
+        pedidosFinalizados.setLayoutManager(linearLayoutManager);
+        pedidosFinalizados.addItemDecoration(new DividerItemDecoration(getApplicationContext(), linearLayoutManager.getOrientation()));
+        PedidosAdapter adapter = new PedidosAdapter(pedidosFinalizado);
+        pedidosFinalizados.setAdapter(adapter);
     }
 }

@@ -1,6 +1,7 @@
 package br.com.senac.projectsolutions.View;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import br.com.senac.projectsolutions.Controller.PerfilController;
 import br.com.senac.projectsolutions.Model.Endereco;
 import br.com.senac.projectsolutions.Model.Pagamento;
 import br.com.senac.projectsolutions.Model.Produto;
+import br.com.senac.projectsolutions.Model.Usuario;
 import br.com.senac.projectsolutions.R;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -47,8 +49,11 @@ public class PerfilActivity extends AppCompatActivity {
         });
     }
 
-    public void onServidorResponse(boolean status, ArrayList<Endereco> enderecos, ArrayList<Pagamento> pagamentos){
+    public void onServidorResponse(boolean status, Usuario user, ArrayList<Endereco> enderecos, ArrayList<Pagamento> pagamentos, String metodo){
         if (status){
+            if (metodo.equals("atualizar_cadastro")){
+                updateSharedPreferencesUsuario(user);
+            }
             setAbasAdapter(enderecos, pagamentos);
         }else{
             enderecos = new ArrayList<>();
@@ -56,11 +61,22 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    private void updateSharedPreferencesUsuario(Usuario usuario) {
+        SharedPreferences preferences = getSharedPreferences("SessaoUsuario", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("email", usuario.getEmail());
+        editor.putString("cpf", usuario.getCpf());
+        editor.putString("nome", usuario.getNome());
+        editor.putInt("codigo", usuario.getCodigo());
+        editor.apply();
+    }
+
     private void setAbasAdapter(ArrayList<Endereco> enderecos, ArrayList<Pagamento> pagamentos){
         AbasPerfilAdapter abas = new AbasPerfilAdapter(getSupportFragmentManager());
         abas.adicionar(new DadosPerfilFragment(PerfilActivity.this), "Meus Dados");
         abas.adicionar(new EnderecosPerfilFragment(enderecos, PerfilActivity.this), "Meus Endereços");
         abas.adicionar(new PagamentosPerfilFragment(pagamentos, PerfilActivity.this), "Meus Pagamentos");
+        abas.notifyDataSetChanged();
 
         viewPager.setAdapter(abas);
         tabLayout.setupWithViewPager(viewPager);
